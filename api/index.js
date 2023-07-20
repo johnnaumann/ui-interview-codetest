@@ -36,6 +36,11 @@ const resolvers = {
       return user;
     },
   },
+  Mutation: {
+    updateUser: (_, { name }) => {
+      return { id: 1, name };
+    },
+  },
 };
 
 const startApolloServer = async (app, httpServer) => {
