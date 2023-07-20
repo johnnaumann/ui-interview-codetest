@@ -9,15 +9,32 @@ app.use(cors());
 app.use(express.json());
 const httpServer = http.createServer(app);
 
+// User Data Store
+const user = {
+  id: 1,
+  name: "Jane Smith",
+};
+
 const typeDefs = gql`
+  type User {
+    id: ID!
+    name: String
+  }
+
   type Query {
-    hello: String
+    user: User
+  }
+
+  type Mutation {
+    updateUser(name: String): User
   }
 `;
 
 const resolvers = {
   Query: {
-    hello: () => "world",
+    user() {
+      return user;
+    },
   },
 };
 
