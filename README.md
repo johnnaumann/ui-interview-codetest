@@ -171,7 +171,7 @@ Your solution will be reviewed, and feedback will be provided in a future conver
 
 ## Need Help? 🤝
 
-If you run into any issues or have questions, please reach out to uiexercise@mondoo.com and
+If you run into any issues or have questions, please reach out to jamie@mondoo.com and
 we will assist you as soon as we receive your message. Please keep in mind many of us work
 in different areas of the globe, so our timezones may not always match up.
 
