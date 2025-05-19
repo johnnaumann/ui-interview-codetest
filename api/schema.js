@@ -1,65 +1,18 @@
 import { gql } from "apollo-server-express";
+import { readFileSync } from "fs";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const schemaString = readFileSync(
+  join(__dirname, "schemas", "schema.graphql"),
+  "utf8"
+);
 
 const typeDefs = gql`
-  type User {
-    id: ID!
-    name: String
-  }
-
-  enum TimeRange {
-    THREE_DAYS
-    SEVEN_DAYS
-    FOURTEEN_DAYS
-    THIRTY_DAYS
-  }
-
-  enum CriticalityLevel {
-    NONE
-    LOW
-    MEDIUM
-    HIGH
-    CRITICAL
-  }
-
-  type DataPoint {
-    timestamp: String!
-    cves: Int!
-    advisories: Int!
-  }
-
-  type Delta {
-    cves: Float!
-    advisories: Float!
-  }
-
-  type MetricSummary {
-    averageValue: Float!
-    delta: Float!
-  }
-
-  type TimeSeriesSummary {
-    cves: MetricSummary!
-    advisories: MetricSummary!
-    timeRange: TimeRange!
-    criticalities: [CriticalityLevel!]
-  }
-
-  type TimeSeriesData {
-    dataPoints: [DataPoint!]!
-    summary: TimeSeriesSummary!
-  }
-
-  type Query {
-    user: User
-    timeSeriesData(
-      timeRange: TimeRange
-      criticalities: [CriticalityLevel!]
-    ): TimeSeriesData
-  }
-
-  type Mutation {
-    updateUser(name: String): User
-  }
+  ${schemaString}
 `;
 
 export default typeDefs;
