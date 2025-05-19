@@ -145,29 +145,25 @@ Remember to commit your changes regularly and document your approach in the pull
 
 ## How to Submit 📤
 
-1. Make sure your changes are committed to your fork. You may commit as often as you like. If you're asking - We'd prefer smaller, more focused commits so that we can follow your progress:
+1. Create a new repository for your frontend implementation:
 
    ```bash
-   git add .
-   git commit -m "Complete exercise solution"
-   git push origin main
+   # Create a new directory for your frontend project
+   mkdir frontend
+   cd frontend
+
+   # Initialize your project (using your preferred package manager)
+   npm init
+   # or
+   yarn init
    ```
 
-2. Create a Pull Request:
-
-   - Go to the original repository on GitHub
-   - Click "New Pull Request"
-   - Click "compare across forks"
-   - Select your fork as the "head repository"
-   - Select the main branch of your fork
-   - Click "Create Pull Request"
-
-3. In your Pull Request description, include:
+2. In your frontend repository's README, include:
+   - Any environment variables or configuration needed
+   - How to run your frontend application
    - A brief explanation of your approach
    - Any challenges you faced and how you overcame them
    - Any additional features or improvements you made
-
-Your solution will be reviewed, and feedback will be provided in a future conversation.
 
 ## Need Help? 🤝
 
