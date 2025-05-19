@@ -5,6 +5,27 @@ const getDateString = (dayOffset) => {
   return date.toISOString().split("T")[0] + "T01:00:00Z";
 };
 
+// Helper function to calculate percentage change
+const calculatePercentageChange = (current, previous) => {
+  if (previous === 0) return 100;
+  return ((current - previous) / previous) * 100;
+};
+
+// Helper function to calculate metric summary
+const calculateMetricSummary = (dataPoints, metric) => {
+  const averageValue =
+    dataPoints.reduce((sum, point) => sum + point[metric], 0) /
+    dataPoints.length;
+  const todayValue = dataPoints[0][metric];
+  const previousValue = dataPoints[dataPoints.length - 1][metric];
+  const delta = calculatePercentageChange(todayValue, previousValue);
+
+  return {
+    averageValue,
+    delta,
+  };
+};
+
 // Static data for 30 days
 const staticData = {
   THREE_DAYS: Array.from({ length: 3 }, (_, i) => ({
@@ -42,10 +63,8 @@ const generateTimeSeriesData = (timeRange, criticality) => {
   return {
     dataPoints,
     summary: {
-      totalCount: dataPoints.length,
-      averageValue:
-        dataPoints.reduce((sum, point) => sum + point.cves, 0) /
-        dataPoints.length,
+      cves: calculateMetricSummary(dataPoints, "cves"),
+      advisories: calculateMetricSummary(dataPoints, "advisories"),
       timeRange,
       criticality,
     },

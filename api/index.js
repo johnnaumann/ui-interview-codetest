@@ -43,9 +43,19 @@ const typeDefs = gql`
     advisories: Int!
   }
 
-  type TimeSeriesSummary {
-    totalCount: Int!
+  type Delta {
+    cves: Float!
+    advisories: Float!
+  }
+
+  type MetricSummary {
     averageValue: Float!
+    delta: Float!
+  }
+
+  type TimeSeriesSummary {
+    cves: MetricSummary!
+    advisories: MetricSummary!
     timeRange: TimeRange!
     criticality: CriticalityLevel
   }
