@@ -41,7 +41,7 @@ const typeDefs = gql`
     cves: MetricSummary!
     advisories: MetricSummary!
     timeRange: TimeRange!
-    criticality: CriticalityLevel
+    criticalities: [CriticalityLevel!]
   }
 
   type TimeSeriesData {
@@ -53,7 +53,7 @@ const typeDefs = gql`
     user: User
     timeSeriesData(
       timeRange: TimeRange
-      criticality: CriticalityLevel
+      criticalities: [CriticalityLevel!]
     ): TimeSeriesData
   }
 

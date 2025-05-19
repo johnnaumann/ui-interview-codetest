@@ -57,16 +57,38 @@ const staticData = {
 };
 
 // Generate time series data using static data
-const generateTimeSeriesData = (timeRange, criticality) => {
-  const dataPoints = staticData[timeRange];
+const generateTimeSeriesData = (
+  timeRange = "THIRTY_DAYS",
+  criticalities = null
+) => {
+  // Ensure timeRange is valid, default to THIRTY_DAYS if invalid
+  const validTimeRanges = [
+    "THREE_DAYS",
+    "SEVEN_DAYS",
+    "FOURTEEN_DAYS",
+    "THIRTY_DAYS",
+  ];
+  const validTimeRange = validTimeRanges.includes(timeRange)
+    ? timeRange
+    : "THIRTY_DAYS";
+
+  // Ensure criticalities is an array and contains valid values
+  const validCriticalities = ["NONE", "LOW", "MEDIUM", "HIGH", "CRITICAL"];
+  const allCriticalities = validCriticalities;
+  const validCriticalityArray =
+    Array.isArray(criticalities) && criticalities.length > 0
+      ? criticalities.filter((c) => validCriticalities.includes(c))
+      : allCriticalities;
+
+  const dataPoints = staticData[validTimeRange];
 
   return {
     dataPoints,
     summary: {
       cves: calculateMetricSummary(dataPoints, "cves"),
       advisories: calculateMetricSummary(dataPoints, "advisories"),
-      timeRange,
-      criticality,
+      timeRange: validTimeRange,
+      criticalities: validCriticalityArray,
     },
   };
 };

@@ -7,6 +7,7 @@ import { generateTimeSeriesData } from "./mockData.js";
 import typeDefs from "./schema.js";
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 const httpServer = http.createServer(app);
@@ -22,8 +23,11 @@ const resolvers = {
     user() {
       return user;
     },
-    timeSeriesData: (_, { timeRange = "THIRTY_DAYS", criticality }) => {
-      return generateTimeSeriesData(timeRange, criticality);
+    timeSeriesData: (
+      _,
+      { timeRange = "THIRTY_DAYS", criticalities = null }
+    ) => {
+      return generateTimeSeriesData(timeRange, criticalities);
     },
   },
   Mutation: {
