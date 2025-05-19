@@ -1,9 +1,10 @@
-import { ApolloServer, gql } from "apollo-server-express";
+import { ApolloServer } from "apollo-server-express";
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import http from "http";
 import express from "express";
 import cors from "cors";
 import { generateTimeSeriesData } from "./mockData.js";
+import typeDefs from "./schema.js";
 
 const app = express();
 app.use(cors());
@@ -15,68 +16,6 @@ const user = {
   id: 1,
   name: "Jane Smith",
 };
-
-const typeDefs = gql`
-  type User {
-    id: ID!
-    name: String
-  }
-
-  enum TimeRange {
-    THREE_DAYS
-    SEVEN_DAYS
-    FOURTEEN_DAYS
-    THIRTY_DAYS
-  }
-
-  enum CriticalityLevel {
-    NONE
-    LOW
-    MEDIUM
-    HIGH
-    CRITICAL
-  }
-
-  type DataPoint {
-    timestamp: String!
-    cves: Int!
-    advisories: Int!
-  }
-
-  type Delta {
-    cves: Float!
-    advisories: Float!
-  }
-
-  type MetricSummary {
-    averageValue: Float!
-    delta: Float!
-  }
-
-  type TimeSeriesSummary {
-    cves: MetricSummary!
-    advisories: MetricSummary!
-    timeRange: TimeRange!
-    criticality: CriticalityLevel
-  }
-
-  type TimeSeriesData {
-    dataPoints: [DataPoint!]!
-    summary: TimeSeriesSummary!
-  }
-
-  type Query {
-    user: User
-    timeSeriesData(
-      timeRange: TimeRange
-      criticality: CriticalityLevel
-    ): TimeSeriesData
-  }
-
-  type Mutation {
-    updateUser(name: String): User
-  }
-`;
 
 const resolvers = {
   Query: {
