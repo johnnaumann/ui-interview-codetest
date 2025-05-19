@@ -1,0 +1,116 @@
+"""
+Represents a user in the system
+"""
+type User {
+  "Unique identifier for the user"
+  id: ID!
+  "Display name of the user"
+  name: String
+}
+
+"""
+Time range options for querying time series data
+"""
+enum TimeRange {
+  "Last 3 days of data"
+  THREE_DAYS
+  "Last 7 days of data"
+  SEVEN_DAYS
+  "Last 14 days of data"
+  FOURTEEN_DAYS
+  "Last 30 days of data"
+  THIRTY_DAYS
+}
+
+"""
+Severity levels for security issues
+"""
+enum CriticalityLevel {
+  "No criticality assigned"
+  NONE
+  "Low severity issues"
+  LOW
+  "Medium severity issues"
+  MEDIUM
+  "High severity issues"
+  HIGH
+  "Critical severity issues"
+  CRITICAL
+}
+
+"""
+Represents a single data point in the time series
+"""
+type DataPoint {
+  "ISO timestamp for when this data was recorded"
+  timestamp: String!
+  "Total number of CVEs at this point in time"
+  cves: Int!
+  "Total number of security advisories at this point in time"
+  advisories: Int!
+}
+
+"""
+Represents the change in values between two points in time
+"""
+type Delta {
+  "Percentage change in number of CVEs"
+  cves: Float!
+  "Percentage change in number of advisories"
+  advisories: Float!
+}
+
+"""
+Summary statistics for a specific metric
+"""
+type MetricSummary {
+  "Average value over the time period"
+  averageValue: Float!
+  "Percentage change from start to end of period"
+  delta: Float!
+}
+
+"""
+Summary information for the time series data
+"""
+type TimeSeriesSummary {
+  "Summary statistics for CVEs"
+  cves: MetricSummary!
+  "Summary statistics for advisories"
+  advisories: MetricSummary!
+  "The time range this data covers"
+  timeRange: TimeRange!
+  "The criticality levels included in this data"
+  criticalities: [CriticalityLevel!]
+}
+
+"""
+Complete time series data with individual points and summary
+"""
+type TimeSeriesData {
+  "Individual data points over time"
+  dataPoints: [DataPoint!]!
+  "Summary statistics for the time series"
+  summary: TimeSeriesSummary!
+}
+
+type Query {
+  "Get the current user"
+  user: User
+  """
+  Get time series data for security issues
+
+  Parameters:
+  - timeRange: The time period to fetch data for
+  - criticalities: Filter data by specific criticality levels. If not provided, includes all levels.
+  """
+  timeSeriesData(
+    timeRange: TimeRange
+    criticalities: [CriticalityLevel!]
+  ): TimeSeriesData
+}
+
+type Mutation {
+  "Update the current user's name"
+  updateUser(name: String): User
+}
