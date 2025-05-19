@@ -3,6 +3,7 @@ import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import http from "http";
 import express from "express";
 import cors from "cors";
+import { consola } from "consola";
 import { generateTimeSeriesData } from "./mockData.js";
 import typeDefs from "./schema.js";
 
@@ -21,17 +22,20 @@ const user = {
 const resolvers = {
   Query: {
     user() {
+      consola.info("Fetching user data");
       return user;
     },
     timeSeriesData: (
       _,
       { timeRange = "THIRTY_DAYS", criticalities = null }
     ) => {
+      consola.info(`Fetching time series data for range: ${timeRange}`);
       return generateTimeSeriesData(timeRange, criticalities);
     },
   },
   Mutation: {
     updateUser: (_, { name }) => {
+      consola.info(`Updating user name to: ${name}`);
       return { id: 1, name };
     },
   },
@@ -47,6 +51,7 @@ const startApolloServer = async (app, httpServer) => {
 
   await server.start();
   server.applyMiddleware({ app });
+  consola.success("Apollo Server started successfully");
 };
 
 startApolloServer(app, httpServer);
