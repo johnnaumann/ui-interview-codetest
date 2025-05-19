@@ -39,7 +39,7 @@ const typeDefs = gql`
 
   type DataPoint {
     timestamp: String!
-    value: Int!
+    cves: Int!
   }
 
   type TimeSeriesSummary {

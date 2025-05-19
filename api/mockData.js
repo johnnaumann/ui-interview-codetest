@@ -9,19 +9,19 @@ const getDateString = (dayOffset) => {
 const staticData = {
   THREE_DAYS: Array.from({ length: 3 }, (_, i) => ({
     timestamp: getDateString(i),
-    value: [10, 110, 47][i],
+    cves: [10, 110, 47][i],
   })),
   SEVEN_DAYS: Array.from({ length: 7 }, (_, i) => ({
     timestamp: getDateString(i),
-    value: [10, 110, 47, 47, 85, 120, 95][i],
+    cves: [10, 110, 47, 47, 85, 120, 95][i],
   })),
   FOURTEEN_DAYS: Array.from({ length: 14 }, (_, i) => ({
     timestamp: getDateString(i),
-    value: [10, 110, 47, 47, 85, 120, 95, 65, 42, 88, 130, 75, 55, 90][i],
+    cves: [10, 110, 47, 47, 85, 120, 95, 65, 42, 88, 130, 75, 55, 90][i],
   })),
   THIRTY_DAYS: Array.from({ length: 30 }, (_, i) => ({
     timestamp: getDateString(i),
-    value: [
+    cves: [
       10, 110, 47, 47, 85, 120, 95, 65, 42, 88, 130, 75, 55, 90, 105, 60, 80,
       115, 70, 50, 95, 125, 85, 45, 100, 140, 90, 65, 75, 110,
     ][i],
@@ -37,7 +37,7 @@ const generateTimeSeriesData = (timeRange, criticality) => {
     summary: {
       totalCount: dataPoints.length,
       averageValue:
-        dataPoints.reduce((sum, point) => sum + point.value, 0) /
+        dataPoints.reduce((sum, point) => sum + point.cves, 0) /
         dataPoints.length,
       timeRange,
       criticality,
