@@ -1,10 +1,13 @@
-import { ApolloServer, gql } from "apollo-server-express";
+import { ApolloServer } from "apollo-server-express";
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import http from "http";
 import express from "express";
 import cors from "cors";
+import { generateTimeSeriesData } from "./mockData.js";
+import typeDefs from "./schema.js";
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 const httpServer = http.createServer(app);
@@ -15,25 +18,16 @@ const user = {
   name: "Jane Smith",
 };
 
-const typeDefs = gql`
-  type User {
-    id: ID!
-    name: String
-  }
-
-  type Query {
-    user: User
-  }
-
-  type Mutation {
-    updateUser(name: String): User
-  }
-`;
-
 const resolvers = {
   Query: {
     user() {
       return user;
+    },
+    timeSeriesData: (
+      _,
+      { timeRange = "THIRTY_DAYS", criticalities = null }
+    ) => {
+      return generateTimeSeriesData(timeRange, criticalities);
     },
   },
   Mutation: {
