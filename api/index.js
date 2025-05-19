@@ -4,13 +4,34 @@ import http from "http";
 import express from "express";
 import cors from "cors";
 import { consola } from "consola";
+import { readFileSync } from "fs";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
 import { generateTimeSeriesData } from "./mockData.js";
 import typeDefs from "./schema.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// Serve README at /readme
+app.get("/readme", (req, res) => {
+  try {
+    const readmePath = join(__dirname, "..", "README.md");
+    const readmeContent = readFileSync(readmePath, "utf8");
+    res.setHeader("Content-Type", "text/markdown");
+    res.send(readmeContent);
+    consola.info("README.md served successfully");
+  } catch (error) {
+    consola.error("Error serving README:", error);
+    res.status(500).send("Error loading README");
+  }
+});
+
 const httpServer = http.createServer(app);
 
 // User Data Store
