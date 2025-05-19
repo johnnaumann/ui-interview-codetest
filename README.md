@@ -18,8 +18,8 @@ First, fork this repository to your GitHub account:
 Clone your forked repository to your local machine:
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/gql-server.git
-cd gql-server
+git clone https://github.com/YOUR-USERNAME/ui-visualization-server.git
+cd ui-visualization-server
 ```
 
 ### 3. Set Up the Development Environment
