@@ -3,6 +3,7 @@ import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import http from "http";
 import express from "express";
 import cors from "cors";
+import { generateTimeSeriesData } from "./mockData.js";
 
 const app = express();
 app.use(cors());
@@ -13,38 +14,6 @@ const httpServer = http.createServer(app);
 const user = {
   id: 1,
   name: "Jane Smith",
-};
-
-// Helper function to generate random data points
-const generateDataPoints = (days, criticality) => {
-  const points = [];
-  const now = new Date();
-  const hoursInDay = 24;
-  const totalHours = days * hoursInDay;
-
-  // Define criticality ranges
-  const ranges = {
-    NONE: { min: 0, max: 15 },
-    LOW: { min: 16, max: 40 },
-    MEDIUM: { min: 41, max: 100 },
-    HIGH: { min: 101, max: 200 },
-    CRITICAL: { min: 201, max: 250 },
-  };
-
-  const range = criticality ? ranges[criticality] : { min: 0, max: 250 };
-
-  for (let i = 0; i < totalHours; i++) {
-    const timestamp = new Date(now - (totalHours - i) * 60 * 60 * 1000);
-    const value =
-      Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
-
-    points.push({
-      timestamp: timestamp.toISOString(),
-      value,
-    });
-  }
-
-  return points;
 };
 
 const typeDefs = gql`
@@ -104,31 +73,7 @@ const resolvers = {
       return user;
     },
     timeSeriesData: (_, { timeRange = "THIRTY_DAYS", criticality }) => {
-      // Convert timeRange to days
-      const daysMap = {
-        THREE_DAYS: 3,
-        SEVEN_DAYS: 7,
-        FOURTEEN_DAYS: 14,
-        THIRTY_DAYS: 30,
-      };
-
-      const days = daysMap[timeRange];
-      const dataPoints = generateDataPoints(days, criticality);
-
-      // Calculate summary
-      const totalCount = dataPoints.length;
-      const averageValue =
-        dataPoints.reduce((sum, point) => sum + point.value, 0) / totalCount;
-
-      return {
-        dataPoints,
-        summary: {
-          totalCount,
-          averageValue,
-          timeRange,
-          criticality,
-        },
-      };
+      return generateTimeSeriesData(timeRange, criticality);
     },
   },
   Mutation: {
