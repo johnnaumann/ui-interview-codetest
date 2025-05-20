@@ -1,4 +1,4 @@
-# GraphQL Server Exercise
+# UI Visualization Exercise
 
 ## Welcome! 👋
 
