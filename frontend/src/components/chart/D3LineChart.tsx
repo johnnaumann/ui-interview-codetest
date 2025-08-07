@@ -25,7 +25,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       const rect = containerRef.current.getBoundingClientRect();
       const containerWidth = Math.max(300, rect.width || containerRef.current.offsetWidth);
       const containerHeight = Math.max(400, Math.min(600, containerWidth * 0.6));
-      
+
       setDimensions({
         width: containerWidth,
         height: containerHeight,
@@ -68,18 +68,18 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     const svg = d3.select(svgRef.current);
     const isMobile = dimensions.width < 768;
     const margin = {
-      top: 20,
+      top: 100,
       right: isMobile ? 20 : 20,
       bottom: 20,
       left: isMobile ? 20 : 20
     };
-    
+
     const chartWidth = dimensions.width - margin.left - margin.right;
     const chartHeight = dimensions.height - margin.top - margin.bottom;
 
     // Clear and recreate grid
     svg.selectAll('.grid-group').remove();
-    
+
     const gridGroup = svg
       .append('g')
       .attr('class', 'grid-group')
@@ -87,7 +87,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
 
     const xGridSpacing = chartWidth / 4;
     const yGridSpacing = chartHeight / 4;
-    
+
     for (let i = 0; i <= 4; i++) {
       const x = i * xGridSpacing;
       gridGroup.append('line')
@@ -122,7 +122,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     if (!svgRef.current || !dimensions.width || loading) return;
 
     const svg = d3.select(svgRef.current);
-    
+
     // Clear existing chart elements but preserve the SVG structure
     svg.selectAll('.chart-group').remove();
     svg.selectAll('.data-points').remove();
@@ -131,12 +131,12 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
 
     const isMobile = dimensions.width < 768;
     const margin = {
-      top: 20,
+      top: 100,
       right: isMobile ? 20 : 20,
       bottom: 20,
       left: isMobile ? 20 : 20
     };
-    
+
     const chartWidth = dimensions.width - margin.left - margin.right;
     const chartHeight = dimensions.height - margin.top - margin.bottom;
 
@@ -184,7 +184,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     // Check if lines already exist for smooth transitions
     const existingCveLine = svg.select('.cve-line');
     const existingAdvisoryLine = svg.select('.advisory-line');
-    
+
     if (existingCveLine.empty()) {
       // Initial render with animation
       const cveLine = g.append('path')
@@ -194,7 +194,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         .attr('stroke-width', isMobile ? 1 : 1.5)
         .attr('d', cveLineGenerator(parsedData))
         .style('cursor', 'pointer');
-      
+
       const cveTotalLength = cveLine.node()?.getTotalLength() || 0;
       cveLine
         .attr('stroke-dasharray', cveTotalLength + ' ' + cveTotalLength)
@@ -211,7 +211,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         .ease(d3.easeLinear)
         .attr('d', cveLineGenerator(parsedData));
     }
-    
+
     if (existingAdvisoryLine.empty()) {
       // Initial render with animation
       const advisoryLine = g.append('path')
@@ -221,7 +221,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         .attr('stroke-width', isMobile ? 1 : 1.5)
         .attr('d', advisoryLineGenerator(parsedData))
         .style('cursor', 'pointer');
-      
+
       const advisoryTotalLength = advisoryLine.node()?.getTotalLength() || 0;
       advisoryLine
         .attr('stroke-dasharray', advisoryTotalLength + ' ' + advisoryTotalLength)
@@ -242,7 +242,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
 
     // Handle data points with smooth transitions
     const existingDataPoints = svg.select('.data-points');
-    
+
     if (existingDataPoints.empty()) {
       // Initial render with animation
       const dataPointsGroup = g.append('g').attr('class', 'data-points');
@@ -263,11 +263,11 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
             const tooltipContent = `
               <div style="font-family: Arial, sans-serif; font-size: 12px;">
                 <div style="font-weight: bold; margin-bottom: 4px; color: #1F2937;">
-                  ${d.date.toLocaleDateString('en-US', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
+                  ${d.date.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
                   })}
                 </div>
                 <div style="color: ${theme.palette.primary.main}; font-weight: 600;">
@@ -301,11 +301,11 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
             const tooltipContent = `
               <div style="font-family: Arial, sans-serif; font-size: 12px;">
                 <div style="font-weight: bold; margin-bottom: 4px; color: #1F2937;">
-                  ${d.date.toLocaleDateString('en-US', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
+                  ${d.date.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
                   })}
                 </div>
                 <div style="color: ${theme.palette.advisories.main}; font-weight: 600;">
@@ -331,7 +331,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     } else {
       // Update existing data points with smooth transitions
       const circles = existingDataPoints.selectAll('circle');
-      
+
       // Update positions with transition
       circles
         .data(parsedData.flatMap(d => [
@@ -349,26 +349,26 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
 
   const formatDateRange = () => {
     if (dataPoints.length === 0) return '';
-    
+
     const sortedData = dataPoints
       .map(d => ({ ...d, date: new Date(d.timestamp) }))
       .sort((a, b) => a.date.getTime() - b.date.getTime());
-    
+
     const startDate = sortedData[0].date;
     const endDate = sortedData[sortedData.length - 1].date;
-    
-    const startFormatted = startDate.toLocaleDateString('en-US', { 
-      weekday: 'short', 
-      month: 'long', 
-      day: 'numeric' 
+
+    const startFormatted = startDate.toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'long',
+      day: 'numeric'
     });
-    
-    const endFormatted = endDate.toLocaleDateString('en-US', { 
-      weekday: 'short', 
-      month: 'long', 
-      day: 'numeric' 
+
+    const endFormatted = endDate.toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'long',
+      day: 'numeric'
     });
-    
+
     return `${startFormatted} – ${endFormatted}`;
   };
 
@@ -379,24 +379,24 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
            border: theme.palette.mode === 'dark' ? '1px solid #334155' : 'none',
          }}>
       <Box 
-        ref={containerRef} 
+        ref={containerRef}
         className="chart-container"
         sx={{ 
-          width: '100%', 
+          width: '100%',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
           position: 'relative'
         }}
       >
-        <svg 
-          ref={svgRef} 
-          width={dimensions.width} 
+        <svg
+          ref={svgRef}
+          width={dimensions.width}
           height={dimensions.height}
-          style={{ 
+          style={{
             width: '100%',
             height: 'auto',
-            maxWidth: '100%', 
+            maxWidth: '100%',
             display: 'block'
           }}
           viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
@@ -404,10 +404,10 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         />
         
         <Typography 
-          variant="body2" 
+          variant="body2"
           sx={{ 
-            textAlign: 'center', 
-            mt: 1, 
+            textAlign: 'center',
+            mt: 1,
             mb: 1,
             color: 'text.secondary',
             fontSize: '0.875rem',
@@ -415,7 +415,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         >
           {formatDateRange()}
         </Typography>
-        
+
         {tooltip.visible && (
           <Box
             sx={{

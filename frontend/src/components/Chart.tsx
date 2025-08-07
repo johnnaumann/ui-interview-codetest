@@ -104,8 +104,7 @@ const Chart: React.FC = () => {
         display: 'grid',
         gridTemplateColumns: {
           xs: '1fr',
-          md: '1fr 300px',
-          lg: '1fr 350px',
+          xl: '1fr 300px',
         },
         gap: 2,
         minHeight: '400px',
@@ -123,7 +122,7 @@ const Chart: React.FC = () => {
           <Box sx={{
             position: 'absolute',
             top: 16,
-            left: 16,
+            left: 24,
             zIndex: 10,
             backgroundColor: theme.palette.mode === 'dark' ? '#2D1B69' : 'white',
             borderRadius: 1,
@@ -138,13 +137,12 @@ const Chart: React.FC = () => {
           
           <Box sx={{
             position: 'absolute',
-            top: -8,
-            right: -12,
+            top: 16,
+            right: 24,
             zIndex: 10,
             backgroundColor: theme.palette.mode === 'dark' ? '#2D1B69' : 'white',
             borderRadius: 1,
             p: 1,
-            m: 3,
           }}>
             <CriticalityFilter
               value={selectedCriticalities}
