@@ -8,7 +8,8 @@ import {
 } from '@mui/material';
 import { useQuery } from '@apollo/client';
 import { GET_TIME_SERIES_DATA, TimeSeriesResponse, TimeRange, CriticalityLevel } from '../api/graphql-queries';
-import ChartControls from './chart/ChartControls';
+import TimeRangeFilter from './chart/TimeRangeFilter';
+import CriticalityFilter from './chart/CriticalityFilter';
 import SummaryCards from './chart/SummaryCards';
 import D3LineChart from './chart/D3LineChart';
 
@@ -87,11 +88,9 @@ const Chart: React.FC = () => {
             right: 16,
             zIndex: 10,
           }}>
-            <ChartControls
-              timeRange={timeRange}
-              selectedCriticalities={selectedCriticalities}
-              onTimeRangeChange={handleTimeRangeChange}
-              onCriticalityChange={handleCriticalityChange}
+            <TimeRangeFilter
+              value={timeRange}
+              onChange={handleTimeRangeChange}
               disabled={loading}
             />
           </Box>
@@ -101,12 +100,19 @@ const Chart: React.FC = () => {
           <Box sx={{ 
             display: 'flex', 
             flexDirection: 'column', 
-            height: '100%',
           }}>
             <SummaryCards
               data={data.timeSeriesData.summary}
               loading={loading}
             />
+            
+            <Box sx={{ mt: 2 }}>
+              <CriticalityFilter
+                value={selectedCriticalities}
+                onChange={handleCriticalityChange}
+                disabled={loading}
+              />
+            </Box>
           </Box>
         )}
       </Box>

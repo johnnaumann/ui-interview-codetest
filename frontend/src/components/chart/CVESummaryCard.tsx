@@ -6,9 +6,8 @@ import {
   CardContent,
   Typography,
   Box,
-  Button,
 } from '@mui/material';
-import { OpenInNew } from '@mui/icons-material';
+
 
 interface CVESummaryData {
   averageValue: number;
@@ -36,13 +35,10 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
   };
 
   return (
-    <Card sx={{ 
-      backgroundColor: '#6B46C1',
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-    }}>
-      <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+               <Card sx={{
+             backgroundColor: '#6B46C1',
+           }}>
+                   <CardContent>
         <Typography variant="h6" color="white" gutterBottom>
           CVEs
         </Typography>
@@ -55,7 +51,7 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
         ) : data ? (
           <>
             <Typography variant="h4" component="div" sx={{ mb: 1, color: 'white' }}>
-              {data.averageValue.toFixed(1)}
+              {Math.round(data.averageValue)}
             </Typography>
             <Typography variant="body2" color="white">
               Average (
@@ -75,34 +71,7 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
           </Typography>
         )}
         
-                       <Button
-                 variant="outlined"
-                 size="small"
-                 endIcon={<OpenInNew />}
-                 sx={{
-                   mt: 2,
-                   borderColor: 'white',
-                   color: 'white',
-                   fontSize: {
-                     xs: '0.75rem',
-                     sm: '0.875rem',
-                     md: '1rem',
-                   },
-                   padding: {
-                     xs: '4px 8px',
-                     sm: '6px 12px',
-                     md: '8px 16px',
-                   },
-                   '&:hover': {
-                     borderColor: 'rgba(255, 255, 255, 0.8)',
-                     backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                   },
-                   fontWeight: 'medium',
-                 }}
-                 onClick={() => alert('Fix CVEs issues')}
-               >
-                 Fix Issues
-               </Button>
+        
       </CardContent>
     </Card>
   );

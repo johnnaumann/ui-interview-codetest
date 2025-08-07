@@ -25,24 +25,20 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({
   data,
   loading = false,
 }) => {
-  return (
-    <Box sx={{ 
-      display: 'flex', 
+    return (
+    <Box sx={{
+      display: 'flex',
       flexDirection: 'column',
-      height: '100%',
+      gap: 2,
     }}>
-      <Box sx={{ flex: 1, minHeight: 0 }}>
-        <CVESummaryCard
-          data={data?.cves}
-          loading={loading}
-        />
-      </Box>
-      <Box sx={{ flex: 1, minHeight: 0 }}>
-        <AdvisoriesSummaryCard
-          data={data?.advisories}
-          loading={loading}
-        />
-      </Box>
+      <CVESummaryCard
+        data={data?.cves}
+        loading={loading}
+      />
+      <AdvisoriesSummaryCard
+        data={data?.advisories}
+        loading={loading}
+      />
     </Box>
   );
 };

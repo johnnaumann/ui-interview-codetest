@@ -6,9 +6,8 @@ import {
   CardContent,
   Typography,
   Box,
-  Button,
 } from '@mui/material';
-import { OpenInNew } from '@mui/icons-material';
+
 
 interface AdvisoriesSummaryData {
   averageValue: number;
@@ -36,13 +35,10 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
   };
 
   return (
-    <Card sx={{ 
-      backgroundColor: '#E9D5FF',
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-    }}>
-      <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+               <Card sx={{
+             backgroundColor: '#E9D5FF',
+           }}>
+                   <CardContent>
         <Typography variant="h6" color="#6B46C1" gutterBottom>
           Advisories
         </Typography>
@@ -55,7 +51,7 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
         ) : data ? (
           <>
             <Typography variant="h4" component="div" sx={{ mb: 1, color: '#6B46C1' }}>
-              {data.averageValue.toFixed(1)}
+              {Math.round(data.averageValue)}
             </Typography>
             <Typography variant="body2" color="#6B46C1">
               Average (
@@ -75,34 +71,7 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
           </Typography>
         )}
         
-                       <Button
-                 variant="outlined"
-                 size="small"
-                 endIcon={<OpenInNew />}
-                 sx={{
-                   mt: 2,
-                   borderColor: '#6B46C1',
-                   color: '#6B46C1',
-                   fontSize: {
-                     xs: '0.75rem',
-                     sm: '0.875rem',
-                     md: '1rem',
-                   },
-                   padding: {
-                     xs: '4px 8px',
-                     sm: '6px 12px',
-                     md: '8px 16px',
-                   },
-                   '&:hover': {
-                     borderColor: '#553C9A',
-                     backgroundColor: 'rgba(107, 70, 193, 0.1)',
-                   },
-                   fontWeight: 'medium',
-                 }}
-                 onClick={() => alert('Fix Advisories issues')}
-               >
-                 Fix Issues
-               </Button>
+        
       </CardContent>
     </Card>
   );

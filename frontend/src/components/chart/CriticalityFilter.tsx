@@ -3,13 +3,7 @@
 import React from 'react';
 import {
   Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Chip,
-  OutlinedInput,
-  SelectChangeEvent,
+  Button,
 } from '@mui/material';
 import { CriticalityLevel } from '../../api/graphql-queries';
 
@@ -24,59 +18,72 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
   onChange,
   disabled = false,
 }) => {
-  const handleChange = (event: SelectChangeEvent<typeof value>) => {
-    const selectedValue = event.target.value;
-    onChange(typeof selectedValue === 'string' ? selectedValue.split(',') as CriticalityLevel[] : selectedValue);
+  const handleChipClick = (criticality: CriticalityLevel) => {
+    if (disabled) return;
+    
+    const isSelected = value.includes(criticality);
+    if (isSelected) {
+      onChange(value.filter(c => c !== criticality));
+    } else {
+      onChange([...value, criticality]);
+    }
   };
 
   const getCriticalityColor = (criticality: CriticalityLevel) => {
     switch (criticality) {
       case 'CRITICAL':
-        return 'error';
+        return '#DC2626';
       case 'HIGH':
-        return 'warning';
+        return '#D97706';
       case 'MEDIUM':
-        return 'info';
+        return '#1E40AF';
       case 'LOW':
-        return 'success';
+        return '#059669';
       case 'NONE':
-        return 'default';
+        return '#6B7280';
       default:
-        return 'default';
+        return '#6B7280';
     }
   };
 
+  const allCriticalities: CriticalityLevel[] = ['NONE', 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
+
   return (
-    <FormControl sx={{ minWidth: 300 }} disabled={disabled}>
-      <InputLabel id="criticality-label">Criticality Levels</InputLabel>
-      <Select
-        labelId="criticality-label"
-        id="criticality-select"
-        multiple
-        value={value}
-        onChange={handleChange}
-        input={<OutlinedInput id="select-multiple-chip" label="Criticality Levels" />}
-        renderValue={(selected) => (
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-            {selected.map((criticality) => (
-              <Chip 
-                key={criticality} 
-                label={criticality} 
-                size="small"
-                color={getCriticalityColor(criticality)}
-                variant="outlined"
-              />
-            ))}
-          </Box>
-        )}
-      >
-        <MenuItem value="NONE">None</MenuItem>
-        <MenuItem value="LOW">Low</MenuItem>
-        <MenuItem value="MEDIUM">Medium</MenuItem>
-        <MenuItem value="HIGH">High</MenuItem>
-        <MenuItem value="CRITICAL">Critical</MenuItem>
-      </Select>
-    </FormControl>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+      {allCriticalities.map((criticality) => {
+        const isSelected = value.includes(criticality);
+        const color = getCriticalityColor(criticality);
+        return (
+          <Button
+            key={criticality}
+            variant={isSelected ? "contained" : "outlined"}
+            size="small"
+            onClick={() => handleChipClick(criticality)}
+            disabled={disabled}
+            sx={{
+              justifyContent: 'flex-start',
+              textTransform: 'none',
+              fontWeight: 'medium',
+              backgroundColor: isSelected ? color : 'transparent',
+              borderColor: color,
+              color: isSelected ? 'white' : color,
+              '&:hover': {
+                backgroundColor: isSelected ? color : `${color}20`,
+                borderColor: color,
+              },
+              '&:disabled': {
+                opacity: 0.6,
+                backgroundColor: isSelected ? color : 'transparent',
+                borderColor: color,
+                color: isSelected ? 'white' : color,
+              },
+            }}
+          >
+            {criticality}
+          </Button>
+        );
+      })}
+    </Box>
   );
 };
 
