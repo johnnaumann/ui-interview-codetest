@@ -303,7 +303,11 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
   };
 
   return (
-    <Paper elevation={2} className="chart-paper" sx={{ p: 2 }}>
+    <Paper elevation={0} className="chart-paper" sx={{ 
+      p: 2,
+      backgroundColor: theme.palette.mode === 'dark' ? 'transparent' : 'white',
+      border: theme.palette.mode === 'dark' ? '1px solid #334155' : 'none',
+    }}>
       <Box 
         ref={containerRef} 
         className="chart-container"

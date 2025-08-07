@@ -9,6 +9,7 @@ import {
   IconButton,
   Tooltip,
   Chip,
+  useTheme,
 } from '@mui/material';
 import { Info } from '@mui/icons-material';
 
@@ -27,6 +28,7 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
   data,
   loading = false,
 }) => {
+  const theme = useTheme();
   const getDeltaColor = (delta: number) => {
     if (delta > 0) return 'error.main';
     if (delta < 0) return 'success.main';
@@ -40,7 +42,7 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
 
   return (
                <Card sx={{
-             backgroundColor: '#6B46C1',
+             backgroundColor: theme.palette.mode === 'dark' ? '#553C9A' : '#6B46C1',
              position: 'relative',
            }}>
                    <CardContent>
