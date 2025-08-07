@@ -34,23 +34,23 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
   };
 
   return (
-    <Card>
+    <Card sx={{ backgroundColor: '#A855F7' }}>
       <CardContent>
-        <Typography variant="h6" color="secondary" gutterBottom>
+        <Typography variant="h6" color="white" gutterBottom>
           Advisories
         </Typography>
         {loading ? (
           <Box sx={{ display: 'flex', alignItems: 'center', minHeight: 60 }}>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="white">
               Loading...
             </Typography>
           </Box>
         ) : data ? (
           <>
-            <Typography variant="h4" component="div" sx={{ mb: 1 }}>
+            <Typography variant="h4" component="div" sx={{ mb: 1, color: 'white' }}>
               {data.averageValue.toFixed(1)}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="white">
               Average (
               <Typography
                 component="span"
@@ -63,7 +63,7 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
             </Typography>
           </>
         ) : (
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="white">
             No data available
           </Typography>
         )}

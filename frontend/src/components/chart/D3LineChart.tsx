@@ -190,7 +190,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     const advisoryLine = g.append('path')
       .attr('class', 'advisory-line')
       .attr('fill', 'none')
-      .attr('stroke', '#1E40AF') // Mondoo brand blue
+      .attr('stroke', '#A855F7') // Light purple for advisories
       .attr('stroke-width', isMobile ? 2 : 3)
       .attr('d', advisoryLineGenerator(parsedData));
     
@@ -239,7 +239,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .attr('y1', isMobile ? 0 : legendSpacing)
       .attr('x2', isMobile ? 20 : 30)
       .attr('y2', isMobile ? 0 : legendSpacing)
-      .attr('stroke', '#1E40AF')
+      .attr('stroke', '#A855F7')
       .attr('stroke-width', isMobile ? 2 : 3);
 
     legend.append('text')
