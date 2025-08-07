@@ -68,7 +68,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     const svg = d3.select(svgRef.current);
     const isMobile = dimensions.width < 768;
     const margin = {
-      top: 100,
+      top: 88,
       right: isMobile ? 20 : 20,
       bottom: 20,
       left: isMobile ? 20 : 20
@@ -131,7 +131,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
 
     const isMobile = dimensions.width < 768;
     const margin = {
-      top: 100,
+      top: 88,
       right: isMobile ? 20 : 20,
       bottom: 20,
       left: isMobile ? 20 : 20
