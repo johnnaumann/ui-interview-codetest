@@ -173,7 +173,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .attr('class', 'cve-line')
       .attr('fill', 'none')
       .attr('stroke', '#6B46C1') // Mondoo brand purple
-      .attr('stroke-width', isMobile ? 2 : 3)
+      .attr('stroke-width', isMobile ? 1 : 1.5)
       .attr('d', cveLineGenerator(parsedData));
     
     // Animate line drawing
@@ -191,7 +191,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .attr('class', 'advisory-line')
       .attr('fill', 'none')
       .attr('stroke', '#A855F7') // Light purple for advisories
-      .attr('stroke-width', isMobile ? 2 : 3)
+      .attr('stroke-width', isMobile ? 1 : 1.5)
       .attr('d', advisoryLineGenerator(parsedData));
     
     // Animate line drawing
@@ -222,7 +222,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .attr('x2', isMobile ? 20 : 30)
       .attr('y2', 0)
       .attr('stroke', '#6B46C1')
-      .attr('stroke-width', isMobile ? 2 : 3);
+      .attr('stroke-width', isMobile ? 1 : 1.5);
 
     legend.append('text')
       .attr('x', isMobile ? 25 : 35)
@@ -240,7 +240,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .attr('x2', isMobile ? 20 : 30)
       .attr('y2', isMobile ? 0 : legendSpacing)
       .attr('stroke', '#A855F7')
-      .attr('stroke-width', isMobile ? 2 : 3);
+      .attr('stroke-width', isMobile ? 1 : 1.5);
 
     legend.append('text')
       .attr('x', isMobile ? 25 : 35)
