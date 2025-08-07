@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import * as d3 from 'd3';
-import { Box, Paper, useTheme } from '@mui/material';
+import { Box, Paper, useTheme, Typography } from '@mui/material';
 import { DataPoint } from '../../api/graphql-queries';
 
 interface D3LineChartProps {
@@ -328,6 +328,19 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
           viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
           preserveAspectRatio="xMidYMid meet"
         />
+        
+        <Typography 
+          variant="body2" 
+          sx={{ 
+            textAlign: 'center', 
+            mt: 1, 
+            mb: 1,
+            color: 'text.secondary',
+            fontSize: '0.875rem',
+          }}
+        >
+          {formatDateRange()}
+        </Typography>
         
         {tooltip.visible && (
           <Box
