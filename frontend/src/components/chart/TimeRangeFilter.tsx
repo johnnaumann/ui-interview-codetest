@@ -35,10 +35,10 @@ const TimeRangeFilter: React.FC<TimeRangeFilterProps> = ({
         label="Time Range"
         onChange={handleChange}
       >
+        <MenuItem value="THREE_DAYS">Last 3 Days</MenuItem>
         <MenuItem value="SEVEN_DAYS">Last 7 Days</MenuItem>
+        <MenuItem value="FOURTEEN_DAYS">Last 14 Days</MenuItem>
         <MenuItem value="THIRTY_DAYS">Last 30 Days</MenuItem>
-        <MenuItem value="NINETY_DAYS">Last 90 Days</MenuItem>
-        <MenuItem value="ONE_YEAR">Last Year</MenuItem>
       </Select>
     </FormControl>
   );

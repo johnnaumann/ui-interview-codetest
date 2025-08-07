@@ -68,7 +68,14 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     if (!dataPoints.length || !svgRef.current || !dimensions.width || loading) return;
 
     const svg = d3.select(svgRef.current);
-    svg.selectAll('*').remove();
+    
+    // Check if this is the initial render
+    const isInitial = svg.select('g.main-chart-group').empty();
+    
+    // Clear everything except the main group on data changes
+    if (!isInitial) {
+      svg.selectAll('g.main-chart-group > *').remove();
+    }
 
     // Responsive margins based on screen size
     const isMobile = dimensions.width < 768;
@@ -106,30 +113,40 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .domain([0, maxValue * 1.1])
       .range([chartHeight, 0]);
 
-    // Create main group
-    const g = svg
-      .append('g')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
+    // Get or create main group
+    let g = svg.select('g.main-chart-group');
+    if (g.empty()) {
+      g = svg
+        .append('g')
+        .attr('class', 'main-chart-group');
+    }
+    
+    // Always set/update the transform
+    g.attr('transform', `translate(${margin.left},${margin.top})`);
 
     // Add X axis with responsive ticks
     const xAxis = d3.axisBottom(xScale)
       .tickFormat(d3.timeFormat(isMobile ? '%m/%d' : '%m/%d') as (date: Date | d3.NumberValue) => string)
       .ticks(isMobile ? 4 : 8);
-      
-    g.append('g')
+    
+    const xAxisGroup = g.append('g')
+      .attr('class', 'x-axis')
       .attr('transform', `translate(0,${chartHeight})`)
-      .call(xAxis)
-      .selectAll('text')
+      .call(xAxis);
+      
+    xAxisGroup.selectAll('text')
       .style('font-size', isMobile ? '12px' : '14px')
       .style('fill', '#4A5568');
 
     // Add Y axis with responsive ticks
     const yAxis = d3.axisLeft(yScale)
       .ticks(isMobile ? 5 : 8);
+    
+    const yAxisGroup = g.append('g')
+      .attr('class', 'y-axis')
+      .call(yAxis);
       
-    g.append('g')
-      .call(yAxis)
-      .selectAll('text')
+    yAxisGroup.selectAll('text')
       .style('font-size', isMobile ? '12px' : '14px')
       .style('fill', '#4A5568');
 
@@ -168,35 +185,81 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .y(d => yScale(d.advisories))
       .curve(d3.curveMonotoneX);
 
-    // Add CVE line - responsive stroke width
-    g.append('path')
-      .datum(parsedData)
+    // Add CVE line with smooth transitions
+    const cveLine = g.append('path')
+      .attr('class', 'cve-line')
       .attr('fill', 'none')
       .attr('stroke', '#6B46C1') // Mondoo brand purple
       .attr('stroke-width', isMobile ? 2 : 3)
-      .attr('d', cveLineGenerator);
+      .attr('d', cveLineGenerator(parsedData));
+    
+    // Animate line drawing on initial load
+    if (isInitial) {
+      const totalLength = cveLine.node()?.getTotalLength() || 0;
+      cveLine
+        .attr('stroke-dasharray', totalLength + ' ' + totalLength)
+        .attr('stroke-dashoffset', totalLength)
+        .transition()
+        .duration(1000)
+        .ease(d3.easeLinear)
+        .attr('stroke-dashoffset', 0);
+    }
 
-    // Add Advisory line - responsive stroke width
-    g.append('path')
-      .datum(parsedData)
+    // Add Advisory line with smooth transitions
+    const advisoryLine = g.append('path')
+      .attr('class', 'advisory-line')
       .attr('fill', 'none')
       .attr('stroke', '#1E40AF') // Mondoo brand blue
       .attr('stroke-width', isMobile ? 2 : 3)
-      .attr('d', advisoryLineGenerator);
+      .attr('d', advisoryLineGenerator(parsedData));
+    
+    // Animate line drawing on initial load
+    if (isInitial) {
+      const totalLength = advisoryLine.node()?.getTotalLength() || 0;
+      advisoryLine
+        .attr('stroke-dasharray', totalLength + ' ' + totalLength)
+        .attr('stroke-dashoffset', totalLength)
+        .transition()
+        .duration(1000)
+        .delay(200) // Slight delay for staggered effect
+        .ease(d3.easeLinear)
+        .attr('stroke-dashoffset', 0);
+    }
 
-    // Add CVE dots
-    g.selectAll('.cve-dot')
+    // Add CVE dots with smooth transitions
+    const cveDots = g.selectAll('.cve-dot')
       .data(parsedData)
       .enter()
       .append('circle')
       .attr('class', 'cve-dot')
       .attr('cx', d => xScale(d.date))
       .attr('cy', d => yScale(d.cves))
-      .attr('r', isMobile ? 3 : 5)
+      .attr('r', isInitial ? 0 : isMobile ? 3 : 5)
       .attr('fill', '#6B46C1')
       .attr('stroke', '#FFFFFF')
       .attr('stroke-width', isMobile ? 1 : 2)
+      .style('opacity', isInitial ? 0 : 1);
+    
+    // Animate dots on initial load
+    if (isInitial) {
+      cveDots
+        .transition()
+        .duration(800)
+        .delay(400)
+        .ease(d3.easeBackOut.overshoot(1.2))
+        .attr('r', isMobile ? 3 : 5)
+        .style('opacity', 1);
+    }
+    
+    // Add event listeners
+    cveDots
       .on('mouseover', function(event, d) {
+        // Scale up on hover
+        d3.select(this)
+          .transition()
+          .duration(150)
+          .attr('r', (isMobile ? 3 : 5) * 1.3);
+        
         // Add tooltip
         const tooltip = d3.select('body')
           .append('div')
@@ -211,29 +274,66 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
           .style('pointer-events', 'none')
           .style('z-index', 1000)
           .style('box-shadow', '0px 10px 15px rgba(0, 0, 0, 0.1), 0px 4px 6px rgba(0, 0, 0, 0.1)')
-          .style('border', '1px solid #E2E8F0');
+          .style('border', '1px solid #E2E8F0')
+          .style('opacity', 0);
 
         tooltip.html(`CVEs: ${d.cves}<br/>Date: ${d.date.toLocaleDateString()}`)
           .style('left', (event.pageX + 10) + 'px')
-          .style('top', (event.pageY - 10) + 'px');
+          .style('top', (event.pageY - 10) + 'px')
+          .transition()
+          .duration(150)
+          .style('opacity', 1);
       })
       .on('mouseout', function() {
-        d3.selectAll('.tooltip').remove();
+        // Scale back down
+        d3.select(this)
+          .transition()
+          .duration(150)
+          .attr('r', isMobile ? 3 : 5);
+        
+        // Remove tooltip with fade
+        d3.selectAll('.tooltip')
+          .transition()
+          .duration(150)
+          .style('opacity', 0)
+          .remove();
       });
 
-    // Add Advisory dots
-    g.selectAll('.advisory-dot')
+    // Add Advisory dots with smooth transitions
+    const advisoryDots = g.selectAll('.advisory-dot')
       .data(parsedData)
       .enter()
       .append('circle')
       .attr('class', 'advisory-dot')
       .attr('cx', d => xScale(d.date))
       .attr('cy', d => yScale(d.advisories))
-      .attr('r', isMobile ? 3 : 5)
+      .attr('r', isInitial ? 0 : isMobile ? 3 : 5)
       .attr('fill', '#1E40AF')
       .attr('stroke', '#FFFFFF')
       .attr('stroke-width', isMobile ? 1 : 2)
+      .style('opacity', isInitial ? 0 : 1);
+    
+    // Animate dots on initial load
+    if (isInitial) {
+      advisoryDots
+        .transition()
+        .duration(800)
+        .delay(600) // Slight delay for staggered effect
+        .ease(d3.easeBackOut.overshoot(1.2))
+        .attr('r', isMobile ? 3 : 5)
+        .style('opacity', 1);
+    }
+    
+    // Add event listeners
+    advisoryDots
       .on('mouseover', function(event, d) {
+        // Scale up on hover
+        d3.select(this)
+          .transition()
+          .duration(150)
+          .attr('r', (isMobile ? 3 : 5) * 1.3);
+        
+        // Add tooltip
         const tooltip = d3.select('body')
           .append('div')
           .attr('class', 'tooltip')
@@ -247,14 +347,29 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
           .style('pointer-events', 'none')
           .style('z-index', 1000)
           .style('box-shadow', '0px 10px 15px rgba(0, 0, 0, 0.1), 0px 4px 6px rgba(0, 0, 0, 0.1)')
-          .style('border', '1px solid #E2E8F0');
+          .style('border', '1px solid #E2E8F0')
+          .style('opacity', 0);
 
         tooltip.html(`Advisories: ${d.advisories}<br/>Date: ${d.date.toLocaleDateString()}`)
           .style('left', (event.pageX + 10) + 'px')
-          .style('top', (event.pageY - 10) + 'px');
+          .style('top', (event.pageY - 10) + 'px')
+          .transition()
+          .duration(150)
+          .style('opacity', 1);
       })
       .on('mouseout', function() {
-        d3.selectAll('.tooltip').remove();
+        // Scale back down
+        d3.select(this)
+          .transition()
+          .duration(150)
+          .attr('r', isMobile ? 3 : 5);
+        
+        // Remove tooltip with fade
+        d3.selectAll('.tooltip')
+          .transition()
+          .duration(150)
+          .style('opacity', 0)
+          .remove();
       });
 
     // Add legend - responsive positioning
