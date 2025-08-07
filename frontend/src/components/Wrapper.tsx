@@ -9,31 +9,44 @@ import client from '../api/apollo-client';
 import { navigation } from '../lib/navigation';
 import { router } from '../lib/router';
 import { branding } from '../lib/branding';
-import { ThemeProvider } from '../contexts/ThemeContext';
+import { ThemeProvider, useTheme } from '../contexts/ThemeContext';
 import ThemeToggle from './ThemeToggle';
 
 interface WrapperProps {
   children: React.ReactNode;
 }
 
+function AppContent({ children }: WrapperProps) {
+  const { theme } = useTheme();
+  
+  return (
+    <>
+      <CssBaseline />
+      <AppProvider
+        navigation={navigation}
+        router={router}
+        branding={branding}
+        theme={theme}
+      >
+        <DashboardLayout
+          slots={{
+            toolbarActions: () => <ThemeToggle />,
+          }}
+        >
+          {children}
+        </DashboardLayout>
+      </AppProvider>
+    </>
+  );
+}
+
 export default function Wrapper({ children }: WrapperProps) {
   return (
     <ApolloProvider client={client}>
       <ThemeProvider>
-        <CssBaseline />
-        <AppProvider
-          navigation={navigation}
-          router={router}
-          branding={branding}
-        >
-          <DashboardLayout
-            slots={{
-              toolbarActions: () => <ThemeToggle />,
-            }}
-          >
-            {children}
-          </DashboardLayout>
-        </AppProvider>
+        <AppContent>
+          {children}
+        </AppContent>
       </ThemeProvider>
     </ApolloProvider>
   );

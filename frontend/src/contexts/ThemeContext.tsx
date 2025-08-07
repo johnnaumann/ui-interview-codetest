@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider as MuiThemeProvider, Theme } from '@mui/material/styles';
 
 // Mondoo-inspired color palette
 const mondooColors = {
@@ -58,6 +58,7 @@ const darkColors = {
 interface ThemeContextType {
   mode: 'light' | 'dark';
   toggleColorMode: () => void;
+  theme: Theme; // Export the theme object
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -110,7 +111,15 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const theme = createTheme({
     palette: {
       mode,
-      ...(mode === 'light' ? mondooColors : darkColors),
+      primary: mondooColors.primary,
+      secondary: mondooColors.secondary,
+      background: mode === 'light' ? mondooColors.background : darkColors.background,
+      text: mode === 'light' ? mondooColors.text : darkColors.text,
+      divider: mode === 'light' ? mondooColors.divider : darkColors.divider,
+      success: mondooColors.success,
+      warning: mondooColors.warning,
+      error: mondooColors.error,
+      info: mondooColors.info,
     },
     shape: {
       borderRadius: 0,
@@ -119,7 +128,12 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none',
       'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none',
       'none', 'none', 'none', 'none', 'none', 'none', 'none'
-    ] as any,
+    ] as [
+      'none',
+      string, string, string, string, string, string, string, string,
+      string, string, string, string, string, string, string, string,
+      string, string, string, string, string, string, string, string
+    ],
     components: {
       MuiButton: {
         styleOverrides: {
@@ -165,7 +179,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   });
 
   return (
-    <ThemeContext.Provider value={{ mode, toggleColorMode }}>
+    <ThemeContext.Provider value={{ mode, toggleColorMode, theme }}>
       <MuiThemeProvider theme={theme}>
         {children}
       </MuiThemeProvider>
