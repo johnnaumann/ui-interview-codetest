@@ -65,18 +65,10 @@ const colors = {
 // Type declarations for MUI theme extension
 declare module '@mui/material/styles' {
   interface Palette {
-    advisories: {
-      main: string;
-      light: string;
-      dark: string;
-    };
+    advisories: import('../interfaces').AdvisoriesColor;
   }
   interface PaletteOptions {
-    advisories?: {
-      main: string;
-      light: string;
-      dark: string;
-    };
+    advisories?: Palette['advisories'];
   }
 }
 
