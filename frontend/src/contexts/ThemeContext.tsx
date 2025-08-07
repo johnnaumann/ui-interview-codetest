@@ -225,7 +225,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
         styleOverrides: {
           root: {
             boxShadow: 'none',
-            borderRadius: 1,
+            borderRadius: 2,
             '&:hover': {
               boxShadow: 'none',
             },
@@ -236,7 +236,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
         styleOverrides: {
           root: {
             boxShadow: 'none',
-            borderRadius: 1,
+            borderRadius: 2,
           },
           elevation1: {
             boxShadow: 'none',
