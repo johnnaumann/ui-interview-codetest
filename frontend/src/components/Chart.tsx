@@ -138,7 +138,7 @@ const Chart: React.FC = () => {
           <Box sx={{
             position: 'absolute',
             top: -8,
-            right: -8,
+            right: -12,
             zIndex: 10,
             backgroundColor: theme.palette.mode === 'dark' ? '#2D1B69' : 'white',
             borderRadius: 1,
