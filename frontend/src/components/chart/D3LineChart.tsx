@@ -205,51 +205,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .ease(d3.easeLinear)
       .attr('stroke-dashoffset', 0);
 
-    // Add legend - responsive positioning
-    const legendX = isMobile ? 20 : chartWidth - 80;
-    const legendY = isMobile ? chartHeight + 30 : 20;
-    const legend = g.append('g')
-      .attr('transform', `translate(${legendX}, ${legendY})`);
 
-    // Legend lines and text - responsive layout
-    const legendSpacing = isMobile ? 15 : 20;
-    const legendFontSize = isMobile ? '12px' : '14px';
-
-    // CVE legend
-    legend.append('line')
-      .attr('x1', 0)
-      .attr('y1', 0)
-      .attr('x2', isMobile ? 20 : 30)
-      .attr('y2', 0)
-      .attr('stroke', '#6B46C1')
-      .attr('stroke-width', isMobile ? 1 : 1.5);
-
-    legend.append('text')
-      .attr('x', isMobile ? 25 : 35)
-      .attr('y', 0)
-      .attr('dy', '0.32em')
-      .style('font-size', legendFontSize)
-      .style('fill', '#1A202C')
-      .style('font-weight', '600')
-      .text('CVEs');
-
-    // Advisory legend
-    legend.append('line')
-      .attr('x1', 0)
-      .attr('y1', isMobile ? 0 : legendSpacing)
-      .attr('x2', isMobile ? 20 : 30)
-      .attr('y2', isMobile ? 0 : legendSpacing)
-      .attr('stroke', '#E9D5FF')
-      .attr('stroke-width', isMobile ? 1 : 1.5);
-
-    legend.append('text')
-      .attr('x', isMobile ? 25 : 35)
-      .attr('y', isMobile ? 0 : legendSpacing)
-      .attr('dy', '0.32em')
-      .style('font-size', legendFontSize)
-      .style('fill', '#1A202C')
-      .style('font-weight', '600')
-      .text('Advisories');
 
   }, [dataPoints, dimensions, loading]);
 
