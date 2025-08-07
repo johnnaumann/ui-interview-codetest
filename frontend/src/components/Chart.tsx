@@ -15,9 +15,7 @@ import D3LineChart from './chart/D3LineChart';
 
 const Chart: React.FC = () => {
   const [timeRange, setTimeRange] = useState<TimeRange>('THIRTY_DAYS');
-  const [selectedCriticalities, setSelectedCriticalities] = useState<CriticalityLevel[]>([
-    'NONE', 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL'
-  ]);
+  const [selectedCriticalities, setSelectedCriticalities] = useState<CriticalityLevel[]>([]);
 
   const { data, loading, error } = useQuery<TimeSeriesResponse>(GET_TIME_SERIES_DATA, {
     variables: {
@@ -99,6 +97,23 @@ const Chart: React.FC = () => {
               disabled={loading}
             />
           </Box>
+          
+          <Box sx={{
+            position: 'absolute',
+            top: 16,
+            right: 16,
+            zIndex: 10,
+            backgroundColor: 'white',
+            borderRadius: 1,
+            p: 1,
+            m: 3,
+          }}>
+            <CriticalityFilter
+              value={selectedCriticalities}
+              onChange={handleCriticalityChange}
+              disabled={loading}
+            />
+          </Box>
         </Box>
 
         {data && (
@@ -110,14 +125,6 @@ const Chart: React.FC = () => {
               data={data.timeSeriesData.summary}
               loading={loading}
             />
-            
-            <Box sx={{ mt: 2 }}>
-              <CriticalityFilter
-                value={selectedCriticalities}
-                onChange={handleCriticalityChange}
-                disabled={loading}
-              />
-            </Box>
           </Box>
         )}
       </Box>

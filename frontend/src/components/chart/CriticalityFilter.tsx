@@ -3,7 +3,7 @@
 import React from 'react';
 import {
   Box,
-  Button,
+  Chip,
 } from '@mui/material';
 import { CriticalityLevel } from '../../api/graphql-queries';
 
@@ -32,55 +32,42 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
   const getCriticalityColor = (criticality: CriticalityLevel) => {
     switch (criticality) {
       case 'CRITICAL':
-        return '#DC2626';
+        return 'error';
       case 'HIGH':
-        return '#D97706';
+        return 'warning';
       case 'MEDIUM':
-        return '#1E40AF';
+        return 'info';
       case 'LOW':
-        return '#059669';
+        return 'success';
       case 'NONE':
-        return '#6B7280';
+        return 'default';
       default:
-        return '#6B7280';
+        return 'default';
     }
   };
 
   const allCriticalities: CriticalityLevel[] = ['NONE', 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
       {allCriticalities.map((criticality) => {
         const isSelected = value.includes(criticality);
-        const color = getCriticalityColor(criticality);
         return (
-          <Button
+          <Chip
             key={criticality}
-            variant={isSelected ? "contained" : "outlined"}
+            label={criticality}
             size="small"
+            color={getCriticalityColor(criticality)}
+            variant={isSelected ? "filled" : "outlined"}
             onClick={() => handleChipClick(criticality)}
-            disabled={disabled}
             sx={{
-              justifyContent: 'flex-start',
-              textTransform: 'none',
-              fontWeight: 'medium',
-              backgroundColor: isSelected ? color : 'transparent',
-              borderColor: color,
-              color: isSelected ? 'white' : color,
-              '&:hover': {
-                backgroundColor: isSelected ? color : `${color}20`,
-                borderColor: color,
-              },
-              '&:disabled': {
-                opacity: 0.6,
-                backgroundColor: isSelected ? color : 'transparent',
-                borderColor: color,
-                color: isSelected ? 'white' : color,
+              cursor: disabled ? 'default' : 'pointer',
+              opacity: disabled ? 0.6 : 1,
+              '&:hover': disabled ? {} : {
+                backgroundColor: isSelected ? undefined : 'rgba(107, 70, 193, 0.1)',
               },
             }}
-          >
-            {criticality}
-          </Button>
+          />
         );
       })}
     </Box>
