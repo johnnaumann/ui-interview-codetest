@@ -9,6 +9,7 @@ import {
   IconButton,
   Tooltip,
   Chip,
+  useTheme,
 } from '@mui/material';
 import { Info } from '@mui/icons-material';
 
@@ -27,6 +28,7 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
   data,
   loading = false,
 }) => {
+  const theme = useTheme();
   const getDeltaColor = (delta: number) => {
     if (delta > 0) return 'error.main';
     if (delta < 0) return 'success.main';
@@ -40,35 +42,35 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
 
   return (
                <Card sx={{
-             backgroundColor: '#E9D5FF',
+             backgroundColor: theme.palette.mode === 'dark' ? '#A855F7' : '#E9D5FF',
              position: 'relative',
            }}>
                    <CardContent>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
-          <Typography variant="h6" color="#6B46C1">
-            Advisories
-          </Typography>
+                           <Typography variant="h6" color={theme.palette.mode === 'dark' ? 'white' : '#6B46C1'}>
+                   Advisories
+                 </Typography>
           <Tooltip title="Security advisories are official notifications about security issues, vulnerabilities, or threats. This shows the average number of advisories issued over the selected time period.">
-            <IconButton size="small" sx={{ color: '#6B46C1', p: 0.5 }}>
+                               <IconButton size="small" sx={{ color: theme.palette.mode === 'dark' ? 'white' : '#6B46C1', p: 0.5 }}>
               <Info fontSize="small" />
             </IconButton>
           </Tooltip>
         </Box>
         {loading ? (
           <Box sx={{ display: 'flex', alignItems: 'center', minHeight: 60 }}>
-            <Typography variant="body2" color="#6B46C1">
-              Loading...
-            </Typography>
+                               <Typography variant="body2" color={theme.palette.mode === 'dark' ? 'white' : '#6B46C1'}>
+                     Loading...
+                   </Typography>
           </Box>
         ) : data ? (
           <>
-            <Typography variant="h4" component="div" sx={{ mb: 1, color: '#6B46C1' }}>
-              {Math.round(data.averageValue)}
-            </Typography>
+                               <Typography variant="h4" component="div" sx={{ mb: 1, color: theme.palette.mode === 'dark' ? 'white' : '#6B46C1' }}>
+                     {Math.round(data.averageValue)}
+                   </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
-              <Typography variant="body2" color="#6B46C1">
-                Average change
-              </Typography>
+                                   <Typography variant="body2" color={theme.palette.mode === 'dark' ? 'white' : '#6B46C1'}>
+                       Average change
+                     </Typography>
               <Chip
                 label={`${getDeltaPrefix(data.delta)}${data.delta.toFixed(1)}%`}
                 size="small"
@@ -86,9 +88,9 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
             </Box>
           </>
         ) : (
-          <Typography variant="body2" color="#6B46C1">
-            No data available
-          </Typography>
+                           <Typography variant="body2" color={theme.palette.mode === 'dark' ? 'white' : '#6B46C1'}>
+                   No data available
+                 </Typography>
         )}
         
         
