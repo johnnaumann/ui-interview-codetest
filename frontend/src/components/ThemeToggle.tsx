@@ -26,11 +26,18 @@ export default function ThemeToggle() {
     <Tooltip title={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}>
       <IconButton 
         onClick={toggleColorMode} 
-        color="inherit"
         sx={{
           ml: 1,
+          color: 'rgba(0, 0, 0, 0.54)', // Match the menu toggle dark grey color
           '&:hover': {
             backgroundColor: 'rgba(0, 0, 0, 0.04)',
+          },
+          // Dark mode colors and hover
+          '[data-mui-color-scheme="dark"] &': {
+            color: 'rgba(255, 255, 255, 0.7)',
+          },
+          '[data-mui-color-scheme="dark"] &:hover': {
+            backgroundColor: 'rgba(255, 255, 255, 0.08)',
           },
         }}
       >

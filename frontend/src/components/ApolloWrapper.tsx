@@ -8,7 +8,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import client from '../lib/apollo-client';
 import { mondooTheme } from '../theme/mondooTheme';
-import { NAVIGATION } from '../lib/navigation';
+import { navigation } from '../lib/navigation';
 import ThemeToggle from './ThemeToggle';
 import Logo from './Logo';
 interface ApolloWrapperProps {
@@ -38,7 +38,7 @@ export const ApolloWrapper: React.FC<ApolloWrapperProps> = ({ children }) => {
       <ThemeProvider theme={mondooTheme}>
         <CssBaseline />
         <AppProvider
-          navigation={NAVIGATION}
+          navigation={navigation}
           router={router}
           theme={mondooTheme}
           branding={branding}

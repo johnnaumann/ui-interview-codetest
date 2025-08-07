@@ -415,6 +415,12 @@ export const mondooTheme = createTheme({
           padding: 0,
           margin: 0,
         },
+        
+        // Ensure SVG icons are visible
+        'svg': {
+          display: 'block',
+          fill: 'currentColor',
+        },
         html: {
           maxWidth: '100vw',
           overflowX: 'hidden',
@@ -474,27 +480,27 @@ export const mondooTheme = createTheme({
         paper: {
           background: mondooColors.background.paper,
           borderRight: `1px solid ${mondooColors.divider}`,
-          // Sidebar Icon Customization (from globals.css)
-          '& .MuiListItemIcon-root .MuiSvgIcon-root': {
+          // Sidebar Icon Customization (targeting both standard MUI and Toolpad Core classes)
+          '& .MuiListItemIcon-root .MuiSvgIcon-root, & .MuiSvgIcon-root': {
             fontSize: '1.2rem !important',
             color: 'rgba(0, 0, 0, 0.4) !important',
             transition: 'color 0.2s ease',
           },
-          '& .MuiListItemButton-root.Mui-selected .MuiListItemIcon-root .MuiSvgIcon-root': {
+          '& .MuiListItemButton-root.Mui-selected .MuiListItemIcon-root .MuiSvgIcon-root, & .MuiListItemButton-root.Mui-selected .MuiSvgIcon-root': {
             color: `${mondooColors.primary.main} !important`,
           },
-          '& .MuiListItemButton-root:hover .MuiListItemIcon-root .MuiSvgIcon-root': {
+          '& .MuiListItemButton-root:hover .MuiListItemIcon-root .MuiSvgIcon-root, & .MuiListItemButton-root:hover .MuiSvgIcon-root': {
             color: 'rgba(0, 0, 0, 0.6) !important',
           },
           // Dark mode icon adjustments
           '[data-mui-color-scheme="dark"] &': {
-            '& .MuiListItemIcon-root .MuiSvgIcon-root': {
+            '& .MuiListItemIcon-root .MuiSvgIcon-root, & .MuiSvgIcon-root': {
               color: 'rgba(255, 255, 255, 0.5) !important',
             },
-            '& .MuiListItemButton-root.Mui-selected .MuiListItemIcon-root .MuiSvgIcon-root': {
+            '& .MuiListItemButton-root.Mui-selected .MuiListItemIcon-root .MuiSvgIcon-root, & .MuiListItemButton-root.Mui-selected .MuiSvgIcon-root': {
               color: '#A78BFA !important',
             },
-            '& .MuiListItemButton-root:hover .MuiListItemIcon-root .MuiSvgIcon-root': {
+            '& .MuiListItemButton-root:hover .MuiListItemIcon-root .MuiSvgIcon-root, & .MuiListItemButton-root:hover .MuiSvgIcon-root': {
               color: 'rgba(255, 255, 255, 0.7) !important',
             },
           },
