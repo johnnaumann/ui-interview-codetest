@@ -34,8 +34,13 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
   };
 
   return (
-    <Card sx={{ backgroundColor: '#E9D5FF' }}>
-      <CardContent>
+    <Card sx={{ 
+      backgroundColor: '#E9D5FF',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+    }}>
+      <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <Typography variant="h6" color="#6B46C1" gutterBottom>
           Advisories
         </Typography>

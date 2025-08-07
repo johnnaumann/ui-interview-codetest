@@ -34,8 +34,13 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
   };
 
   return (
-    <Card sx={{ backgroundColor: '#6B46C1' }}>
-      <CardContent>
+    <Card sx={{ 
+      backgroundColor: '#6B46C1',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+    }}>
+      <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <Typography variant="h6" color="white" gutterBottom>
           CVEs
         </Typography>
