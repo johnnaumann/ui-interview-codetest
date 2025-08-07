@@ -61,21 +61,39 @@ const Chart: React.FC = () => {
         disabled={loading}
       />
 
-      {/* Summary Cards */}
-      {data && (
-        <SummaryCards
-          data={data.timeSeriesData.summary}
-          loading={loading}
-        />
-      )}
+      {/* Main Content Grid */}
+      <Box sx={{ 
+        display: 'grid',
+        gridTemplateColumns: {
+          xs: '1fr', // Single column on mobile
+          md: '1fr 300px', // Chart takes main space, cards on right
+          lg: '1fr 350px', // Slightly wider cards on large screens
+        },
+      }}>
+        {/* Chart Area */}
+        <Box>
+          {data && (
+            <D3LineChart
+              dataPoints={data.timeSeriesData.dataPoints}
+              loading={loading}
+            />
+          )}
+        </Box>
 
-      {/* D3 Line Chart */}
-      {data && (
-        <D3LineChart
-          dataPoints={data.timeSeriesData.dataPoints}
-          loading={loading}
-        />
-      )}
+        {/* Summary Cards Area */}
+        {data && (
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignSelf: 'start', // Sticky to top
+          }}>
+            <SummaryCards
+              data={data.timeSeriesData.summary}
+              loading={loading}
+            />
+          </Box>
+        )}
+      </Box>
     </Box>
   );
 };
