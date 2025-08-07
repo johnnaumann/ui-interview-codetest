@@ -277,6 +277,31 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
 
   }, [dataPoints, dimensions, loading, theme.palette.primary.main, theme.palette.advisories.main]);
 
+  const formatDateRange = () => {
+    if (dataPoints.length === 0) return '';
+    
+    const sortedData = dataPoints
+      .map(d => ({ ...d, date: new Date(d.timestamp) }))
+      .sort((a, b) => a.date.getTime() - b.date.getTime());
+    
+    const startDate = sortedData[0].date;
+    const endDate = sortedData[sortedData.length - 1].date;
+    
+    const startFormatted = startDate.toLocaleDateString('en-US', { 
+      weekday: 'short', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+    
+    const endFormatted = endDate.toLocaleDateString('en-US', { 
+      weekday: 'short', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+    
+    return `${startFormatted} – ${endFormatted}`;
+  };
+
   return (
     <Paper elevation={2} className="chart-paper" sx={{ p: 2 }}>
       <Box 
