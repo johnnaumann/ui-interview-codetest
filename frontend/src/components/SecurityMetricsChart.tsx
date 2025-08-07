@@ -197,7 +197,7 @@ const SecurityMetricsChart: React.FC = () => {
     g.append('path')
       .datum(parsedData)
       .attr('fill', 'none')
-      .attr('stroke', '#0052CC') // Mondoo primary blue
+      .attr('stroke', '#6B46C1') // Mondoo brand purple
       .attr('stroke-width', isMobile ? 2 : 3)
       .attr('d', cveLineGenerator);
 
@@ -205,7 +205,7 @@ const SecurityMetricsChart: React.FC = () => {
     g.append('path')
       .datum(parsedData)
       .attr('fill', 'none')
-      .attr('stroke', '#E53E3E') // Mondoo error red
+      .attr('stroke', '#1E40AF') // Mondoo brand blue
       .attr('stroke-width', isMobile ? 2 : 3)
       .attr('d', advisoryLineGenerator);
 
@@ -218,7 +218,7 @@ const SecurityMetricsChart: React.FC = () => {
       .attr('cx', d => xScale(d.date))
       .attr('cy', d => yScale(d.cves))
       .attr('r', isMobile ? 3 : 5)
-      .attr('fill', '#0052CC')
+      .attr('fill', '#6B46C1')
       .attr('stroke', '#FFFFFF')
       .attr('stroke-width', isMobile ? 1 : 2)
       .on('mouseover', function(event, d) {
@@ -255,7 +255,7 @@ const SecurityMetricsChart: React.FC = () => {
       .attr('cx', d => xScale(d.date))
       .attr('cy', d => yScale(d.advisories))
       .attr('r', isMobile ? 3 : 5)
-      .attr('fill', '#E53E3E')
+      .attr('fill', '#1E40AF')
       .attr('stroke', '#FFFFFF')
       .attr('stroke-width', isMobile ? 1 : 2)
       .on('mouseover', function(event, d) {
@@ -298,7 +298,7 @@ const SecurityMetricsChart: React.FC = () => {
       .attr('x2', legendLineLength)
       .attr('y1', 0)
       .attr('y2', 0)
-      .attr('stroke', '#0052CC')
+      .attr('stroke', '#6B46C1')
       .attr('stroke-width', isMobile ? 2 : 3);
 
     legend.append('text')
@@ -315,7 +315,7 @@ const SecurityMetricsChart: React.FC = () => {
       .attr('x2', (isMobile ? legendSpacing : 0) + legendLineLength)
       .attr('y1', isMobile ? 0 : legendSpacing)
       .attr('y2', isMobile ? 0 : legendSpacing)
-      .attr('stroke', '#E53E3E')
+      .attr('stroke', '#1E40AF')
       .attr('stroke-width', isMobile ? 2 : 3);
 
     legend.append('text')

@@ -1,49 +1,78 @@
 import { createTheme } from '@mui/material/styles';
 
-// Mondoo-inspired color palette based on their website design
+// Mondoo-inspired color palette based on their platform design
 const mondooColors = {
   primary: {
-    main: '#0052CC', // Deep blue from Mondoo branding
-    light: '#1E6FD8',
-    dark: '#003A94',
+    main: '#6B46C1', // Mondoo brand purple (primary brand color)
+    light: '#8B5CF6',
+    dark: '#553C9A',
     contrastText: '#FFFFFF',
   },
   secondary: {
-    main: '#2D3748', // Dark gray/navy for secondary elements
-    light: '#4A5568',
-    dark: '#1A202C',
+    main: '#1E40AF', // Mondoo blue (secondary brand color)
+    light: '#3B82F6',
+    dark: '#1E3A8A',
+    contrastText: '#FFFFFF',
+  },
+  tertiary: {
+    main: '#0F172A', // Deep navy for text and UI elements
+    light: '#334155',
+    dark: '#020617',
     contrastText: '#FFFFFF',
   },
   background: {
-    default: '#F7FAFC', // Very light gray background
+    default: '#FAFBFC', // Slightly cooler background to match Mondoo
     paper: '#FFFFFF',
-    elevated: '#FAFBFC', // Slightly elevated surfaces
+    elevated: '#F8FAFC', // Subtle elevation with cool tone
+    gradient: 'linear-gradient(135deg, #6B46C1 0%, #1E40AF 100%)', // Brand gradient
   },
   text: {
-    primary: '#1A202C', // Dark text for high contrast
-    secondary: '#4A5568', // Medium gray for secondary text
-    disabled: '#A0AEC0',
+    primary: '#0F172A', // Deep navy matching Mondoo's text
+    secondary: '#475569', // Balanced gray for readability
+    disabled: '#94A3B8',
+    accent: '#6B46C1', // Brand purple for accents
   },
   divider: '#E2E8F0',
   success: {
-    main: '#38A169', // Green for success states
-    light: '#48BB78',
-    dark: '#2F855A',
+    main: '#059669', // Emerald green matching platform
+    light: '#10B981',
+    dark: '#047857',
   },
   warning: {
-    main: '#D69E2E', // Amber for warnings
-    light: '#ECC94B',
-    dark: '#B7791F',
+    main: '#D97706', // Amber for warnings
+    light: '#F59E0B',
+    dark: '#B45309',
   },
   error: {
-    main: '#E53E3E', // Red for errors/critical alerts
-    light: '#F56565',
-    dark: '#C53030',
+    main: '#DC2626', // Red for critical alerts
+    light: '#EF4444',
+    dark: '#B91C1C',
   },
   info: {
-    main: '#3182CE', // Blue for info
-    light: '#4299E1',
-    dark: '#2C5282',
+    main: '#1E40AF', // Mondoo blue for info
+    light: '#3B82F6',
+    dark: '#1E3A8A',
+  },
+  // Mondoo-specific accent colors
+  accent: {
+    purple: {
+      main: '#6B46C1',
+      light: '#8B5CF6',
+      dark: '#553C9A',
+      subtle: 'rgba(107, 70, 193, 0.08)',
+    },
+    blue: {
+      main: '#1E40AF',
+      light: '#3B82F6',
+      dark: '#1E3A8A',
+      subtle: 'rgba(30, 64, 175, 0.08)',
+    },
+    slate: {
+      main: '#334155',
+      light: '#64748B',
+      dark: '#1E293B',
+      subtle: 'rgba(51, 65, 85, 0.08)',
+    },
   },
 };
 
@@ -58,6 +87,27 @@ const mondooShadows = [
   '0px 25px 50px rgba(0, 0, 0, 0.15), 0px 12px 24px rgba(0, 0, 0, 0.2)',
   '0px 25px 50px rgba(0, 0, 0, 0.2), 0px 12px 24px rgba(0, 0, 0, 0.25)',
   '0px 25px 50px rgba(0, 0, 0, 0.25), 0px 12px 24px rgba(0, 0, 0, 0.3)',
+  '0px 30px 60px rgba(0, 0, 0, 0.3), 0px 15px 30px rgba(0, 0, 0, 0.35)',
+  '0px 35px 70px rgba(0, 0, 0, 0.35), 0px 18px 35px rgba(0, 0, 0, 0.4)',
+  '0px 40px 80px rgba(0, 0, 0, 0.4), 0px 20px 40px rgba(0, 0, 0, 0.45)',
+  '0px 45px 90px rgba(0, 0, 0, 0.45), 0px 22px 45px rgba(0, 0, 0, 0.5)',
+  '0px 50px 100px rgba(0, 0, 0, 0.5), 0px 25px 50px rgba(0, 0, 0, 0.55)',
+  '0px 55px 110px rgba(0, 0, 0, 0.55), 0px 28px 55px rgba(0, 0, 0, 0.6)',
+  '0px 60px 120px rgba(0, 0, 0, 0.6), 0px 30px 60px rgba(0, 0, 0, 0.65)',
+  '0px 65px 130px rgba(0, 0, 0, 0.65), 0px 32px 65px rgba(0, 0, 0, 0.7)',
+  '0px 70px 140px rgba(0, 0, 0, 0.7), 0px 35px 70px rgba(0, 0, 0, 0.75)',
+  '0px 75px 150px rgba(0, 0, 0, 0.75), 0px 38px 75px rgba(0, 0, 0, 0.8)',
+  '0px 80px 160px rgba(0, 0, 0, 0.8), 0px 40px 80px rgba(0, 0, 0, 0.85)',
+  '0px 85px 170px rgba(0, 0, 0, 0.85), 0px 42px 85px rgba(0, 0, 0, 0.9)',
+  '0px 90px 180px rgba(0, 0, 0, 0.9), 0px 45px 90px rgba(0, 0, 0, 0.95)',
+  '0px 95px 190px rgba(0, 0, 0, 0.95), 0px 48px 95px rgba(0, 0, 0, 1)',
+  '0px 100px 200px rgba(0, 0, 0, 1), 0px 50px 100px rgba(0, 0, 0, 1)',
+  '0px 105px 210px rgba(0, 0, 0, 1), 0px 52px 105px rgba(0, 0, 0, 1)',
+] as [
+  'none',
+  string, string, string, string, string, string, string, string,
+  string, string, string, string, string, string, string, string,
+  string, string, string, string, string, string, string, string
 ];
 
 export const mondooTheme = createTheme({
@@ -72,6 +122,10 @@ export const mondooTheme = createTheme({
     warning: mondooColors.warning,
     error: mondooColors.error,
     info: mondooColors.info,
+    // Add custom palette for Mondoo branding
+    ...(mondooColors.accent && {
+      customColors: mondooColors.accent,
+    }),
   },
   
   typography: {
@@ -149,7 +203,7 @@ export const mondooTheme = createTheme({
     },
   },
 
-  shadows: mondooShadows as any,
+  shadows: mondooShadows,
 
   shape: {
     borderRadius: 8, // Mondoo uses rounded corners consistently
@@ -167,7 +221,7 @@ export const mondooTheme = createTheme({
           textTransform: 'none',
           boxShadow: 'none',
           '&:hover': {
-            boxShadow: '0px 4px 12px rgba(0, 82, 204, 0.2)',
+            boxShadow: '0px 4px 12px rgba(107, 70, 193, 0.25)',
           },
         },
         contained: {
@@ -183,13 +237,13 @@ export const mondooTheme = createTheme({
           color: mondooColors.primary.main,
           '&:hover': {
             borderColor: mondooColors.primary.dark,
-            backgroundColor: 'rgba(0, 82, 204, 0.04)',
+            backgroundColor: mondooColors.accent.purple.subtle,
           },
         },
         text: {
           color: mondooColors.primary.main,
           '&:hover': {
-            backgroundColor: 'rgba(0, 82, 204, 0.04)',
+            backgroundColor: mondooColors.accent.purple.subtle,
           },
         },
       },
@@ -264,13 +318,13 @@ export const mondooTheme = createTheme({
           backgroundColor: mondooColors.background.elevated,
           border: `1px solid ${mondooColors.divider}`,
           '&:hover': {
-            backgroundColor: 'rgba(0, 82, 204, 0.08)',
+            backgroundColor: mondooColors.accent.purple.subtle,
           },
         },
         colorPrimary: {
-          backgroundColor: 'rgba(0, 82, 204, 0.1)',
+          backgroundColor: mondooColors.accent.purple.subtle,
           color: mondooColors.primary.main,
-          border: `1px solid rgba(0, 82, 204, 0.2)`,
+          border: `1px solid rgba(107, 70, 193, 0.2)`,
         },
       },
     },
@@ -291,7 +345,7 @@ export const mondooTheme = createTheme({
     MuiTypography: {
       styleOverrides: {
         h1: {
-          background: `linear-gradient(135deg, ${mondooColors.primary.main} 0%, ${mondooColors.primary.dark} 100%)`,
+          background: `linear-gradient(135deg, ${mondooColors.primary.main} 0%, ${mondooColors.secondary.main} 100%)`,
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           backgroundClip: 'text',
