@@ -26,7 +26,6 @@ const ChartControls: React.FC<ChartControlsProps> = ({
       sx={{ 
         display: 'flex', 
         gap: 2, 
-        mb: 3, 
         flexWrap: 'wrap',
         alignItems: 'center'
       }}

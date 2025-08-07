@@ -156,9 +156,15 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
         styleOverrides: {
           root: {
             color: mode === 'dark' ? '#FFFFFF' : undefined,
+            '& .MuiTypography-root': {
+              color: mode === 'dark' ? '#FFFFFF' : undefined,
+            },
             '&.Mui-selected': {
               backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : undefined,
               color: mode === 'dark' ? '#FFFFFF' : undefined,
+              '& .MuiTypography-root': {
+                color: mode === 'dark' ? '#FFFFFF' : undefined,
+              },
               '&:hover': {
                 backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.15)' : undefined,
               },
@@ -185,6 +191,13 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
             '& .MuiTypography-root': {
               color: mode === 'dark' ? '#FFFFFF' : undefined,
             },
+          },
+        },
+      },
+      MuiTypography: {
+        styleOverrides: {
+          caption: {
+            color: mode === 'dark' ? '#FFFFFF' : undefined,
           },
         },
       },

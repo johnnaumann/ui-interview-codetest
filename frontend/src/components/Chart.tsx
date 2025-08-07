@@ -51,11 +51,7 @@ const Chart: React.FC = () => {
   }
 
   return (
-    <Box sx={{ width: '100%', p: 2 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Security Metrics Over Time
-      </Typography>
-
+    <Box sx={{ width: '100%' }}>
       {/* Chart Controls */}
       <ChartControls
         timeRange={timeRange}

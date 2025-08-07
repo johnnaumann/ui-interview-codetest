@@ -26,7 +26,7 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({
   loading = false,
 }) => {
   return (
-    <Box sx={{ display: 'flex', gap: 2, mb: 3, flexWrap: 'wrap' }}>
+    <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
       <Box sx={{ flex: 1, minWidth: 300 }}>
         <CVESummaryCard
           data={data?.cves}
