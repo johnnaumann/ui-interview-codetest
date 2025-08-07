@@ -52,8 +52,8 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Average (
-              <Typography 
-                component="span" 
+              <Typography
+                component="span"
                 color={getDeltaColor(data.delta)}
                 sx={{ fontWeight: 'medium' }}
               >

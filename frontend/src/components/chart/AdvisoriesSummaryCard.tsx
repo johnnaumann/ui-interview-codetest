@@ -52,8 +52,8 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Average (
-              <Typography 
-                component="span" 
+              <Typography
+                component="span"
                 color={getDeltaColor(data.delta)}
                 sx={{ fontWeight: 'medium' }}
               >

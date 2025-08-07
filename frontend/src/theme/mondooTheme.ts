@@ -76,33 +76,11 @@ const mondooColors = {
   },
 };
 
-// Custom shadows inspired by Mondoo's clean, modern design
+// Remove all shadows - flat design with no elevation
 const mondooShadows = [
-  'none',
-  '0px 1px 3px rgba(0, 0, 0, 0.05), 0px 1px 2px rgba(0, 0, 0, 0.1)',
-  '0px 4px 6px rgba(0, 0, 0, 0.05), 0px 2px 4px rgba(0, 0, 0, 0.1)',
-  '0px 10px 15px rgba(0, 0, 0, 0.05), 0px 4px 6px rgba(0, 0, 0, 0.1)',
-  '0px 20px 25px rgba(0, 0, 0, 0.05), 0px 10px 10px rgba(0, 0, 0, 0.1)',
-  '0px 25px 50px rgba(0, 0, 0, 0.1), 0px 12px 24px rgba(0, 0, 0, 0.15)',
-  '0px 25px 50px rgba(0, 0, 0, 0.15), 0px 12px 24px rgba(0, 0, 0, 0.2)',
-  '0px 25px 50px rgba(0, 0, 0, 0.2), 0px 12px 24px rgba(0, 0, 0, 0.25)',
-  '0px 25px 50px rgba(0, 0, 0, 0.25), 0px 12px 24px rgba(0, 0, 0, 0.3)',
-  '0px 30px 60px rgba(0, 0, 0, 0.3), 0px 15px 30px rgba(0, 0, 0, 0.35)',
-  '0px 35px 70px rgba(0, 0, 0, 0.35), 0px 18px 35px rgba(0, 0, 0, 0.4)',
-  '0px 40px 80px rgba(0, 0, 0, 0.4), 0px 20px 40px rgba(0, 0, 0, 0.45)',
-  '0px 45px 90px rgba(0, 0, 0, 0.45), 0px 22px 45px rgba(0, 0, 0, 0.5)',
-  '0px 50px 100px rgba(0, 0, 0, 0.5), 0px 25px 50px rgba(0, 0, 0, 0.55)',
-  '0px 55px 110px rgba(0, 0, 0, 0.55), 0px 28px 55px rgba(0, 0, 0, 0.6)',
-  '0px 60px 120px rgba(0, 0, 0, 0.6), 0px 30px 60px rgba(0, 0, 0, 0.65)',
-  '0px 65px 130px rgba(0, 0, 0, 0.65), 0px 32px 65px rgba(0, 0, 0, 0.7)',
-  '0px 70px 140px rgba(0, 0, 0, 0.7), 0px 35px 70px rgba(0, 0, 0, 0.75)',
-  '0px 75px 150px rgba(0, 0, 0, 0.75), 0px 38px 75px rgba(0, 0, 0, 0.8)',
-  '0px 80px 160px rgba(0, 0, 0, 0.8), 0px 40px 80px rgba(0, 0, 0, 0.85)',
-  '0px 85px 170px rgba(0, 0, 0, 0.85), 0px 42px 85px rgba(0, 0, 0, 0.9)',
-  '0px 90px 180px rgba(0, 0, 0, 0.9), 0px 45px 90px rgba(0, 0, 0, 0.95)',
-  '0px 95px 190px rgba(0, 0, 0, 0.95), 0px 48px 95px rgba(0, 0, 0, 1)',
-  '0px 100px 200px rgba(0, 0, 0, 1), 0px 50px 100px rgba(0, 0, 0, 1)',
-  '0px 105px 210px rgba(0, 0, 0, 1), 0px 52px 105px rgba(0, 0, 0, 1)',
+  'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none',
+  'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none',
+  'none', 'none', 'none', 'none', 'none', 'none', 'none'
 ] as [
   'none',
   string, string, string, string, string, string, string, string,
@@ -268,7 +246,7 @@ export const mondooTheme = createTheme({
           textTransform: 'none',
           boxShadow: 'none',
           '&:hover': {
-            boxShadow: '0px 4px 12px rgba(107, 70, 193, 0.25)',
+            boxShadow: 'none',
           },
         },
         contained: {
@@ -302,11 +280,11 @@ export const mondooTheme = createTheme({
         root: {
           borderRadius: 0,
           border: `1px solid ${mondooColors.divider}`,
-          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.05), 0px 2px 4px rgba(0, 0, 0, 0.1)',
+          boxShadow: 'none',
           '&:hover': {
-            boxShadow: '0px 10px 15px rgba(0, 0, 0, 0.1), 0px 4px 6px rgba(0, 0, 0, 0.1)',
-            transform: 'translateY(-2px)',
-            transition: 'all 0.2s ease-in-out',
+            boxShadow: 'none',
+            transform: 'none',
+            transition: 'none',
           },
         },
       },
@@ -326,10 +304,10 @@ export const mondooTheme = createTheme({
           },
         },
         elevation1: {
-          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.05), 0px 2px 4px rgba(0, 0, 0, 0.1)',
+          boxShadow: 'none',
         },
         elevation2: {
-          boxShadow: '0px 10px 15px rgba(0, 0, 0, 0.05), 0px 4px 6px rgba(0, 0, 0, 0.1)',
+          boxShadow: 'none',
         },
       },
     },
@@ -388,7 +366,7 @@ export const mondooTheme = createTheme({
         root: {
           backgroundColor: '#FFFFFF',
           color: mondooColors.text.primary,
-          boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.05), 0px 1px 2px rgba(0, 0, 0, 0.1)',
+          boxShadow: 'none',
           borderBottom: `1px solid ${mondooColors.divider}`,
         },
       },
