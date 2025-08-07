@@ -88,7 +88,7 @@ const mondooShadows = [
   string, string, string, string, string, string, string, string
 ];
 
-export const mondooTheme = createTheme({
+export const theme = createTheme({
   cssVariables: {
     colorSchemeSelector: 'data-mui-color-scheme',
   },
@@ -488,4 +488,4 @@ export const mondooTheme = createTheme({
   },
 });
 
-export default mondooTheme;
+export default theme;

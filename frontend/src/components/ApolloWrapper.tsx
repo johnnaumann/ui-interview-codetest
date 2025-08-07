@@ -7,7 +7,7 @@ import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import client from '../lib/apollo-client';
-import { mondooTheme } from '../theme/mondooTheme';
+import { theme } from '../theme/theme';
 import { navigation } from '../lib/navigation';
 import ThemeToggle from './ThemeToggle';
 import Logo from './Logo';
@@ -35,12 +35,12 @@ const branding = {
 export const ApolloWrapper: React.FC<ApolloWrapperProps> = ({ children }) => {
   return (
     <ApolloProvider client={client}>
-      <ThemeProvider theme={mondooTheme}>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
         <AppProvider
           navigation={navigation}
           router={router}
-          theme={mondooTheme}
+          theme={theme}
           branding={branding}
         >
           <DashboardLayout
