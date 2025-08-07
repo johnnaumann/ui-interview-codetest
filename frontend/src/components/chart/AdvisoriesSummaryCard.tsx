@@ -6,6 +6,7 @@ import {
   CardContent,
   Typography,
   Box,
+  Button,
 } from '@mui/material';
 
 interface AdvisoriesSummaryData {
@@ -72,6 +73,24 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
             No data available
           </Typography>
         )}
+        
+        {/* Fix Issues Button */}
+        <Button
+          variant="contained"
+          size="small"
+          sx={{
+            mt: 2,
+            backgroundColor: '#6B46C1',
+            color: 'white',
+            '&:hover': {
+              backgroundColor: '#553C9A',
+            },
+            fontWeight: 'medium',
+          }}
+          onClick={() => alert('Fix Advisories issues')}
+        >
+          Fix Issues
+        </Button>
       </CardContent>
     </Card>
   );

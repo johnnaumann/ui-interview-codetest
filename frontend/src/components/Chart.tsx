@@ -81,6 +81,8 @@ const Chart: React.FC = () => {
           md: '1fr 300px', // Chart takes main space, cards on right
           lg: '1fr 350px', // Slightly wider cards on large screens
         },
+        minHeight: '400px',
+        height: '100%',
       }}>
         {/* Chart Area */}
         <Box>

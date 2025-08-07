@@ -6,6 +6,7 @@ import {
   CardContent,
   Typography,
   Box,
+  Button,
 } from '@mui/material';
 
 interface CVESummaryData {
@@ -72,6 +73,24 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
             No data available
           </Typography>
         )}
+        
+        {/* Fix Issues Button */}
+        <Button
+          variant="contained"
+          size="small"
+          sx={{
+            mt: 2,
+            backgroundColor: 'white',
+            color: '#6B46C1',
+            '&:hover': {
+              backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            },
+            fontWeight: 'medium',
+          }}
+          onClick={() => alert('Fix CVEs issues')}
+        >
+          Fix Issues
+        </Button>
       </CardContent>
     </Card>
   );
