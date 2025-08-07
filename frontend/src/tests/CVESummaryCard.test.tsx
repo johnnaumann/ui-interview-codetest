@@ -61,4 +61,15 @@ describe('CVESummaryCard', () => {
     
     expect(screen.getByText('-5.7%')).toBeInTheDocument()
   })
+
+  it('displays negative average value when delta is negative', () => {
+    const negativeData = {
+      averageValue: 15.2,
+      delta: -5.7
+    }
+    
+    render(<CVESummaryCard data={negativeData} />)
+    
+    expect(screen.getByText('-15')).toBeInTheDocument()
+  })
 })

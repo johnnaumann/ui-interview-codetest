@@ -17,7 +17,7 @@ describe('AdvisoriesSummaryCard', () => {
   it('displays average value as integer', () => {
     render(<AdvisoriesSummaryCard data={mockData} />)
     
-    expect(screen.getByText('19')).toBeInTheDocument()
+    expect(screen.getByText('-19')).toBeInTheDocument()
   })
 
   it('shows average change text', () => {
@@ -60,5 +60,16 @@ describe('AdvisoriesSummaryCard', () => {
     render(<AdvisoriesSummaryCard data={positiveData} />)
     
     expect(screen.getByText('+8.9%')).toBeInTheDocument()
+  })
+
+  it('displays negative average value when delta is negative', () => {
+    const negativeData = {
+      averageValue: 18.7,
+      delta: -3.2
+    }
+    
+    render(<AdvisoriesSummaryCard data={negativeData} />)
+    
+    expect(screen.getByText('-19')).toBeInTheDocument()
   })
 })

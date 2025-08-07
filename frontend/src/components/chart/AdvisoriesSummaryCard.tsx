@@ -30,6 +30,12 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
     return '';
   };
 
+  const getAverageValueDisplay = (averageValue: number, delta: number) => {
+    const roundedValue = Math.round(averageValue);
+    if (delta < 0) return `-${roundedValue}`;
+    return roundedValue.toString();
+  };
+
   return (
                <Card sx={{
              backgroundColor: theme.palette.mode === 'dark' ? '#A855F7' : '#E9D5FF',
@@ -55,7 +61,7 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
         ) : data ? (
           <>
                                <Typography variant="h4" component="div" sx={{ mb: 1, color: theme.palette.mode === 'dark' ? 'white' : '#6B46C1' }}>
-                     {Math.round(data.averageValue)}
+                     {getAverageValueDisplay(data.averageValue, data.delta)}
                    </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
                                    <Typography variant="body2" color={theme.palette.mode === 'dark' ? 'white' : '#6B46C1'}>

@@ -31,7 +31,7 @@ describe('SummaryCards', () => {
   it('displays Advisories data correctly', () => {
     render(<SummaryCards data={mockData} />)
     
-    expect(screen.getByText('19')).toBeInTheDocument()
+    expect(screen.getByText('-19')).toBeInTheDocument()
     expect(screen.getByText('-3.2%')).toBeInTheDocument()
   })
 

@@ -30,6 +30,12 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
     return '';
   };
 
+  const getAverageValueDisplay = (averageValue: number, delta: number) => {
+    const roundedValue = Math.round(averageValue);
+    if (delta < 0) return `-${roundedValue}`;
+    return roundedValue.toString();
+  };
+
   return (
                <Card sx={{
              backgroundColor: theme.palette.mode === 'dark' ? '#553C9A' : '#6B46C1',
@@ -55,7 +61,7 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
         ) : data ? (
           <>
             <Typography variant="h4" component="div" sx={{ mb: 1, color: 'white' }}>
-              {Math.round(data.averageValue)}
+              {getAverageValueDisplay(data.averageValue, data.delta)}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
               <Typography variant="body2" color="white">
