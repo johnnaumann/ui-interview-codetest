@@ -1,4 +1,3 @@
-// Simple router for MUI Toolpad Core
 export const router = {
   pathname: '/dashboard',
   searchParams: new URLSearchParams(),

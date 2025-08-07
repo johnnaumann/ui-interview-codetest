@@ -74,7 +74,6 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
           </Typography>
         )}
         
-        {/* Fix Issues Button */}
         <Button
           variant="contained"
           size="small"

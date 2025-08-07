@@ -74,7 +74,6 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
           </Typography>
         )}
         
-        {/* Fix Issues Button */}
         <Button
           variant="contained"
           size="small"

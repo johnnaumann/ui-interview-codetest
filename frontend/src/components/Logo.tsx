@@ -16,7 +16,6 @@ const Logo: React.FC<LogoProps> = ({
 }) => {
   const { mode } = useTheme();
   
-  // Use white for dark mode, purple brand color for light mode
   const fillColor = mode === 'dark' ? '#FFFFFF' : '#6B46C1';
 
   return (
