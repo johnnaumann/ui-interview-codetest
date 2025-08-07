@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import * as d3 from 'd3';
 import {
   Box,
@@ -21,20 +21,14 @@ import {
 import { useQuery } from '@apollo/client';
 import { GET_TIME_SERIES_DATA, TimeSeriesResponse, TimeRange, CriticalityLevel, DataPoint } from '../lib/graphql-queries';
 
-interface SecurityMetricsChartProps {
-  width?: number;
-  height?: number;
-}
-
-const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({
-  width = 800,
-  height = 400,
-}) => {
+const SecurityMetricsChart: React.FC = () => {
   const svgRef = useRef<SVGSVGElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [timeRange, setTimeRange] = useState<TimeRange>('THIRTY_DAYS');
   const [selectedCriticalities, setSelectedCriticalities] = useState<CriticalityLevel[]>([
     'NONE', 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL'
   ]);
+  const [dimensions, setDimensions] = useState({ width: 800, height: 400 });
 
   const { data, loading, error } = useQuery<TimeSeriesResponse>(GET_TIME_SERIES_DATA, {
     variables: {
@@ -52,15 +46,64 @@ const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({
     setSelectedCriticalities(typeof value === 'string' ? value.split(',') as CriticalityLevel[] : value);
   };
 
+  // Function to update dimensions based on container size
+  const updateDimensions = useCallback(() => {
+    if (containerRef.current) {
+      const containerWidth = containerRef.current.offsetWidth;
+      const containerHeight = Math.max(400, Math.min(600, containerWidth * 0.6)); // Responsive height
+      
+      setDimensions({
+        width: containerWidth,
+        height: containerHeight,
+      });
+    }
+  }, []);
+
+  // ResizeObserver to watch container size changes
   useEffect(() => {
-    if (!data || !svgRef.current) return;
+    const resizeObserver = new ResizeObserver(() => {
+      updateDimensions();
+    });
+
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+
+    // Initial dimension calculation
+    updateDimensions();
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [updateDimensions]);
+
+  // Window resize listener as fallback
+  useEffect(() => {
+    const handleResize = () => {
+      updateDimensions();
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [updateDimensions]);
+
+  useEffect(() => {
+    if (!data || !svgRef.current || !dimensions.width) return;
 
     const svg = d3.select(svgRef.current);
     svg.selectAll('*').remove();
 
-    const margin = { top: 20, right: 80, bottom: 40, left: 60 };
-    const chartWidth = width - margin.left - margin.right;
-    const chartHeight = height - margin.top - margin.bottom;
+    // Responsive margins based on screen size
+    const isMobile = dimensions.width < 768;
+    const margin = { 
+      top: 20, 
+      right: isMobile ? 40 : 80, 
+      bottom: isMobile ? 50 : 40, 
+      left: isMobile ? 40 : 60 
+    };
+    
+    const chartWidth = dimensions.width - margin.left - margin.right;
+    const chartHeight = dimensions.height - margin.top - margin.bottom;
 
     const dataPoints = data.timeSeriesData.dataPoints;
     
@@ -93,32 +136,49 @@ const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({
       .append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    // Add X axis
+    // Add X axis with responsive ticks
+    const xAxis = d3.axisBottom(xScale)
+      .tickFormat(d3.timeFormat(isMobile ? '%m/%d' : '%m/%d') as (date: Date | d3.NumberValue) => string)
+      .ticks(isMobile ? 4 : 8);
+      
     g.append('g')
       .attr('transform', `translate(0,${chartHeight})`)
-      .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat('%m/%d') as (date: Date | d3.NumberValue) => string));
+      .call(xAxis)
+      .selectAll('text')
+      .style('font-size', isMobile ? '12px' : '14px')
+      .style('fill', '#4A5568');
 
-    // Add Y axis
+    // Add Y axis with responsive ticks
+    const yAxis = d3.axisLeft(yScale)
+      .ticks(isMobile ? 5 : 8);
+      
     g.append('g')
-      .call(d3.axisLeft(yScale));
+      .call(yAxis)
+      .selectAll('text')
+      .style('font-size', isMobile ? '12px' : '14px')
+      .style('fill', '#4A5568');
 
-    // Add axis labels
-    g.append('text')
-      .attr('transform', 'rotate(-90)')
-      .attr('y', 0 - margin.left)
-      .attr('x', 0 - (chartHeight / 2))
-      .attr('dy', '1em')
-      .style('text-anchor', 'middle')
-      .style('font-size', '12px')
-      .style('fill', '#666')
-      .text('Count');
+    // Add axis labels - only show on larger screens
+    if (!isMobile) {
+      g.append('text')
+        .attr('transform', 'rotate(-90)')
+        .attr('y', 0 - margin.left)
+        .attr('x', 0 - (chartHeight / 2))
+        .attr('dy', '1em')
+        .style('text-anchor', 'middle')
+        .style('font-size', '14px')
+        .style('fill', '#4A5568')
+        .style('font-weight', '500')
+        .text('Count');
 
-    g.append('text')
-      .attr('transform', `translate(${chartWidth / 2}, ${chartHeight + margin.bottom})`)
-      .style('text-anchor', 'middle')
-      .style('font-size', '12px')
-      .style('fill', '#666')
-      .text('Date');
+      g.append('text')
+        .attr('transform', `translate(${chartWidth / 2}, ${chartHeight + margin.bottom - 5})`)
+        .style('text-anchor', 'middle')
+        .style('font-size', '14px')
+        .style('fill', '#4A5568')
+        .style('font-weight', '500')
+        .text('Date');
+    }
 
     // Create line generators
     const cveLineGenerator = d3
@@ -133,20 +193,20 @@ const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({
       .y(d => yScale(d.advisories))
       .curve(d3.curveMonotoneX);
 
-    // Add CVE line
+    // Add CVE line - responsive stroke width
     g.append('path')
       .datum(parsedData)
       .attr('fill', 'none')
       .attr('stroke', '#0052CC') // Mondoo primary blue
-      .attr('stroke-width', 3)
+      .attr('stroke-width', isMobile ? 2 : 3)
       .attr('d', cveLineGenerator);
 
-    // Add Advisory line
+    // Add Advisory line - responsive stroke width
     g.append('path')
       .datum(parsedData)
       .attr('fill', 'none')
       .attr('stroke', '#E53E3E') // Mondoo error red
-      .attr('stroke-width', 3)
+      .attr('stroke-width', isMobile ? 2 : 3)
       .attr('d', advisoryLineGenerator);
 
     // Add CVE dots
@@ -157,10 +217,10 @@ const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({
       .attr('class', 'cve-dot')
       .attr('cx', d => xScale(d.date))
       .attr('cy', d => yScale(d.cves))
-      .attr('r', 5)
+      .attr('r', isMobile ? 3 : 5)
       .attr('fill', '#0052CC')
       .attr('stroke', '#FFFFFF')
-      .attr('stroke-width', 2)
+      .attr('stroke-width', isMobile ? 1 : 2)
       .on('mouseover', function(event, d) {
         // Add tooltip
         const tooltip = d3.select('body')
@@ -194,10 +254,10 @@ const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({
       .attr('class', 'advisory-dot')
       .attr('cx', d => xScale(d.date))
       .attr('cy', d => yScale(d.advisories))
-      .attr('r', 5)
+      .attr('r', isMobile ? 3 : 5)
       .attr('fill', '#E53E3E')
       .attr('stroke', '#FFFFFF')
-      .attr('stroke-width', 2)
+      .attr('stroke-width', isMobile ? 1 : 2)
       .on('mouseover', function(event, d) {
         const tooltip = d3.select('body')
           .append('div')
@@ -222,45 +282,52 @@ const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({
         d3.selectAll('.tooltip').remove();
       });
 
-    // Add legend
+    // Add legend - responsive positioning
+    const legendX = isMobile ? 20 : chartWidth - 80;
+    const legendY = isMobile ? chartHeight + 30 : 20;
     const legend = g.append('g')
-      .attr('transform', `translate(${chartWidth - 80}, 20)`);
+      .attr('transform', `translate(${legendX}, ${legendY})`);
+
+    // Legend lines and text - responsive layout
+    const legendSpacing = isMobile ? 80 : 25;
+    const legendLineLength = isMobile ? 12 : 15;
+    const legendFontSize = isMobile ? '12px' : '14px';
 
     legend.append('line')
       .attr('x1', 0)
-      .attr('x2', 15)
+      .attr('x2', legendLineLength)
       .attr('y1', 0)
       .attr('y2', 0)
       .attr('stroke', '#0052CC')
-      .attr('stroke-width', 3);
+      .attr('stroke-width', isMobile ? 2 : 3);
 
     legend.append('text')
-      .attr('x', 20)
+      .attr('x', legendLineLength + 5)
       .attr('y', 0)
       .attr('dy', '0.32em')
-      .style('font-size', '14px')
+      .style('font-size', legendFontSize)
       .style('fill', '#1A202C')
       .style('font-weight', '600')
       .text('CVEs');
 
     legend.append('line')
-      .attr('x1', 0)
-      .attr('x2', 15)
-      .attr('y1', 25)
-      .attr('y2', 25)
+      .attr('x1', isMobile ? legendSpacing : 0)
+      .attr('x2', (isMobile ? legendSpacing : 0) + legendLineLength)
+      .attr('y1', isMobile ? 0 : legendSpacing)
+      .attr('y2', isMobile ? 0 : legendSpacing)
       .attr('stroke', '#E53E3E')
-      .attr('stroke-width', 3);
+      .attr('stroke-width', isMobile ? 2 : 3);
 
     legend.append('text')
-      .attr('x', 20)
-      .attr('y', 25)
+      .attr('x', (isMobile ? legendSpacing : 0) + legendLineLength + 5)
+      .attr('y', isMobile ? 0 : legendSpacing)
       .attr('dy', '0.32em')
-      .style('font-size', '14px')
+      .style('font-size', legendFontSize)
       .style('fill', '#1A202C')
       .style('font-weight', '600')
       .text('Advisories');
 
-  }, [data, width, height]);
+  }, [data, dimensions]);
 
   if (loading) {
     return (
@@ -365,7 +432,18 @@ const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({
 
       {/* Chart */}
       <Paper elevation={2} sx={{ p: 2 }}>
-        <svg ref={svgRef} width={width} height={height} />
+        <Box ref={containerRef} sx={{ width: '100%', minHeight: 400 }}>
+          <svg 
+            ref={svgRef} 
+            width={dimensions.width} 
+            height={dimensions.height}
+            style={{ 
+              maxWidth: '100%', 
+              height: 'auto',
+              display: 'block'
+            }}
+          />
+        </Box>
       </Paper>
     </Box>
   );
