@@ -76,8 +76,11 @@ declare module '@mui/material/styles' {
 const createComponentOverrides = (mode: 'light' | 'dark') => ({
   MuiCssBaseline: {
     styleOverrides: {
+      '@import': [
+        'url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap")'
+      ],
       body: {
-
+        fontFamily: 'var(--font-roboto), "Roboto", "Helvetica", "Arial", sans-serif',
         '& .MuiDrawer-root .MuiListItemButton-root, & [data-segment="dashboard"], & .MuiListItemButton-root, & .MuiListItem-root .MuiListItemButton-root, & nav .MuiListItemButton-root': {
           color: mode === 'dark' ? `${colors.white} !important` : undefined,
           '& .MuiTypography-root, & .MuiListItemIcon-root, & .MuiSvgIcon-root, & svg': {
@@ -247,6 +250,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   };
 
   const theme = createTheme({
+    typography: {
+      fontFamily: 'var(--font-roboto), "Roboto", "Helvetica", "Arial", sans-serif',
+    },
     palette: {
       mode,
       primary: colors.primary,
