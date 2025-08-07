@@ -172,7 +172,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     const cveLine = g.append('path')
       .attr('class', 'cve-line')
       .attr('fill', 'none')
-      .attr('stroke', '#6B46C1') // Mondoo brand purple
+      .attr('stroke', '#6B46C1') // Main brand purple for CVEs
       .attr('stroke-width', isMobile ? 1 : 1.5)
       .attr('d', cveLineGenerator(parsedData));
     
@@ -190,7 +190,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     const advisoryLine = g.append('path')
       .attr('class', 'advisory-line')
       .attr('fill', 'none')
-      .attr('stroke', '#A855F7') // Light purple for advisories
+      .attr('stroke', '#E9D5FF') // Very light purple for advisories
       .attr('stroke-width', isMobile ? 1 : 1.5)
       .attr('d', advisoryLineGenerator(parsedData));
     
@@ -239,7 +239,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .attr('y1', isMobile ? 0 : legendSpacing)
       .attr('x2', isMobile ? 20 : 30)
       .attr('y2', isMobile ? 0 : legendSpacing)
-      .attr('stroke', '#A855F7')
+      .attr('stroke', '#E9D5FF')
       .attr('stroke-width', isMobile ? 1 : 1.5);
 
     legend.append('text')
