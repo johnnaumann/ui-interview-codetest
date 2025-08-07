@@ -8,6 +8,7 @@ import {
   Box,
   IconButton,
   Tooltip,
+  Chip,
 } from '@mui/material';
 import { Info } from '@mui/icons-material';
 
@@ -64,17 +65,25 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
             <Typography variant="h4" component="div" sx={{ mb: 1, color: '#6B46C1' }}>
               {Math.round(data.averageValue)}
             </Typography>
-            <Typography variant="body2" color="#6B46C1">
-              Average (
-              <Typography
-                component="span"
-                color={getDeltaColor(data.delta)}
-                sx={{ fontWeight: 'medium' }}
-              >
-                {getDeltaPrefix(data.delta)}{data.delta.toFixed(1)}%
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
+              <Typography variant="body2" color="#6B46C1">
+                Average change
               </Typography>
-              {' '}change)
-            </Typography>
+              <Chip
+                label={`${getDeltaPrefix(data.delta)}${data.delta.toFixed(1)}%`}
+                size="small"
+                sx={{
+                  backgroundColor: getDeltaColor(data.delta),
+                  color: 'white',
+                  fontWeight: 'medium',
+                  height: 'auto',
+                  '& .MuiChip-label': {
+                    px: 1,
+                    fontSize: 'inherit',
+                  },
+                }}
+              />
+            </Box>
           </>
         ) : (
           <Typography variant="body2" color="#6B46C1">
