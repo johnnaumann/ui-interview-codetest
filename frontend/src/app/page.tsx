@@ -1,9 +1,5 @@
-import SecurityMetricsChart from '../components/SecurityMetricsChart';
+import DashboardLayout from '../components/DashboardLayout';
 
 export default function Home() {
-  return (
-    <main>
-      <SecurityMetricsChart />
-    </main>
-  );
+  return <DashboardLayout />;
 }
