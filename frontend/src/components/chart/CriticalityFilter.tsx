@@ -49,7 +49,7 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
   const allCriticalities: CriticalityLevel[] = ['NONE', 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       {allCriticalities.map((criticality) => {
         const isSelected = value.includes(criticality);
         const color = getCriticalityColor(criticality);

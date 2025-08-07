@@ -71,8 +71,10 @@ const Chart: React.FC = () => {
           md: '1fr 300px',
           lg: '1fr 350px',
         },
+        gap: 2,
         minHeight: '400px',
         height: '100%',
+        p: 2,
       }}>
         <Box sx={{ height: '100%', position: 'relative' }}>
           {data && (
@@ -87,6 +89,9 @@ const Chart: React.FC = () => {
             top: 16,
             right: 16,
             zIndex: 10,
+            backgroundColor: 'white',
+            borderRadius: 1,
+            p: 1,
           }}>
             <TimeRangeFilter
               value={timeRange}
