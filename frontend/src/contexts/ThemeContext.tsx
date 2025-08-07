@@ -115,9 +115,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       info: mondooColors.info,
       advisories: mondooColors.advisories,
     },
-    shape: {
-      borderRadius: 0,
-    },
     shadows: [
       'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none',
       'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none',
@@ -129,6 +126,91 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       string, string, string, string, string, string, string, string
     ],
     components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            '& .MuiDrawer-root .MuiListItemButton-root': {
+              color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              '& .MuiTypography-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+              '& .MuiListItemIcon-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+              '& .MuiSvgIcon-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+              '& svg': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+            },
+            '& [data-segment="dashboard"]': {
+              color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              '& .MuiTypography-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+              '& .MuiListItemIcon-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+              '& .MuiSvgIcon-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+              '& svg': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+            },
+            '& .MuiListItemButton-root': {
+              color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              '& .MuiTypography-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+              '& .MuiListItemIcon-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+              '& .MuiSvgIcon-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+              '& svg': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+            },
+            '& .MuiListItem-root': {
+              '& .MuiListItemButton-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+                '& .MuiTypography-root': {
+                  color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+                },
+                '& .MuiListItemIcon-root': {
+                  color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+                },
+                '& .MuiSvgIcon-root': {
+                  color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+                },
+                '& svg': {
+                  color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+                },
+              },
+            },
+            '& nav': {
+              '& .MuiListItemButton-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+                '& .MuiTypography-root': {
+                  color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+                },
+                '& .MuiListItemIcon-root': {
+                  color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+                },
+                '& .MuiSvgIcon-root': {
+                  color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+                },
+                '& svg': {
+                  color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+                },
+              },
+            },
+          },
+        },
+      },
       MuiButton: {
         styleOverrides: {
           root: {
@@ -175,15 +257,27 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       MuiListItemButton: {
         styleOverrides: {
           root: {
-            color: mode === 'dark' ? '#FFFFFF' : undefined,
+            color: mode === 'dark' ? '#FFFFFF !important' : undefined,
             '& .MuiTypography-root': {
-              color: mode === 'dark' ? '#FFFFFF' : undefined,
+              color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+            },
+            '& .MuiListItemIcon-root': {
+              color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+            },
+            '& .MuiSvgIcon-root': {
+              color: mode === 'dark' ? '#FFFFFF !important' : undefined,
             },
             '&.Mui-selected': {
               backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : undefined,
-              color: mode === 'dark' ? '#FFFFFF' : undefined,
+              color: mode === 'dark' ? '#FFFFFF !important' : undefined,
               '& .MuiTypography-root': {
-                color: mode === 'dark' ? '#FFFFFF' : undefined,
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+              '& .MuiListItemIcon-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+              '& .MuiSvgIcon-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
               },
               '&:hover': {
                 backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.15)' : undefined,
@@ -191,6 +285,15 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
             },
             '&:hover': {
               backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : undefined,
+              '& .MuiTypography-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+              '& .MuiListItemIcon-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+              '& .MuiSvgIcon-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
             },
           },
         },
@@ -198,15 +301,18 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       MuiListItemIcon: {
         styleOverrides: {
           root: {
-            color: mode === 'dark' ? '#FFFFFF' : undefined,
+            color: mode === 'dark' ? '#FFFFFF !important' : undefined,
             '& .Mui-selected &': {
-              color: mode === 'dark' ? '#FFFFFF' : undefined,
+              color: mode === 'dark' ? '#FFFFFF !important' : undefined,
             },
             '&.Mui-selected': {
-              color: mode === 'dark' ? '#FFFFFF' : undefined,
+              color: mode === 'dark' ? '#FFFFFF !important' : undefined,
             },
             '& .MuiSvgIcon-root': {
-              color: mode === 'dark' ? '#FFFFFF' : undefined,
+              color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+            },
+            '& svg': {
+              color: mode === 'dark' ? '#FFFFFF !important' : undefined,
             },
           },
         },
@@ -223,7 +329,59 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       MuiTypography: {
         styleOverrides: {
           caption: {
-            color: mode === 'dark' ? '#FFFFFF' : undefined,
+            color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+          },
+        },
+      },
+      MuiSvgIcon: {
+        styleOverrides: {
+          root: {
+            color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+          },
+        },
+      },
+      MuiListItem: {
+        styleOverrides: {
+          root: {
+            '& .MuiListItemButton-root': {
+              color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              '& .MuiTypography-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+              '& .MuiListItemIcon-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+              '& .MuiSvgIcon-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+            },
+          },
+        },
+      },
+      MuiDrawer: {
+        styleOverrides: {
+          paper: {
+            '& .MuiListItemButton-root': {
+              color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              '& .MuiTypography-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+              '& .MuiListItemIcon-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+              '& .MuiSvgIcon-root': {
+                color: mode === 'dark' ? '#FFFFFF !important' : undefined,
+              },
+            },
+          },
+        },
+      },
+      MuiDivider: {
+        styleOverrides: {
+          root: {
+            height: '1px',
+            border: 'none',
+            backgroundColor: mode === 'dark' ? '#334155' : '#E2E8F0',
           },
         },
       },
