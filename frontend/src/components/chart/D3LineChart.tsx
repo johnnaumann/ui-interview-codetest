@@ -66,15 +66,76 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, [updateDimensions]);
 
+    // Separate useEffect for grid that only runs when dimensions change
+  useEffect(() => {
+    if (!svgRef.current || !dimensions.width) return;
+
+    const svg = d3.select(svgRef.current);
+    const isMobile = dimensions.width < 768;
+    const margin = {
+      top: 20,
+      right: isMobile ? 20 : 20,
+      bottom: 20,
+      left: isMobile ? 20 : 20
+    };
+    
+    const chartWidth = dimensions.width - margin.left - margin.right;
+    const chartHeight = dimensions.height - margin.top - margin.bottom;
+
+    // Clear and recreate grid
+    svg.selectAll('.grid-group').remove();
+    
+    const gridGroup = svg
+      .append('g')
+      .attr('class', 'grid-group')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    const xGridSpacing = chartWidth / 4;
+    const yGridSpacing = chartHeight / 4;
+    
+    for (let i = 0; i <= 4; i++) {
+      const x = i * xGridSpacing;
+      gridGroup.append('line')
+        .attr('class', 'grid-line-vertical')
+        .attr('x1', x)
+        .attr('x2', x)
+        .attr('y1', 0)
+        .attr('y2', chartHeight)
+        .style('stroke', theme.palette.divider)
+        .style('stroke-width', 1)
+        .style('stroke-dasharray', '3,3')
+        .style('opacity', 1);
+    }
+
+    for (let i = 0; i <= 4; i++) {
+      const y = i * yGridSpacing;
+      gridGroup.append('line')
+        .attr('class', 'grid-line-horizontal')
+        .attr('x1', 0)
+        .attr('x2', chartWidth)
+        .attr('y1', y)
+        .attr('y2', y)
+        .style('stroke', theme.palette.divider)
+        .style('stroke-width', 1)
+        .style('stroke-dasharray', '3,3')
+        .style('opacity', 1);
+    }
+  }, [dimensions, theme.palette.divider]);
+
+  // Main useEffect for chart data
   useEffect(() => {
     if (!svgRef.current || !dimensions.width || loading) return;
 
     const svg = d3.select(svgRef.current);
     
-    svg.selectAll('*').remove();
+    // Clear existing chart elements but preserve the SVG structure
+    svg.selectAll('.chart-group').remove();
+    svg.selectAll('.data-points').remove();
+    svg.selectAll('.cve-line').remove();
+    svg.selectAll('.advisory-line').remove();
 
     const isMobile = dimensions.width < 768;
-        const margin = {
+    const margin = {
       top: 20,
       right: isMobile ? 20 : 20,
       bottom: 20,
@@ -86,6 +147,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
 
     const g = svg
       .append('g')
+      .attr('class', 'chart-group')
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
     if (!dataPoints.length) return;
@@ -112,37 +174,6 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .domain([0, maxValue * 1.1])
       .range([chartHeight, 0]);
 
-    const xGridSpacing = chartWidth / 4;
-    const yGridSpacing = chartHeight / 4;
-    
-    for (let i = 0; i <= 4; i++) {
-      const x = i * xGridSpacing;
-      g.append('line')
-        .attr('class', 'grid-line-vertical')
-        .attr('x1', x)
-        .attr('x2', x)
-        .attr('y1', 0)
-        .attr('y2', chartHeight)
-        .style('stroke', theme.palette.divider)
-        .style('stroke-width', 1)
-        .style('stroke-dasharray', '3,3')
-        .style('opacity', 1);
-    }
-
-    for (let i = 0; i <= 4; i++) {
-      const y = i * yGridSpacing;
-      g.append('line')
-        .attr('class', 'grid-line-horizontal')
-        .attr('x1', 0)
-        .attr('x2', chartWidth)
-        .attr('y1', y)
-        .attr('y2', y)
-        .style('stroke', theme.palette.divider)
-        .style('stroke-width', 1)
-        .style('stroke-dasharray', '3,3')
-        .style('opacity', 1);
-    }
-
     const cveLineGenerator = d3
       .line<DataPoint & { date: Date }>()
       .x(d => xScale(d.date))
@@ -155,125 +186,169 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .y(d => yScale(d.advisories))
       .curve(d3.curveMonotoneX);
 
-    const cveLine = g.append('path')
-      .attr('class', 'cve-line')
-      .attr('fill', 'none')
-      .attr('stroke', theme.palette.primary.main)
-      .attr('stroke-width', isMobile ? 1 : 1.5)
-      .attr('d', cveLineGenerator(parsedData))
-      .style('cursor', 'pointer');
+    // Check if lines already exist for smooth transitions
+    const existingCveLine = svg.select('.cve-line');
+    const existingAdvisoryLine = svg.select('.advisory-line');
     
-    const cveTotalLength = cveLine.node()?.getTotalLength() || 0;
-    cveLine
-      .attr('stroke-dasharray', cveTotalLength + ' ' + cveTotalLength)
-      .attr('stroke-dashoffset', cveTotalLength)
-      .transition()
-      .duration(1000)
-      .ease(d3.easeLinear)
-      .attr('stroke-dashoffset', 0);
-
-    const advisoryLine = g.append('path')
-      .attr('class', 'advisory-line')
-      .attr('fill', 'none')
-      .attr('stroke', theme.palette.advisories.main)
-      .attr('stroke-width', isMobile ? 1 : 1.5)
-      .attr('d', advisoryLineGenerator(parsedData))
-      .style('cursor', 'pointer');
+    if (existingCveLine.empty()) {
+      // Initial render with animation
+      const cveLine = g.append('path')
+        .attr('class', 'cve-line')
+        .attr('fill', 'none')
+        .attr('stroke', theme.palette.primary.main)
+        .attr('stroke-width', isMobile ? 1 : 1.5)
+        .attr('d', cveLineGenerator(parsedData))
+        .style('cursor', 'pointer');
+      
+      const cveTotalLength = cveLine.node()?.getTotalLength() || 0;
+      cveLine
+        .attr('stroke-dasharray', cveTotalLength + ' ' + cveTotalLength)
+        .attr('stroke-dashoffset', cveTotalLength)
+        .transition()
+        .duration(1000)
+        .ease(d3.easeLinear)
+        .attr('stroke-dashoffset', 0);
+    } else {
+      // Update existing line with smooth transition
+      existingCveLine
+        .transition()
+        .duration(500)
+        .ease(d3.easeLinear)
+        .attr('d', cveLineGenerator(parsedData));
+    }
     
-    const advisoryTotalLength = advisoryLine.node()?.getTotalLength() || 0;
-    advisoryLine
-      .attr('stroke-dasharray', advisoryTotalLength + ' ' + advisoryTotalLength)
-      .attr('stroke-dashoffset', advisoryTotalLength)
-      .transition()
-      .duration(1000)
-      .delay(200)
-      .ease(d3.easeLinear)
-      .attr('stroke-dashoffset', 0);
-
-    // Add data points for tooltips
-    const dataPointsGroup = g.append('g').attr('class', 'data-points');
-
-    parsedData.forEach((d, i) => {
-      const cveY = yScale(d.cves);
-      const advisoryY = yScale(d.advisories);
-      const x = xScale(d.date);
-
-      // CVE data point
-      dataPointsGroup.append('circle')
-        .attr('cx', x)
-        .attr('cy', cveY)
-        .attr('r', 0)
-        .attr('fill', theme.palette.primary.main)
-        .style('cursor', 'pointer')
-        .on('mouseover', (event) => {
-          const tooltipContent = `
-            <div style="font-family: Arial, sans-serif; font-size: 12px;">
-              <div style="font-weight: bold; margin-bottom: 4px; color: #1F2937;">
-                ${d.date.toLocaleDateString('en-US', { 
-                  weekday: 'long', 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
-                })}
-              </div>
-              <div style="color: ${theme.palette.primary.main}; font-weight: 600;">
-                CVEs: ${d.cves}
-              </div>
-            </div>
-          `;
-          setTooltip({
-            visible: true,
-            x: event.pageX + 10,
-            y: event.pageY - 10,
-            content: tooltipContent
-          });
-        })
-        .on('mouseout', () => {
-          setTooltip({ visible: false, x: 0, y: 0, content: '' });
-        })
+    if (existingAdvisoryLine.empty()) {
+      // Initial render with animation
+      const advisoryLine = g.append('path')
+        .attr('class', 'advisory-line')
+        .attr('fill', 'none')
+        .attr('stroke', theme.palette.advisories.main)
+        .attr('stroke-width', isMobile ? 1 : 1.5)
+        .attr('d', advisoryLineGenerator(parsedData))
+        .style('cursor', 'pointer');
+      
+      const advisoryTotalLength = advisoryLine.node()?.getTotalLength() || 0;
+      advisoryLine
+        .attr('stroke-dasharray', advisoryTotalLength + ' ' + advisoryTotalLength)
+        .attr('stroke-dashoffset', advisoryTotalLength)
         .transition()
-        .delay(1000 + i * 50)
-        .duration(300)
-        .attr('r', 3);
-
-      // Advisory data point
-      dataPointsGroup.append('circle')
-        .attr('cx', x)
-        .attr('cy', advisoryY)
-        .attr('r', 0)
-        .attr('fill', theme.palette.advisories.main)
-        .style('cursor', 'pointer')
-        .on('mouseover', (event) => {
-          const tooltipContent = `
-            <div style="font-family: Arial, sans-serif; font-size: 12px;">
-              <div style="font-weight: bold; margin-bottom: 4px; color: #1F2937;">
-                ${d.date.toLocaleDateString('en-US', { 
-                  weekday: 'long', 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
-                })}
-              </div>
-              <div style="color: ${theme.palette.advisories.main}; font-weight: 600;">
-                Advisories: ${d.advisories}
-              </div>
-            </div>
-          `;
-          setTooltip({
-            visible: true,
-            x: event.pageX + 10,
-            y: event.pageY - 10,
-            content: tooltipContent
-          });
-        })
-        .on('mouseout', () => {
-          setTooltip({ visible: false, x: 0, y: 0, content: '' });
-        })
+        .duration(1000)
+        .delay(200)
+        .ease(d3.easeLinear)
+        .attr('stroke-dashoffset', 0);
+    } else {
+      // Update existing line with smooth transition
+      existingAdvisoryLine
         .transition()
-        .delay(1000 + i * 50)
-        .duration(300)
-        .attr('r', 3);
-    });
+        .duration(500)
+        .ease(d3.easeLinear)
+        .attr('d', advisoryLineGenerator(parsedData));
+    }
+
+    // Handle data points with smooth transitions
+    const existingDataPoints = svg.select('.data-points');
+    
+    if (existingDataPoints.empty()) {
+      // Initial render with animation
+      const dataPointsGroup = g.append('g').attr('class', 'data-points');
+
+      parsedData.forEach((d, i) => {
+        const cveY = yScale(d.cves);
+        const advisoryY = yScale(d.advisories);
+        const x = xScale(d.date);
+
+        // CVE data point
+        dataPointsGroup.append('circle')
+          .attr('cx', x)
+          .attr('cy', cveY)
+          .attr('r', 0)
+          .attr('fill', theme.palette.primary.main)
+          .style('cursor', 'pointer')
+          .on('mouseover', (event) => {
+            const tooltipContent = `
+              <div style="font-family: Arial, sans-serif; font-size: 12px;">
+                <div style="font-weight: bold; margin-bottom: 4px; color: #1F2937;">
+                  ${d.date.toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
+                </div>
+                <div style="color: ${theme.palette.primary.main}; font-weight: 600;">
+                  CVEs: ${d.cves}
+                </div>
+              </div>
+            `;
+            setTooltip({
+              visible: true,
+              x: event.pageX + 10,
+              y: event.pageY - 10,
+              content: tooltipContent
+            });
+          })
+          .on('mouseout', () => {
+            setTooltip({ visible: false, x: 0, y: 0, content: '' });
+          })
+          .transition()
+          .delay(1000 + i * 50)
+          .duration(300)
+          .attr('r', 3);
+
+        // Advisory data point
+        dataPointsGroup.append('circle')
+          .attr('cx', x)
+          .attr('cy', advisoryY)
+          .attr('r', 0)
+          .attr('fill', theme.palette.advisories.main)
+          .style('cursor', 'pointer')
+          .on('mouseover', (event) => {
+            const tooltipContent = `
+              <div style="font-family: Arial, sans-serif; font-size: 12px;">
+                <div style="font-weight: bold; margin-bottom: 4px; color: #1F2937;">
+                  ${d.date.toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
+                </div>
+                <div style="color: ${theme.palette.advisories.main}; font-weight: 600;">
+                  Advisories: ${d.advisories}
+                </div>
+              </div>
+            `;
+            setTooltip({
+              visible: true,
+              x: event.pageX + 10,
+              y: event.pageY - 10,
+              content: tooltipContent
+            });
+          })
+          .on('mouseout', () => {
+            setTooltip({ visible: false, x: 0, y: 0, content: '' });
+          })
+          .transition()
+          .delay(1000 + i * 50)
+          .duration(300)
+          .attr('r', 3);
+      });
+    } else {
+      // Update existing data points with smooth transitions
+      const circles = existingDataPoints.selectAll('circle');
+      
+      // Update positions with transition
+      circles
+        .data(parsedData.flatMap(d => [
+          { ...d, type: 'cve', y: yScale(d.cves) },
+          { ...d, type: 'advisory', y: yScale(d.advisories) }
+        ]))
+        .transition()
+        .duration(500)
+        .ease(d3.easeLinear)
+        .attr('cx', d => xScale(d.date))
+        .attr('cy', d => d.y);
+    }
 
   }, [dataPoints, dimensions, loading, theme.palette.primary.main, theme.palette.advisories.main]);
 
