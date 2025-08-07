@@ -8,10 +8,12 @@ import {
   Alert,
 } from '@mui/material';
 import { useQuery } from '@apollo/client';
-import { GET_TIME_SERIES_DATA, TimeSeriesResponse, TimeRange, CriticalityLevel } from '../lib/graphql-queries';
-import { ChartControls, SummaryCards, D3LineChart } from './chart';
+import { GET_TIME_SERIES_DATA, TimeSeriesResponse, TimeRange, CriticalityLevel } from '../api/graphql-queries';
+import ChartControls from './chart/ChartControls';
+import SummaryCards from './chart/SummaryCards';
+import D3LineChart from './chart/D3LineChart';
 
-const SecurityMetricsChart: React.FC = () => {
+const Chart: React.FC = () => {
   const [timeRange, setTimeRange] = useState<TimeRange>('THIRTY_DAYS');
   const [selectedCriticalities, setSelectedCriticalities] = useState<CriticalityLevel[]>([
     'NONE', 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL'
@@ -82,4 +84,4 @@ const SecurityMetricsChart: React.FC = () => {
   );
 };
 
-export default SecurityMetricsChart;
+export default Chart;

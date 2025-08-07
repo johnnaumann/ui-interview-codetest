@@ -8,7 +8,7 @@ import {
   MenuItem,
   SelectChangeEvent,
 } from '@mui/material';
-import { TimeRange } from '../../lib/graphql-queries';
+import { TimeRange } from '../../api/graphql-queries';
 
 interface TimeRangeFilterProps {
   value: TimeRange;

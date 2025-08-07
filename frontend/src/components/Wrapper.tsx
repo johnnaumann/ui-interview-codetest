@@ -6,12 +6,13 @@ import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import client from '../lib/apollo-client';
+import client from '../api/apollo-client';
 import { theme } from '../theme/theme';
 import { navigation } from '../lib/navigation';
 import ThemeToggle from './ThemeToggle';
 import Logo from './Logo';
-interface ApolloWrapperProps {
+
+interface WrapperProps {
   children: React.ReactNode;
 }
 
@@ -32,7 +33,7 @@ const branding = {
   homeUrl: '/dashboard',
 };
 
-export const ApolloWrapper: React.FC<ApolloWrapperProps> = ({ children }) => {
+export default function Wrapper({ children }: WrapperProps) {
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={theme}>
@@ -54,4 +55,4 @@ export const ApolloWrapper: React.FC<ApolloWrapperProps> = ({ children }) => {
       </ThemeProvider>
     </ApolloProvider>
   );
-};
+}

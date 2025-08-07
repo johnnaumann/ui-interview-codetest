@@ -11,7 +11,7 @@ import {
   OutlinedInput,
   SelectChangeEvent,
 } from '@mui/material';
-import { CriticalityLevel } from '../../lib/graphql-queries';
+import { CriticalityLevel } from '../../api/graphql-queries';
 
 interface CriticalityFilterProps {
   value: CriticalityLevel[];

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Box } from '@mui/material';
-import { TimeRange, CriticalityLevel } from '../../lib/graphql-queries';
+import { TimeRange, CriticalityLevel } from '../../api/graphql-queries';
 import TimeRangeFilter from './TimeRangeFilter';
 import CriticalityFilter from './CriticalityFilter';
 

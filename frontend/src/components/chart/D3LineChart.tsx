@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import * as d3 from 'd3';
 import { Box, Paper } from '@mui/material';
-import { DataPoint } from '../../lib/graphql-queries';
+import { DataPoint } from '../../api/graphql-queries';
 
 interface D3LineChartProps {
   dataPoints: DataPoint[];

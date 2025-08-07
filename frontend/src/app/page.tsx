@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useActivePage } from '@toolpad/core/useActivePage';
-import SecurityMetricsChart from '../components/SecurityMetricsChart';
+import Chart from '../components/Chart';
 import { GenericPage, VulnerabilitiesPage, CompliancePage, AssetsPage } from '../components/pages/MockPages';
 
 export default function Home() {
@@ -13,7 +13,7 @@ export default function Home() {
     
     switch (segment) {
       case 'dashboard':
-        return <SecurityMetricsChart />;
+        return <Chart />;
       case 'vulnerabilities':
         return <VulnerabilitiesPage />;
       case 'compliance':
@@ -25,7 +25,7 @@ export default function Home() {
       case 'settings':
         return <GenericPage title="Settings" description="Configure your security platform settings." />;
       default:
-        return <SecurityMetricsChart />;
+        return <Chart />;
     }
   };
 
