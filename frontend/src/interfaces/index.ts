@@ -1,24 +1,24 @@
 // Theme Context Interfaces
+export interface AdvisoriesColor {
+  main: string;
+  light: string;
+  dark: string;
+}
+
 export interface Palette {
-  advisories: {
-    main: string;
-    light: string;
-    dark: string;
-  };
+  advisories: AdvisoriesColor;
 }
 
 export interface PaletteOptions {
-  advisories?: {
-    main: string;
-    light: string;
-    dark: string;
-  };
+  advisories?: AdvisoriesColor;
 }
+
+import type { AppTheme } from '@toolpad/core/AppProvider';
 
 export interface ThemeContextType {
   mode: 'light' | 'dark';
   toggleColorMode: () => void;
-  theme: any; // Theme from MUI
+  theme: AppTheme;
 }
 
 export interface ThemeProviderProps {
@@ -66,8 +66,21 @@ export interface UserResponse {
 export type TimeRange = 'THREE_DAYS' | 'SEVEN_DAYS' | 'FOURTEEN_DAYS' | 'THIRTY_DAYS';
 export type CriticalityLevel = 'NONE' | 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
 
+// Common Component Props
+export interface BaseProps {
+  children?: React.ReactNode;
+}
+
+export interface LoadingProps {
+  loading?: boolean;
+}
+
+export interface DisabledProps {
+  disabled?: boolean;
+}
+
 // Component Props Interfaces
-export interface WrapperProps {
+export interface WrapperProps extends BaseProps {
   children: React.ReactNode;
 }
 
@@ -78,68 +91,47 @@ export interface LogoProps {
 }
 
 // Chart Component Interfaces
-export interface CVESummaryData {
-  averageValue: number;
-  delta: number;
+// Use MetricSummary instead of duplicating CVESummaryData and AdvisoriesSummaryData
+export type CVESummaryData = MetricSummary;
+export type AdvisoriesSummaryData = MetricSummary;
+
+export interface SummaryCardProps extends LoadingProps {
+  data?: MetricSummary;
 }
 
-export interface CVESummaryCardProps {
-  data?: CVESummaryData;
-  loading?: boolean;
-}
-
-export interface AdvisoriesSummaryData {
-  averageValue: number;
-  delta: number;
-}
-
-export interface AdvisoriesSummaryCardProps {
-  data?: AdvisoriesSummaryData;
-  loading?: boolean;
-}
+export type CVESummaryCardProps = SummaryCardProps;
+export type AdvisoriesSummaryCardProps = SummaryCardProps;
 
 export interface SummaryData {
-  cves: {
-    averageValue: number;
-    delta: number;
-  };
-  advisories: {
-    averageValue: number;
-    delta: number;
-  };
+  cves: MetricSummary;
+  advisories: MetricSummary;
 }
 
-export interface SummaryCardsProps {
+export interface SummaryCardsProps extends LoadingProps {
   data?: SummaryData;
-  loading?: boolean;
 }
 
-export interface D3LineChartProps {
+export interface D3LineChartProps extends LoadingProps {
   dataPoints: DataPoint[];
-  loading?: boolean;
 }
 
-export interface TimeRangeFilterProps {
-  value: TimeRange;
-  onChange: (timeRange: TimeRange) => void;
-  disabled?: boolean;
+// Filter Component Props
+export interface FilterProps<T> extends DisabledProps {
+  value: T;
+  onChange: (value: T) => void;
 }
 
-export interface CriticalityFilterProps {
-  value: CriticalityLevel[];
-  onChange: (criticalities: CriticalityLevel[]) => void;
-  disabled?: boolean;
-}
+export type TimeRangeFilterProps = FilterProps<TimeRange>;
+export type CriticalityFilterProps = FilterProps<CriticalityLevel[]>;
 
-export interface ChartControlsProps {
+export interface ChartControlsProps extends LoadingProps {
   timeRange: TimeRange;
   onTimeRangeChange: (timeRange: TimeRange) => void;
   selectedCriticalities: CriticalityLevel[];
   onCriticalityChange: (criticalities: CriticalityLevel[]) => void;
-  loading?: boolean;
 }
 
-// Tooltip Interface for D3 Chart
+// Utility Interfaces
 export interface TooltipState {
   visible: boolean;
   x: number;
@@ -147,7 +139,6 @@ export interface TooltipState {
   content: string;
 }
 
-// Chart Dimensions Interface
 export interface ChartDimensions {
   width: number;
   height: number;
