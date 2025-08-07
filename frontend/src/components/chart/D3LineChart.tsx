@@ -168,7 +168,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     const advisoryLine = g.append('path')
       .attr('class', 'advisory-line')
       .attr('fill', 'none')
-      .attr('stroke', theme.palette.secondary.light)
+      .attr('stroke', theme.palette.advisories.main)
       .attr('stroke-width', isMobile ? 1 : 1.5)
       .attr('d', advisoryLineGenerator(parsedData));
     
@@ -185,16 +185,14 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
   }, [dataPoints, dimensions, loading]);
 
   return (
-    <Paper elevation={2} className="chart-paper" sx={{ p: 2, height: '100%' }}>
+    <Paper elevation={2} className="chart-paper" sx={{ p: 2 }}>
       <Box 
         ref={containerRef} 
         className="chart-container"
         sx={{ 
           width: '100%', 
-          height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          flex: 1,
           overflow: 'hidden'
         }}
       >

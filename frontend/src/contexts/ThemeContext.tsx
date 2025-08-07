@@ -1,7 +1,24 @@
 'use client';
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { createTheme, ThemeProvider as MuiThemeProvider, Theme } from '@mui/material/styles';
+import { createTheme, ThemeProvider as MuiThemeProvider, Theme, PaletteOptions } from '@mui/material/styles';
+
+declare module '@mui/material/styles' {
+  interface Palette {
+    advisories: {
+      main: string;
+      light: string;
+      dark: string;
+    };
+  }
+  interface PaletteOptions {
+    advisories?: {
+      main: string;
+      light: string;
+      dark: string;
+    };
+  }
+}
 
 const mondooColors = {
   primary: {
@@ -31,6 +48,7 @@ const mondooColors = {
   warning: { main: '#D97706', light: '#F59E0B', dark: '#B45309' },
   error: { main: '#DC2626', light: '#EF4444', dark: '#B91C1C' },
   info: { main: '#1E40AF', light: '#3B82F6', dark: '#1E3A8A' },
+  advisories: { main: '#C084FC', light: '#E9D5FF', dark: '#A855F7' },
 };
 
 const darkColors = {
@@ -51,6 +69,7 @@ const darkColors = {
   warning: mondooColors.warning,
   error: mondooColors.error,
   info: mondooColors.info,
+  advisories: mondooColors.advisories,
 };
 
 interface ThemeContextType {
@@ -94,6 +113,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       warning: mondooColors.warning,
       error: mondooColors.error,
       info: mondooColors.info,
+      advisories: mondooColors.advisories,
     },
     shape: {
       borderRadius: 0,

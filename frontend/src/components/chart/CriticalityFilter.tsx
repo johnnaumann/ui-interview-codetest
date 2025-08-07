@@ -49,14 +49,14 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
   const allCriticalities: CriticalityLevel[] = ['NONE', 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
 
   return (
-    <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
+    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
       {allCriticalities.map((criticality) => {
         const isSelected = value.includes(criticality);
         return (
           <Chip
             key={criticality}
             label={criticality}
-            size="small"
+            size="medium"
             color={getCriticalityColor(criticality)}
             variant={isSelected ? "filled" : "outlined"}
             onClick={() => handleChipClick(criticality)}
