@@ -9,29 +9,13 @@ import CssBaseline from '@mui/material/CssBaseline';
 import client from '../api/apollo-client';
 import { theme } from '../theme/theme';
 import { navigation } from '../lib/navigation';
+import { router } from '../lib/router';
+import { branding } from '../lib/branding';
 import ThemeToggle from './ThemeToggle';
-import Logo from './Logo';
 
 interface WrapperProps {
   children: React.ReactNode;
 }
-
-// Simple router for MUI Toolpad Core
-const router = {
-  pathname: '/dashboard',
-  searchParams: new URLSearchParams(),
-  navigate: (url: string | URL) => {
-    const path = typeof url === 'string' ? url : url.pathname;
-    console.log('Navigating to:', path);
-  },
-};
-
-// Branding configuration
-const branding = {
-  logo: <Logo width={108} height={19} />,
-  title: '',
-  homeUrl: '/dashboard',
-};
 
 export default function Wrapper({ children }: WrapperProps) {
   return (
