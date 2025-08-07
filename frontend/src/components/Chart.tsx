@@ -97,7 +97,7 @@ const Chart: React.FC = () => {
           <Box sx={{ 
             display: 'flex', 
             flexDirection: 'column', 
-            alignSelf: 'start', // Sticky to top
+            height: '100%',
           }}>
             <SummaryCards
               data={data.timeSeriesData.summary}

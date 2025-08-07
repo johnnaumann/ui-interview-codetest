@@ -76,10 +76,10 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     // Responsive margins based on screen size
     const isMobile = dimensions.width < 768;
     const margin = { 
-      top: 20, 
-      right: isMobile ? 40 : 80, 
-      bottom: isMobile ? 50 : 40, 
-      left: isMobile ? 40 : 60 
+      top: 40, 
+      right: isMobile ? 40 : 40, 
+      bottom: 40, 
+      left: isMobile ? 40 : 40 
     };
     
     const chartWidth = dimensions.width - margin.left - margin.right;
@@ -117,29 +117,40 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .domain([0, maxValue * 1.1])
       .range([chartHeight, 0]);
 
-    // Add X axis
-    const xAxis = d3.axisBottom(xScale)
-      .tickFormat(d3.timeFormat(isMobile ? '%m/%d' : '%m/%d') as (date: Date | d3.NumberValue) => string)
-      .ticks(isMobile ? 4 : 8);
-      
-    g.append('g')
-      .attr('class', 'x-axis')
-      .attr('transform', `translate(0,${chartHeight})`)
-      .call(xAxis)
-      .selectAll('text')
-      .style('font-size', isMobile ? '12px' : '14px')
-      .style('fill', '#4A5568');
+    // Add uniform grid lines with dashed pattern
+    const gridSpacing = Math.min(chartWidth, chartHeight) / 4; // Fewer cells - 4x4 grid
+    const xGridLines = Math.floor(chartWidth / gridSpacing);
+    const yGridLines = Math.floor(chartHeight / gridSpacing);
+    
+    // Add vertical grid lines
+    for (let i = 0; i <= xGridLines; i++) {
+      const x = i * gridSpacing;
+      g.append('line')
+        .attr('class', 'grid-line-vertical')
+        .attr('x1', x)
+        .attr('x2', x)
+        .attr('y1', 0)
+        .attr('y2', chartHeight)
+        .style('stroke', '#E2E8F0') // Match sidebar border color
+        .style('stroke-width', 1)
+        .style('stroke-dasharray', '3,3')
+        .style('opacity', 1);
+    }
 
-    // Add Y axis
-    const yAxis = d3.axisLeft(yScale)
-      .ticks(isMobile ? 5 : 8);
-      
-    g.append('g')
-      .attr('class', 'y-axis')
-      .call(yAxis)
-      .selectAll('text')
-      .style('font-size', isMobile ? '12px' : '14px')
-      .style('fill', '#4A5568');
+    // Add horizontal grid lines
+    for (let i = 0; i <= yGridLines; i++) {
+      const y = i * gridSpacing;
+      g.append('line')
+        .attr('class', 'grid-line-horizontal')
+        .attr('x1', 0)
+        .attr('x2', chartWidth)
+        .attr('y1', y)
+        .attr('y2', y)
+        .style('stroke', '#E2E8F0') // Match sidebar border color
+        .style('stroke-width', 1)
+        .style('stroke-dasharray', '3,3')
+        .style('opacity', 1);
+    }
 
     // Create line generators
     const cveLineGenerator = d3
@@ -176,7 +187,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     const advisoryLine = g.append('path')
       .attr('class', 'advisory-line')
       .attr('fill', 'none')
-      .attr('stroke', '#E9D5FF')
+      .attr('stroke', '#C084FC') // Slightly darker purple for advisories
       .attr('stroke-width', isMobile ? 1 : 1.5)
       .attr('d', advisoryLineGenerator(parsedData));
     
