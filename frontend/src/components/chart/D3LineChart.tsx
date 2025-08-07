@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import * as d3 from 'd3';
-import { Box, Paper } from '@mui/material';
+import { Box, Paper, useTheme } from '@mui/material';
 import { DataPoint } from '../../api/graphql-queries';
 
 interface D3LineChartProps {
@@ -14,6 +14,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
   dataPoints,
   loading = false,
 }) => {
+  const theme = useTheme();
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 800, height: 400 });
@@ -116,7 +117,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         .attr('x2', x)
         .attr('y1', 0)
         .attr('y2', chartHeight)
-        .style('stroke', '#E2E8F0')
+        .style('stroke', theme.palette.divider)
         .style('stroke-width', 1)
         .style('stroke-dasharray', '3,3')
         .style('opacity', 1);
@@ -130,7 +131,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         .attr('x2', chartWidth)
         .attr('y1', y)
         .attr('y2', y)
-        .style('stroke', '#E2E8F0')
+        .style('stroke', theme.palette.divider)
         .style('stroke-width', 1)
         .style('stroke-dasharray', '3,3')
         .style('opacity', 1);
@@ -151,7 +152,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     const cveLine = g.append('path')
       .attr('class', 'cve-line')
       .attr('fill', 'none')
-      .attr('stroke', '#6B46C1')
+      .attr('stroke', theme.palette.primary.main)
       .attr('stroke-width', isMobile ? 1 : 1.5)
       .attr('d', cveLineGenerator(parsedData));
     
@@ -167,7 +168,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     const advisoryLine = g.append('path')
       .attr('class', 'advisory-line')
       .attr('fill', 'none')
-      .attr('stroke', '#C084FC')
+      .attr('stroke', theme.palette.secondary.light)
       .attr('stroke-width', isMobile ? 1 : 1.5)
       .attr('d', advisoryLineGenerator(parsedData));
     
