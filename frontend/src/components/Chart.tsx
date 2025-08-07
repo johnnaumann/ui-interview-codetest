@@ -9,7 +9,8 @@ import {
   useTheme,
 } from '@mui/material';
 import { useQuery } from '@apollo/client';
-import { GET_TIME_SERIES_DATA, TimeSeriesResponse, TimeRange, CriticalityLevel } from '../api/graphql-queries';
+import { GET_TIME_SERIES_DATA } from '../api/graphql-queries';
+import { TimeSeriesResponse, TimeRange, CriticalityLevel } from '../interfaces';
 import TimeRangeFilter from './chart/TimeRangeFilter';
 import CriticalityFilter from './chart/CriticalityFilter';
 import SummaryCards from './chart/SummaryCards';

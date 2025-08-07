@@ -72,11 +72,7 @@ const darkColors = {
   advisories: mondooColors.advisories,
 };
 
-interface ThemeContextType {
-  mode: 'light' | 'dark';
-  toggleColorMode: () => void;
-  theme: Theme; // Export the theme object
-}
+import { ThemeContextType, ThemeProviderProps } from '../interfaces';
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
@@ -87,10 +83,6 @@ export const useTheme = () => {
   }
   return context;
 };
-
-interface ThemeProviderProps {
-  children: ReactNode;
-}
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [mode, setMode] = useState<'light' | 'dark'>('light');

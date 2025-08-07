@@ -6,13 +6,7 @@ import {
   Chip,
   useTheme,
 } from '@mui/material';
-import { CriticalityLevel } from '../../api/graphql-queries';
-
-interface CriticalityFilterProps {
-  value: CriticalityLevel[];
-  onChange: (criticalities: CriticalityLevel[]) => void;
-  disabled?: boolean;
-}
+import { CriticalityFilterProps, CriticalityLevel } from '../../interfaces';
 
 const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
   value,

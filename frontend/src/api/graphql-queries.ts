@@ -1,4 +1,15 @@
 import { gql } from '@apollo/client';
+import { 
+  DataPoint, 
+  MetricSummary, 
+  TimeSeriesSummary, 
+  TimeSeriesData, 
+  TimeSeriesResponse, 
+  User, 
+  UserResponse, 
+  TimeRange, 
+  CriticalityLevel 
+} from '../interfaces';
 
 export const GET_TIME_SERIES_DATA = gql`
   query GetTimeSeriesData($timeRange: TimeRange, $criticalities: [CriticalityLevel!]) {
@@ -33,42 +44,15 @@ export const GET_USER = gql`
   }
 `;
 
-// TypeScript types for the GraphQL responses
-export interface DataPoint {
-  timestamp: string;
-  cves: number;
-  advisories: number;
-}
-
-export interface MetricSummary {
-  averageValue: number;
-  delta: number;
-}
-
-export interface TimeSeriesSummary {
-  cves: MetricSummary;
-  advisories: MetricSummary;
-  timeRange: string;
-  criticalities: string[];
-}
-
-export interface TimeSeriesData {
-  dataPoints: DataPoint[];
-  summary: TimeSeriesSummary;
-}
-
-export interface TimeSeriesResponse {
-  timeSeriesData: TimeSeriesData;
-}
-
-export interface User {
-  id: string;
-  name: string;
-}
-
-export interface UserResponse {
-  user: User;
-}
-
-export type TimeRange = 'THREE_DAYS' | 'SEVEN_DAYS' | 'FOURTEEN_DAYS' | 'THIRTY_DAYS';
-export type CriticalityLevel = 'NONE' | 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
+// Re-export types for backward compatibility
+export {
+  DataPoint,
+  MetricSummary,
+  TimeSeriesSummary,
+  TimeSeriesData,
+  TimeSeriesResponse,
+  User,
+  UserResponse,
+  TimeRange,
+  CriticalityLevel
+};

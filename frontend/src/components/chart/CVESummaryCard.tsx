@@ -12,17 +12,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { Info } from '@mui/icons-material';
-
-
-interface CVESummaryData {
-  averageValue: number;
-  delta: number;
-}
-
-interface CVESummaryCardProps {
-  data?: CVESummaryData;
-  loading?: boolean;
-}
+import { CVESummaryCardProps } from '../../interfaces';
 
 const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
   data,

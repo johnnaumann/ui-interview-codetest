@@ -4,22 +4,7 @@ import React from 'react';
 import { Box } from '@mui/material';
 import CVESummaryCard from './CVESummaryCard';
 import AdvisoriesSummaryCard from './AdvisoriesSummaryCard';
-
-interface SummaryData {
-  cves: {
-    averageValue: number;
-    delta: number;
-  };
-  advisories: {
-    averageValue: number;
-    delta: number;
-  };
-}
-
-interface SummaryCardsProps {
-  data?: SummaryData;
-  loading?: boolean;
-}
+import { SummaryCardsProps } from '../../interfaces';
 
 const SummaryCards: React.FC<SummaryCardsProps> = ({
   data,

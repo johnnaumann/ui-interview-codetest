@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from './test-utils'
 import D3LineChart from '../components/chart/D3LineChart'
-import { DataPoint } from '../api/graphql-queries'
+import { DataPoint } from '../interfaces'
 
 // Mock D3
 jest.mock('d3', () => {

@@ -12,17 +12,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { Info } from '@mui/icons-material';
-
-
-interface AdvisoriesSummaryData {
-  averageValue: number;
-  delta: number;
-}
-
-interface AdvisoriesSummaryCardProps {
-  data?: AdvisoriesSummaryData;
-  loading?: boolean;
-}
+import { AdvisoriesSummaryCardProps } from '../../interfaces';
 
 const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
   data,

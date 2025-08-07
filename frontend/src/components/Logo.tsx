@@ -2,12 +2,7 @@
 
 import React from 'react';
 import { useTheme } from '../contexts/ThemeContext';
-
-interface LogoProps {
-  width?: number;
-  height?: number;
-  className?: string;
-}
+import { LogoProps } from '../interfaces';
 
 const Logo: React.FC<LogoProps> = ({ 
   width = 135, 

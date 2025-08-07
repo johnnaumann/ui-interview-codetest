@@ -8,13 +8,7 @@ import {
   MenuItem,
   SelectChangeEvent,
 } from '@mui/material';
-import { TimeRange } from '../../api/graphql-queries';
-
-interface TimeRangeFilterProps {
-  value: TimeRange;
-  onChange: (timeRange: TimeRange) => void;
-  disabled?: boolean;
-}
+import { TimeRangeFilterProps, TimeRange } from '../../interfaces';
 
 const TimeRangeFilter: React.FC<TimeRangeFilterProps> = ({
   value,

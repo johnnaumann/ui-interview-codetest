@@ -10,6 +10,10 @@ jest.mock('@apollo/client', () => ({
 // Mock GraphQL queries
 jest.mock('../api/graphql-queries', () => ({
   GET_TIME_SERIES_DATA: 'mock-query',
+}))
+
+// Mock interfaces
+jest.mock('../interfaces', () => ({
   TimeRange: {
     THREE_DAYS: 'THREE_DAYS',
     SEVEN_DAYS: 'SEVEN_DAYS',

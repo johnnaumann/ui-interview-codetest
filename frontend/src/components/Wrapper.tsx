@@ -11,10 +11,7 @@ import { router } from '../lib/router';
 import { branding } from '../lib/branding';
 import { ThemeProvider, useTheme } from '../contexts/ThemeContext';
 import ThemeToggle from './ThemeToggle';
-
-interface WrapperProps {
-  children: React.ReactNode;
-}
+import { WrapperProps } from '../interfaces';
 
 function AppContent({ children }: WrapperProps) {
   const { theme } = useTheme();
