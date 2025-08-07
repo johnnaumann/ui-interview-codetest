@@ -77,34 +77,10 @@ interface ThemeProviderProps {
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [mode, setMode] = useState<'light' | 'dark'>('light');
-  const [isClient, setIsClient] = useState(false);
-
-  // Detect client-side rendering
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  // Initialize theme preference after hydration
-  useEffect(() => {
-    if (!isClient) return;
-
-    const savedMode = localStorage.getItem('mui-color-scheme') as 'light' | 'dark' | null;
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    let initialMode: 'light' | 'dark' = 'light';
-    if (savedMode) {
-      initialMode = savedMode;
-    } else if (systemPrefersDark) {
-      initialMode = 'dark';
-    }
-    
-    setMode(initialMode);
-  }, [isClient]);
 
   const toggleColorMode = () => {
     const newMode = mode === 'light' ? 'dark' : 'light';
     setMode(newMode);
-    localStorage.setItem('mui-color-scheme', newMode);
   };
 
   // Create theme based on current mode
@@ -173,6 +149,42 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
           root: {
             boxShadow: 'none',
             backgroundColor: mode === 'dark' ? '#2D1B69' : undefined, // Dark purple header in dark mode
+          },
+        },
+      },
+      MuiListItemButton: {
+        styleOverrides: {
+          root: {
+            color: mode === 'dark' ? '#FFFFFF' : undefined,
+            '&.Mui-selected': {
+              backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : undefined,
+              color: mode === 'dark' ? '#FFFFFF' : undefined,
+              '&:hover': {
+                backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.15)' : undefined,
+              },
+            },
+            '&:hover': {
+              backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : undefined,
+            },
+          },
+        },
+      },
+      MuiListItemIcon: {
+        styleOverrides: {
+          root: {
+            color: mode === 'dark' ? '#FFFFFF' : undefined,
+            '& .Mui-selected &': {
+              color: mode === 'dark' ? '#FFFFFF' : undefined,
+            },
+          },
+        },
+      },
+      MuiListItemText: {
+        styleOverrides: {
+          root: {
+            '& .MuiTypography-root': {
+              color: mode === 'dark' ? '#FFFFFF' : undefined,
+            },
           },
         },
       },
