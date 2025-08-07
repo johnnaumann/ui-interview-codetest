@@ -8,6 +8,7 @@ import {
   Box,
   Button,
 } from '@mui/material';
+import { OpenInNew } from '@mui/icons-material';
 
 interface CVESummaryData {
   averageValue: number;
@@ -74,22 +75,34 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
           </Typography>
         )}
         
-        <Button
-          variant="contained"
-          size="small"
-          sx={{
-            mt: 2,
-            backgroundColor: 'white',
-            color: '#6B46C1',
-            '&:hover': {
-              backgroundColor: 'rgba(255, 255, 255, 0.9)',
-            },
-            fontWeight: 'medium',
-          }}
-          onClick={() => alert('Fix CVEs issues')}
-        >
-          Fix Issues
-        </Button>
+                       <Button
+                 variant="outlined"
+                 size="small"
+                 endIcon={<OpenInNew />}
+                 sx={{
+                   mt: 2,
+                   borderColor: 'white',
+                   color: 'white',
+                   fontSize: {
+                     xs: '0.75rem',
+                     sm: '0.875rem',
+                     md: '1rem',
+                   },
+                   padding: {
+                     xs: '4px 8px',
+                     sm: '6px 12px',
+                     md: '8px 16px',
+                   },
+                   '&:hover': {
+                     borderColor: 'rgba(255, 255, 255, 0.8)',
+                     backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                   },
+                   fontWeight: 'medium',
+                 }}
+                 onClick={() => alert('Fix CVEs issues')}
+               >
+                 Fix Issues
+               </Button>
       </CardContent>
     </Card>
   );

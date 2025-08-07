@@ -8,6 +8,7 @@ import {
   Box,
   Button,
 } from '@mui/material';
+import { OpenInNew } from '@mui/icons-material';
 
 interface AdvisoriesSummaryData {
   averageValue: number;
@@ -74,22 +75,34 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
           </Typography>
         )}
         
-        <Button
-          variant="contained"
-          size="small"
-          sx={{
-            mt: 2,
-            backgroundColor: '#6B46C1',
-            color: 'white',
-            '&:hover': {
-              backgroundColor: '#553C9A',
-            },
-            fontWeight: 'medium',
-          }}
-          onClick={() => alert('Fix Advisories issues')}
-        >
-          Fix Issues
-        </Button>
+                       <Button
+                 variant="outlined"
+                 size="small"
+                 endIcon={<OpenInNew />}
+                 sx={{
+                   mt: 2,
+                   borderColor: '#6B46C1',
+                   color: '#6B46C1',
+                   fontSize: {
+                     xs: '0.75rem',
+                     sm: '0.875rem',
+                     md: '1rem',
+                   },
+                   padding: {
+                     xs: '4px 8px',
+                     sm: '6px 12px',
+                     md: '8px 16px',
+                   },
+                   '&:hover': {
+                     borderColor: '#553C9A',
+                     backgroundColor: 'rgba(107, 70, 193, 0.1)',
+                   },
+                   fontWeight: 'medium',
+                 }}
+                 onClick={() => alert('Fix Advisories issues')}
+               >
+                 Fix Issues
+               </Button>
       </CardContent>
     </Card>
   );
