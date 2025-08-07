@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import {
   Drawer,
   List,
@@ -70,12 +71,25 @@ const Sidebar: React.FC<SidebarProps> = ({
           p: 3,
           background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
           color: 'white',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
         }}
       >
-        <Typography variant="h5" component="h1" fontWeight="bold">
-          Mondoo
-        </Typography>
-        <Typography variant="body2" sx={{ opacity: 0.9, mt: 0.5 }}>
+        <Box sx={{ mb: 1, display: 'flex', justifyContent: 'center' }}>
+          <Image
+            src="/logo.svg"
+            alt="Mondoo Logo"
+            width={108}
+            height={19}
+            style={{
+              filter: 'brightness(0) invert(1)', // Makes the logo white
+              maxWidth: '100%',
+              height: 'auto',
+            }}
+          />
+        </Box>
+        <Typography variant="body2" sx={{ opacity: 0.9, mt: 0.5, textAlign: 'center' }}>
           Security Platform
         </Typography>
       </Box>
