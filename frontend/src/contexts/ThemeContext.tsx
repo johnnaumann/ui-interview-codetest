@@ -202,6 +202,12 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
             '& .Mui-selected &': {
               color: mode === 'dark' ? '#FFFFFF' : undefined,
             },
+            '&.Mui-selected': {
+              color: mode === 'dark' ? '#FFFFFF' : undefined,
+            },
+            '& .MuiSvgIcon-root': {
+              color: mode === 'dark' ? '#FFFFFF' : undefined,
+            },
           },
         },
       },
