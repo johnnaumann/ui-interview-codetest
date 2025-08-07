@@ -49,7 +49,8 @@ const SecurityMetricsChart: React.FC = () => {
   // Function to update dimensions based on container size
   const updateDimensions = useCallback(() => {
     if (containerRef.current) {
-      const containerWidth = containerRef.current.offsetWidth;
+      const rect = containerRef.current.getBoundingClientRect();
+      const containerWidth = Math.max(300, rect.width || containerRef.current.offsetWidth);
       const containerHeight = Math.max(400, Math.min(600, containerWidth * 0.6)); // Responsive height
       
       setDimensions({
@@ -62,18 +63,22 @@ const SecurityMetricsChart: React.FC = () => {
   // ResizeObserver to watch container size changes
   useEffect(() => {
     const resizeObserver = new ResizeObserver(() => {
-      updateDimensions();
+      // Use requestAnimationFrame to avoid ResizeObserver loop errors
+      requestAnimationFrame(() => {
+        updateDimensions();
+      });
     });
 
     if (containerRef.current) {
       resizeObserver.observe(containerRef.current);
     }
 
-    // Initial dimension calculation
-    updateDimensions();
+    // Initial dimension calculation with a slight delay
+    const timer = setTimeout(updateDimensions, 100);
 
     return () => {
       resizeObserver.disconnect();
+      clearTimeout(timer);
     };
   }, [updateDimensions]);
 
@@ -431,17 +436,31 @@ const SecurityMetricsChart: React.FC = () => {
       )}
 
       {/* Chart */}
-      <Paper elevation={2} sx={{ p: 2 }}>
-        <Box ref={containerRef} sx={{ width: '100%', minHeight: 400 }}>
+      <Paper elevation={2} className="chart-paper" sx={{ p: 2 }}>
+        <Box 
+          ref={containerRef} 
+          className="chart-container"
+          sx={{ 
+            width: '100%', 
+            minHeight: 400,
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+            overflow: 'hidden'
+          }}
+        >
           <svg 
             ref={svgRef} 
             width={dimensions.width} 
             height={dimensions.height}
             style={{ 
-              maxWidth: '100%', 
+              width: '100%',
               height: 'auto',
+              maxWidth: '100%', 
               display: 'block'
             }}
+            viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
+            preserveAspectRatio="xMidYMid meet"
           />
         </Box>
       </Paper>

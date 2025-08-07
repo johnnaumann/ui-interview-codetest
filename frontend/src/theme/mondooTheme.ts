@@ -318,6 +318,12 @@ export const mondooTheme = createTheme({
         root: {
           borderRadius: 12,
           border: `1px solid ${mondooColors.divider}`,
+          '&.chart-paper': {
+            width: '100%',
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
+          },
         },
         elevation1: {
           boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.05), 0px 2px 4px rgba(0, 0, 0, 0.1)',
@@ -446,8 +452,34 @@ export const mondooTheme = createTheme({
         '.MuiBox-root[style*="background"] .mondoo-logo-header, .MuiBox-root[style*="background"] .mondoo-logo-subtitle, .MuiBox-root[style*="gradient"] .mondoo-logo-header, .MuiBox-root[style*="gradient"] .mondoo-logo-subtitle': {
           filter: 'brightness(0) invert(1)',
         },
+
+        // Chart container responsiveness
+        '.chart-container': {
+          width: '100%',
+          height: 'auto',
+          minHeight: '400px',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          '& svg': {
+            width: '100%',
+            height: 'auto',
+            maxWidth: '100%',
+            display: 'block',
+          },
+        },
+
+        // Responsive utilities
+        '.responsive-container': {
+          width: '100%',
+          height: '100%',
+          position: 'relative',
+          overflow: 'hidden',
+        },
       },
     },
+
+
 
     // Enhanced Drawer/Sidebar styling
     MuiDrawer: {
