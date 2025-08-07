@@ -10,6 +10,7 @@ import Image from 'next/image';
 import client from '../lib/apollo-client';
 import { mondooTheme } from '../theme/mondooTheme';
 import { NAVIGATION } from '../lib/navigation';
+import ThemeToggle from './ThemeToggle';
 interface ApolloWrapperProps {
   children: React.ReactNode;
 }
@@ -54,7 +55,11 @@ export const ApolloWrapper: React.FC<ApolloWrapperProps> = ({ children }) => {
           theme={mondooTheme}
           branding={branding}
         >
-          <DashboardLayout>
+          <DashboardLayout
+            slots={{
+              toolbarActions: () => <ThemeToggle />,
+            }}
+          >
             {children}
           </DashboardLayout>
         </AppProvider>

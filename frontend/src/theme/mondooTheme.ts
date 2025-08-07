@@ -111,21 +111,68 @@ const mondooShadows = [
 ];
 
 export const mondooTheme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: mondooColors.primary,
-    secondary: mondooColors.secondary,
-    background: mondooColors.background,
-    text: mondooColors.text,
-    divider: mondooColors.divider,
-    success: mondooColors.success,
-    warning: mondooColors.warning,
-    error: mondooColors.error,
-    info: mondooColors.info,
-    // Add custom palette for Mondoo branding
-    ...(mondooColors.accent && {
-      customColors: mondooColors.accent,
-    }),
+  cssVariables: {
+    colorSchemeSelector: 'data-mui-color-scheme',
+  },
+  colorSchemes: {
+    light: {
+      palette: {
+        primary: mondooColors.primary,
+        secondary: mondooColors.secondary,
+        background: mondooColors.background,
+        text: mondooColors.text,
+        divider: mondooColors.divider,
+        success: mondooColors.success,
+        warning: mondooColors.warning,
+        error: mondooColors.error,
+        info: mondooColors.info,
+      },
+    },
+    dark: {
+      palette: {
+        primary: {
+          main: mondooColors.primary.light, // Lighter purple for dark mode
+          light: '#A78BFA',
+          dark: mondooColors.primary.dark,
+          contrastText: '#FFFFFF',
+        },
+        secondary: {
+          main: mondooColors.secondary.light, // Lighter blue for dark mode
+          light: '#60A5FA',
+          dark: mondooColors.secondary.dark,
+          contrastText: '#FFFFFF',
+        },
+        background: {
+          default: '#0F172A', // Dark navy background
+          paper: '#1E293B', // Lighter dark for paper
+        },
+        text: {
+          primary: '#F8FAFC', // Light text for dark mode
+          secondary: '#CBD5E1', // Secondary light text
+        },
+        divider: '#475569', // Dark mode divider
+        success: {
+          main: '#10B981',
+          light: '#34D399',
+          dark: '#059669',
+        },
+        warning: {
+          main: '#F59E0B',
+          light: '#FBBF24',
+          dark: '#D97706',
+        },
+        error: {
+          main: '#EF4444',
+          light: '#F87171',
+          dark: '#DC2626',
+        },
+        info: {
+          main: mondooColors.secondary.light,
+          light: '#60A5FA',
+          dark: mondooColors.secondary.dark,
+        },
+      },
+    },
   },
   
   typography: {
@@ -349,6 +396,89 @@ export const mondooTheme = createTheme({
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           backgroundClip: 'text',
+        },
+      },
+    },
+
+    // Global CSS baseline overrides
+    MuiCssBaseline: {
+      styleOverrides: {
+        // Global CSS reset and base styles (from globals.css)
+        '*': {
+          boxSizing: 'border-box',
+          padding: 0,
+          margin: 0,
+        },
+        html: {
+          maxWidth: '100vw',
+          overflowX: 'hidden',
+          // Font smoothing for better text rendering
+          WebkitFontSmoothing: 'antialiased',
+          MozOsxFontSmoothing: 'grayscale',
+        },
+        body: {
+          maxWidth: '100vw',
+          overflowX: 'hidden',
+          fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+        },
+        a: {
+          color: 'inherit',
+          textDecoration: 'none',
+        },
+
+        // Mondoo Logo Color Switching (from globals.css)
+        '.mondoo-logo-header, .mondoo-logo-subtitle': {
+          filter: 'brightness(0) saturate(100%) invert(15%) sepia(97%) saturate(7103%) hue-rotate(270deg) brightness(79%) contrast(106%)',
+          transition: 'filter 0.3s ease',
+        },
+
+        // White logo on purple/dark backgrounds
+        '[data-mui-color-scheme="light"] .MuiAppBar-root .mondoo-logo-header, [data-mui-color-scheme="light"] .MuiAppBar-root .mondoo-logo-subtitle, [data-mui-color-scheme="light"] .MuiDrawer-root .mondoo-logo-header, [data-mui-color-scheme="light"] .MuiDrawer-root .mondoo-logo-subtitle, .purple-bg .mondoo-logo-header, .purple-bg .mondoo-logo-subtitle': {
+          filter: 'brightness(0) invert(1)',
+        },
+
+        // Dark mode logo handling
+        '[data-mui-color-scheme="dark"] .mondoo-logo-header, [data-mui-color-scheme="dark"] .mondoo-logo-subtitle': {
+          filter: 'brightness(0) invert(1)',
+        },
+
+        // Specific targeting for MUI Toolpad header
+        '.MuiBox-root[style*="background"] .mondoo-logo-header, .MuiBox-root[style*="background"] .mondoo-logo-subtitle, .MuiBox-root[style*="gradient"] .mondoo-logo-header, .MuiBox-root[style*="gradient"] .mondoo-logo-subtitle': {
+          filter: 'brightness(0) invert(1)',
+        },
+      },
+    },
+
+    // Enhanced Drawer/Sidebar styling
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          background: mondooColors.background.paper,
+          borderRight: `1px solid ${mondooColors.divider}`,
+          // Sidebar Icon Customization (from globals.css)
+          '& .MuiListItemIcon-root .MuiSvgIcon-root': {
+            fontSize: '1.2rem !important',
+            color: 'rgba(0, 0, 0, 0.4) !important',
+            transition: 'color 0.2s ease',
+          },
+          '& .MuiListItemButton-root.Mui-selected .MuiListItemIcon-root .MuiSvgIcon-root': {
+            color: `${mondooColors.primary.main} !important`,
+          },
+          '& .MuiListItemButton-root:hover .MuiListItemIcon-root .MuiSvgIcon-root': {
+            color: 'rgba(0, 0, 0, 0.6) !important',
+          },
+          // Dark mode icon adjustments
+          '[data-mui-color-scheme="dark"] &': {
+            '& .MuiListItemIcon-root .MuiSvgIcon-root': {
+              color: 'rgba(255, 255, 255, 0.5) !important',
+            },
+            '& .MuiListItemButton-root.Mui-selected .MuiListItemIcon-root .MuiSvgIcon-root': {
+              color: '#A78BFA !important',
+            },
+            '& .MuiListItemButton-root:hover .MuiListItemIcon-root .MuiSvgIcon-root': {
+              color: 'rgba(255, 255, 255, 0.7) !important',
+            },
+          },
         },
       },
     },

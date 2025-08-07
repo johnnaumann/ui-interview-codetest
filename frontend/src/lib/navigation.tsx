@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Dashboard as DashboardIcon,
-  Security as SecurityIcon,
   BugReport as VulnerabilityIcon,
   Assessment as ComplianceIcon,
   Inventory2 as AssetsIcon,
