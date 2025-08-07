@@ -2,17 +2,17 @@ import React from 'react'
 import { render, screen } from './test-utils'
 import Chart from '../components/Chart'
 
-// Mock the Apollo Client query hook
+
 jest.mock('@apollo/client', () => ({
   useQuery: jest.fn()
 }))
 
-// Mock GraphQL queries
+
 jest.mock('../api/graphql-queries', () => ({
   GET_TIME_SERIES_DATA: 'mock-query',
 }))
 
-// Mock interfaces
+
 jest.mock('../interfaces', () => ({
   TimeRange: {
     THREE_DAYS: 'THREE_DAYS',
@@ -103,7 +103,7 @@ describe('Chart', () => {
 
     render(<Chart />)
     
-    // The loading spinner should be visible
+
     expect(document.querySelector('.MuiCircularProgress-root')).toBeInTheDocument()
   })
 
@@ -129,11 +129,11 @@ describe('Chart', () => {
 
     render(<Chart />)
     
-    // Should render the chart
+
     const svg = document.querySelector('svg')
     expect(svg).toBeInTheDocument()
     
-    // Should render summary cards
+
     expect(screen.getByText('CVEs')).toBeInTheDocument()
     expect(screen.getByText('Advisories')).toBeInTheDocument()
   })

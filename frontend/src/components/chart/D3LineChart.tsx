@@ -59,7 +59,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(() => {
         updateDimensions();
-      }, 150); // 150ms debounce delay
+      }, 150);
     };
 
     window.addEventListener('resize', handleResize);
@@ -69,7 +69,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     };
   }, [updateDimensions]);
 
-    // Separate useEffect for grid that only runs when dimensions change
+
   useEffect(() => {
     if (!svgRef.current || !dimensions.width) return;
 
@@ -85,7 +85,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     const chartWidth = dimensions.width - margin.left - margin.right;
     const chartHeight = dimensions.height - margin.top - margin.bottom;
 
-    // Clear and recreate grid
+
     svg.selectAll('.grid-group').remove();
 
     const gridGroup = svg
@@ -125,13 +125,13 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     }
   }, [dimensions, theme.palette.divider]);
 
-  // Main useEffect for chart data
+
   useEffect(() => {
     if (!svgRef.current || !dimensions.width || loading) return;
 
     const svg = d3.select(svgRef.current);
 
-    // Clear existing chart elements but preserve the SVG structure
+
     svg.selectAll('.chart-group').remove();
     svg.selectAll('.data-points').remove();
     svg.selectAll('.cve-line').remove();
@@ -189,12 +189,11 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .y(d => yScale(d.advisories))
       .curve(d3.curveMonotoneX);
 
-    // Check if lines already exist for smooth transitions
+
     const existingCveLine = svg.select('.cve-line');
     const existingAdvisoryLine = svg.select('.advisory-line');
 
     if (existingCveLine.empty()) {
-      // Initial render with animation
       const cveLine = g.append('path')
         .attr('class', 'cve-line')
         .attr('fill', 'none')

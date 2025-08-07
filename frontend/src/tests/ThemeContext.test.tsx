@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { ThemeProvider, useTheme } from '../contexts/ThemeContext'
 
-// Test component to access theme context
+
 const TestComponent = () => {
   const { mode, toggleColorMode } = useTheme()
   return (
@@ -33,14 +33,14 @@ describe('ThemeContext', () => {
     
     const toggleButton = screen.getByText('Toggle Theme')
     
-    // Initially light mode
+
     expect(screen.getByTestId('theme-mode')).toHaveTextContent('light')
     
-    // Click to toggle to dark mode
+
     fireEvent.click(toggleButton)
     expect(screen.getByTestId('theme-mode')).toHaveTextContent('dark')
     
-    // Click again to toggle back to light mode
+
     fireEvent.click(toggleButton)
     expect(screen.getByTestId('theme-mode')).toHaveTextContent('light')
   })
@@ -67,7 +67,7 @@ describe('ThemeContext', () => {
   })
 
   it('throws error when useTheme is used outside provider', () => {
-    // Suppress console.error for this test
+
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
     
     expect(() => {

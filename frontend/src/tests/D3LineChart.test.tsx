@@ -3,7 +3,7 @@ import { render, screen } from './test-utils'
 import D3LineChart from '../components/chart/D3LineChart'
 import { DataPoint } from '../interfaces'
 
-// Mock D3
+
 jest.mock('d3', () => {
   const mockChain = {
     attr: jest.fn(() => mockChain),
@@ -75,7 +75,7 @@ describe('D3LineChart', () => {
   it('displays date range label', () => {
     render(<D3LineChart dataPoints={mockDataPoints} />)
     
-    // The date range should be calculated and displayed
+
     expect(screen.getByText(/Mon, January 1 – Wed, January 3/)).toBeInTheDocument()
   })
 
@@ -89,14 +89,14 @@ describe('D3LineChart', () => {
   it('handles empty data points', () => {
     render(<D3LineChart dataPoints={[]} />)
     
-    // Should still render the container but with empty date range
+
     expect(screen.getByText('')).toBeInTheDocument()
   })
 
   it('shows loading state when loading prop is true', () => {
     render(<D3LineChart dataPoints={mockDataPoints} loading={true} />)
     
-    // The chart should still render but might show loading indicators
+
     const svg = document.querySelector('svg')
     expect(svg).toBeInTheDocument()
   })

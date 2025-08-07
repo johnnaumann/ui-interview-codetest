@@ -24,14 +24,14 @@ describe('SummaryCards', () => {
   it('displays CVE data correctly', () => {
     render(<SummaryCards data={mockData} />)
     
-    expect(screen.getByText('26')).toBeInTheDocument() // Math.round(25.5)
+    expect(screen.getByText('26')).toBeInTheDocument()
     expect(screen.getByText('+12.3%')).toBeInTheDocument()
   })
 
   it('displays Advisories data correctly', () => {
     render(<SummaryCards data={mockData} />)
     
-    expect(screen.getByText('19')).toBeInTheDocument() // Math.round(18.7)
+    expect(screen.getByText('19')).toBeInTheDocument()
     expect(screen.getByText('-3.2%')).toBeInTheDocument()
   })
 
@@ -39,7 +39,7 @@ describe('SummaryCards', () => {
     render(<SummaryCards data={mockData} loading={true} />)
     
     const loadingTexts = screen.getAllByText('Loading...')
-    expect(loadingTexts).toHaveLength(2) // One for each card
+    expect(loadingTexts).toHaveLength(2)
   })
 
   it('renders cards even when no data provided', () => {

@@ -17,7 +17,7 @@ describe('AdvisoriesSummaryCard', () => {
   it('displays average value as integer', () => {
     render(<AdvisoriesSummaryCard data={mockData} />)
     
-    expect(screen.getByText('19')).toBeInTheDocument() // Math.round(18.7) = 19
+    expect(screen.getByText('19')).toBeInTheDocument()
   })
 
   it('shows average change text', () => {

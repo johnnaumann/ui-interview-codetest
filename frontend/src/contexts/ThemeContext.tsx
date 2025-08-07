@@ -1,12 +1,12 @@
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { createTheme, ThemeProvider as MuiThemeProvider, Theme } from '@mui/material/styles';
 import { ThemeContextType, ThemeProviderProps } from '../interfaces';
 
-// Centralized color definitions
+
 const colors = {
-  // Primary brand colors
+
   primary: {
     main: '#6B46C1',
     light: '#8B5CF6',
@@ -18,16 +18,16 @@ const colors = {
     dark: '#1E3A8A',
   },
   
-  // Semantic colors
+
   success: { main: '#059669', light: '#10B981', dark: '#047857' },
   warning: { main: '#D97706', light: '#F59E0B', dark: '#B45309' },
   error: { main: '#DC2626', light: '#EF4444', dark: '#B91C1C' },
   info: { main: '#1E40AF', light: '#3B82F6', dark: '#1E3A8A' },
   
-  // Custom colors
+
   advisories: { main: '#C084FC', light: '#E9D5FF', dark: '#A855F7' },
   
-  // Light theme colors
+
   light: {
     background: {
       default: '#FAFBFC',
@@ -42,7 +42,7 @@ const colors = {
     divider: '#E2E8F0',
   },
   
-  // Dark theme colors
+
   dark: {
     background: {
       default: '#2D1B69',
@@ -57,12 +57,12 @@ const colors = {
     divider: '#334155',
   },
   
-  // Common colors
+
   white: '#FFFFFF',
   black: '#000000',
 } as const;
 
-// Type declarations for MUI theme extension
+
 declare module '@mui/material/styles' {
   interface Palette {
     advisories: import('../interfaces').AdvisoriesColor;
@@ -72,12 +72,12 @@ declare module '@mui/material/styles' {
   }
 }
 
-// Helper function to create component overrides
+
 const createComponentOverrides = (mode: 'light' | 'dark') => ({
   MuiCssBaseline: {
     styleOverrides: {
       body: {
-        // Sidebar navigation overrides
+
         '& .MuiDrawer-root .MuiListItemButton-root, & [data-segment="dashboard"], & .MuiListItemButton-root, & .MuiListItem-root .MuiListItemButton-root, & nav .MuiListItemButton-root': {
           color: mode === 'dark' ? `${colors.white} !important` : undefined,
           '& .MuiTypography-root, & .MuiListItemIcon-root, & .MuiSvgIcon-root, & svg': {
@@ -227,7 +227,7 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
   },
 });
 
-// Context setup
+
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const useTheme = () => {
@@ -238,7 +238,7 @@ export const useTheme = () => {
   return context;
 };
 
-// Theme provider component
+
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [mode, setMode] = useState<'light' | 'dark'>('light');
 
