@@ -18,7 +18,8 @@ interface ApolloWrapperProps {
 const router = {
   pathname: '/dashboard',
   searchParams: new URLSearchParams(),
-  navigate: (path: string) => {
+  navigate: (url: string | URL) => {
+    const path = typeof url === 'string' ? url : url.pathname;
     console.log('Navigating to:', path);
   },
 };
@@ -31,14 +32,14 @@ const branding = {
       alt="Mondoo Logo"
       width={108}
       height={19}
+      className="mondoo-logo-header"
       style={{
-        filter: 'brightness(0) invert(1)',
         maxWidth: '100%',
         height: 'auto',
       }}
     />
   ),
-  title: 'Security Platform',
+  title: '',
   homeUrl: '/dashboard',
 };
 
