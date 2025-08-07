@@ -137,16 +137,16 @@ const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({
     g.append('path')
       .datum(parsedData)
       .attr('fill', 'none')
-      .attr('stroke', '#1976d2')
-      .attr('stroke-width', 2)
+      .attr('stroke', '#0052CC') // Mondoo primary blue
+      .attr('stroke-width', 3)
       .attr('d', cveLineGenerator);
 
     // Add Advisory line
     g.append('path')
       .datum(parsedData)
       .attr('fill', 'none')
-      .attr('stroke', '#dc004e')
-      .attr('stroke-width', 2)
+      .attr('stroke', '#E53E3E') // Mondoo error red
+      .attr('stroke-width', 3)
       .attr('d', advisoryLineGenerator);
 
     // Add CVE dots
@@ -157,21 +157,26 @@ const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({
       .attr('class', 'cve-dot')
       .attr('cx', d => xScale(d.date))
       .attr('cy', d => yScale(d.cves))
-      .attr('r', 4)
-      .attr('fill', '#1976d2')
+      .attr('r', 5)
+      .attr('fill', '#0052CC')
+      .attr('stroke', '#FFFFFF')
+      .attr('stroke-width', 2)
       .on('mouseover', function(event, d) {
         // Add tooltip
         const tooltip = d3.select('body')
           .append('div')
           .attr('class', 'tooltip')
           .style('position', 'absolute')
-          .style('padding', '8px')
-          .style('background', 'rgba(0, 0, 0, 0.8)')
-          .style('color', 'white')
-          .style('border-radius', '4px')
-          .style('font-size', '12px')
+          .style('padding', '12px 16px')
+          .style('background', '#FFFFFF')
+          .style('color', '#1A202C')
+          .style('border-radius', '8px')
+          .style('font-size', '14px')
+          .style('font-weight', '500')
           .style('pointer-events', 'none')
-          .style('z-index', 1000);
+          .style('z-index', 1000)
+          .style('box-shadow', '0px 10px 15px rgba(0, 0, 0, 0.1), 0px 4px 6px rgba(0, 0, 0, 0.1)')
+          .style('border', '1px solid #E2E8F0');
 
         tooltip.html(`CVEs: ${d.cves}<br/>Date: ${d.date.toLocaleDateString()}`)
           .style('left', (event.pageX + 10) + 'px')
@@ -189,20 +194,25 @@ const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({
       .attr('class', 'advisory-dot')
       .attr('cx', d => xScale(d.date))
       .attr('cy', d => yScale(d.advisories))
-      .attr('r', 4)
-      .attr('fill', '#dc004e')
+      .attr('r', 5)
+      .attr('fill', '#E53E3E')
+      .attr('stroke', '#FFFFFF')
+      .attr('stroke-width', 2)
       .on('mouseover', function(event, d) {
         const tooltip = d3.select('body')
           .append('div')
           .attr('class', 'tooltip')
           .style('position', 'absolute')
-          .style('padding', '8px')
-          .style('background', 'rgba(0, 0, 0, 0.8)')
-          .style('color', 'white')
-          .style('border-radius', '4px')
-          .style('font-size', '12px')
+          .style('padding', '12px 16px')
+          .style('background', '#FFFFFF')
+          .style('color', '#1A202C')
+          .style('border-radius', '8px')
+          .style('font-size', '14px')
+          .style('font-weight', '500')
           .style('pointer-events', 'none')
-          .style('z-index', 1000);
+          .style('z-index', 1000)
+          .style('box-shadow', '0px 10px 15px rgba(0, 0, 0, 0.1), 0px 4px 6px rgba(0, 0, 0, 0.1)')
+          .style('border', '1px solid #E2E8F0');
 
         tooltip.html(`Advisories: ${d.advisories}<br/>Date: ${d.date.toLocaleDateString()}`)
           .style('left', (event.pageX + 10) + 'px')
@@ -221,31 +231,33 @@ const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({
       .attr('x2', 15)
       .attr('y1', 0)
       .attr('y2', 0)
-      .attr('stroke', '#1976d2')
-      .attr('stroke-width', 2);
+      .attr('stroke', '#0052CC')
+      .attr('stroke-width', 3);
 
     legend.append('text')
       .attr('x', 20)
       .attr('y', 0)
       .attr('dy', '0.32em')
-      .style('font-size', '12px')
-      .style('fill', '#666')
+      .style('font-size', '14px')
+      .style('fill', '#1A202C')
+      .style('font-weight', '600')
       .text('CVEs');
 
     legend.append('line')
       .attr('x1', 0)
       .attr('x2', 15)
-      .attr('y1', 20)
-      .attr('y2', 20)
-      .attr('stroke', '#dc004e')
-      .attr('stroke-width', 2);
+      .attr('y1', 25)
+      .attr('y2', 25)
+      .attr('stroke', '#E53E3E')
+      .attr('stroke-width', 3);
 
     legend.append('text')
       .attr('x', 20)
-      .attr('y', 20)
+      .attr('y', 25)
       .attr('dy', '0.32em')
-      .style('font-size', '12px')
-      .style('fill', '#666')
+      .style('font-size', '14px')
+      .style('fill', '#1A202C')
+      .style('font-weight', '600')
       .text('Advisories');
 
   }, [data, width, height]);

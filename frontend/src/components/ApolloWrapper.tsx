@@ -2,20 +2,10 @@
 
 import React from 'react';
 import { ApolloProvider } from '@apollo/client';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import client from '../lib/apollo-client';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#1976d2',
-    },
-    secondary: {
-      main: '#dc004e',
-    },
-  },
-});
+import { mondooTheme } from '../theme/mondooTheme';
 
 interface ApolloWrapperProps {
   children: React.ReactNode;
@@ -24,7 +14,7 @@ interface ApolloWrapperProps {
 export const ApolloWrapper: React.FC<ApolloWrapperProps> = ({ children }) => {
   return (
     <ApolloProvider client={client}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={mondooTheme}>
         <CssBaseline />
         {children}
       </ThemeProvider>
