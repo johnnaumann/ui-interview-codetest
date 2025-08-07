@@ -106,7 +106,7 @@ const Chart: React.FC = () => {
           xs: '1fr',
           xl: '1fr 300px',
         },
-        gap: 2,
+        gap: { xs: 0, xl: 2 },
         minHeight: '400px',
         height: '100%',
         p: 2,

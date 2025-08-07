@@ -53,12 +53,20 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
   }, [updateDimensions]);
 
   useEffect(() => {
+    let resizeTimeout: NodeJS.Timeout;
+    
     const handleResize = () => {
-      updateDimensions();
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        updateDimensions();
+      }, 150); // 150ms debounce delay
     };
 
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(resizeTimeout);
+    };
   }, [updateDimensions]);
 
     // Separate useEffect for grid that only runs when dimensions change
