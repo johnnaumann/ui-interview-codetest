@@ -18,6 +18,12 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 800, height: 400 });
+  const [tooltip, setTooltip] = useState<{
+    visible: boolean;
+    x: number;
+    y: number;
+    content: string;
+  }>({ visible: false, x: 0, y: 0, content: '' });
 
   const updateDimensions = useCallback(() => {
     if (containerRef.current) {
@@ -154,7 +160,8 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .attr('fill', 'none')
       .attr('stroke', theme.palette.primary.main)
       .attr('stroke-width', isMobile ? 1 : 1.5)
-      .attr('d', cveLineGenerator(parsedData));
+      .attr('d', cveLineGenerator(parsedData))
+      .style('cursor', 'pointer');
     
     const cveTotalLength = cveLine.node()?.getTotalLength() || 0;
     cveLine
@@ -170,7 +177,8 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .attr('fill', 'none')
       .attr('stroke', theme.palette.advisories.main)
       .attr('stroke-width', isMobile ? 1 : 1.5)
-      .attr('d', advisoryLineGenerator(parsedData));
+      .attr('d', advisoryLineGenerator(parsedData))
+      .style('cursor', 'pointer');
     
     const advisoryTotalLength = advisoryLine.node()?.getTotalLength() || 0;
     advisoryLine
@@ -182,7 +190,92 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .ease(d3.easeLinear)
       .attr('stroke-dashoffset', 0);
 
-  }, [dataPoints, dimensions, loading]);
+    // Add data points for tooltips
+    const dataPointsGroup = g.append('g').attr('class', 'data-points');
+
+    parsedData.forEach((d, i) => {
+      const cveY = yScale(d.cves);
+      const advisoryY = yScale(d.advisories);
+      const x = xScale(d.date);
+
+      // CVE data point
+      dataPointsGroup.append('circle')
+        .attr('cx', x)
+        .attr('cy', cveY)
+        .attr('r', 0)
+        .attr('fill', theme.palette.primary.main)
+        .style('cursor', 'pointer')
+        .on('mouseover', (event) => {
+          const tooltipContent = `
+            <div style="font-family: Arial, sans-serif; font-size: 12px;">
+              <div style="font-weight: bold; margin-bottom: 4px; color: #1F2937;">
+                ${d.date.toLocaleDateString('en-US', { 
+                  weekday: 'long', 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                })}
+              </div>
+              <div style="color: ${theme.palette.primary.main}; font-weight: 600;">
+                CVEs: ${d.cves}
+              </div>
+            </div>
+          `;
+          setTooltip({
+            visible: true,
+            x: event.pageX + 10,
+            y: event.pageY - 10,
+            content: tooltipContent
+          });
+        })
+        .on('mouseout', () => {
+          setTooltip({ visible: false, x: 0, y: 0, content: '' });
+        })
+        .transition()
+        .delay(1000 + i * 50)
+        .duration(300)
+        .attr('r', 3);
+
+      // Advisory data point
+      dataPointsGroup.append('circle')
+        .attr('cx', x)
+        .attr('cy', advisoryY)
+        .attr('r', 0)
+        .attr('fill', theme.palette.advisories.main)
+        .style('cursor', 'pointer')
+        .on('mouseover', (event) => {
+          const tooltipContent = `
+            <div style="font-family: Arial, sans-serif; font-size: 12px;">
+              <div style="font-weight: bold; margin-bottom: 4px; color: #1F2937;">
+                ${d.date.toLocaleDateString('en-US', { 
+                  weekday: 'long', 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                })}
+              </div>
+              <div style="color: ${theme.palette.advisories.main}; font-weight: 600;">
+                Advisories: ${d.advisories}
+              </div>
+            </div>
+          `;
+          setTooltip({
+            visible: true,
+            x: event.pageX + 10,
+            y: event.pageY - 10,
+            content: tooltipContent
+          });
+        })
+        .on('mouseout', () => {
+          setTooltip({ visible: false, x: 0, y: 0, content: '' });
+        })
+        .transition()
+        .delay(1000 + i * 50)
+        .duration(300)
+        .attr('r', 3);
+    });
+
+  }, [dataPoints, dimensions, loading, theme.palette.primary.main, theme.palette.advisories.main]);
 
   return (
     <Paper elevation={2} className="chart-paper" sx={{ p: 2 }}>
@@ -193,7 +286,8 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
           width: '100%', 
           display: 'flex',
           flexDirection: 'column',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          position: 'relative'
         }}
       >
         <svg 
@@ -209,6 +303,26 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
           viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
           preserveAspectRatio="xMidYMid meet"
         />
+        
+        {tooltip.visible && (
+          <Box
+            sx={{
+              position: 'fixed',
+              left: tooltip.x,
+              top: tooltip.y,
+              backgroundColor: 'white',
+              color: '#333333',
+              padding: 1.5,
+              borderRadius: 1,
+              fontSize: '12px',
+              zIndex: 1000,
+              pointerEvents: 'none',
+
+              border: '1px solid #E2E8F0',
+            }}
+            dangerouslySetInnerHTML={{ __html: tooltip.content }}
+          />
+        )}
       </Box>
     </Paper>
   );
