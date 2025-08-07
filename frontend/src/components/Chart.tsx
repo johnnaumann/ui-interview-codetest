@@ -6,6 +6,7 @@ import {
   CircularProgress,
   Alert,
   Typography,
+  useTheme,
 } from '@mui/material';
 import { useQuery } from '@apollo/client';
 import { GET_TIME_SERIES_DATA, TimeSeriesResponse, TimeRange, CriticalityLevel } from '../api/graphql-queries';
@@ -15,6 +16,7 @@ import SummaryCards from './chart/SummaryCards';
 import D3LineChart from './chart/D3LineChart';
 
 const Chart: React.FC = () => {
+  const theme = useTheme();
   const [timeRange, setTimeRange] = useState<TimeRange>('THIRTY_DAYS');
   const [selectedCriticalities, setSelectedCriticalities] = useState<CriticalityLevel[]>([]);
 
@@ -122,7 +124,7 @@ const Chart: React.FC = () => {
             top: 16,
             left: 16,
             zIndex: 10,
-            backgroundColor: 'white',
+            backgroundColor: theme.palette.mode === 'dark' ? '#2D1B69' : 'white',
             borderRadius: 1,
             p: 1,
           }}>
@@ -138,7 +140,7 @@ const Chart: React.FC = () => {
             top: -8,
             right: -8,
             zIndex: 10,
-            backgroundColor: 'white',
+            backgroundColor: theme.palette.mode === 'dark' ? '#2D1B69' : 'white',
             borderRadius: 1,
             p: 1,
             m: 3,
