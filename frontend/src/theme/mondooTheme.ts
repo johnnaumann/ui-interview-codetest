@@ -253,7 +253,7 @@ export const mondooTheme = createTheme({
   shadows: mondooShadows,
 
   shape: {
-    borderRadius: 8, // Mondoo uses rounded corners consistently
+    borderRadius: 0, // Remove all rounded corners
   },
 
   components: {
@@ -261,7 +261,7 @@ export const mondooTheme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 8,
+          borderRadius: 0,
           padding: '12px 24px',
           fontSize: '0.875rem',
           fontWeight: 600,
@@ -300,7 +300,7 @@ export const mondooTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 12,
+          borderRadius: 0,
           border: `1px solid ${mondooColors.divider}`,
           boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.05), 0px 2px 4px rgba(0, 0, 0, 0.1)',
           '&:hover': {
@@ -316,7 +316,7 @@ export const mondooTheme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          borderRadius: 12,
+          borderRadius: 0,
           border: `1px solid ${mondooColors.divider}`,
           '&.chart-paper': {
             width: '100%',
@@ -339,7 +339,7 @@ export const mondooTheme = createTheme({
       styleOverrides: {
         root: {
           '& .MuiOutlinedInput-root': {
-            borderRadius: 8,
+            borderRadius: 0,
             '& fieldset': {
               borderColor: mondooColors.divider,
             },
@@ -358,7 +358,7 @@ export const mondooTheme = createTheme({
     MuiSelect: {
       styleOverrides: {
         root: {
-          borderRadius: 8,
+          borderRadius: 0,
         },
       },
     },
@@ -367,7 +367,7 @@ export const mondooTheme = createTheme({
     MuiChip: {
       styleOverrides: {
         root: {
-          borderRadius: 6,
+          borderRadius: 0,
           backgroundColor: mondooColors.background.elevated,
           border: `1px solid ${mondooColors.divider}`,
           '&:hover': {
