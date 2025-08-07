@@ -63,14 +63,6 @@ const Chart: React.FC = () => {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <ChartControls
-        timeRange={timeRange}
-        selectedCriticalities={selectedCriticalities}
-        onTimeRangeChange={handleTimeRangeChange}
-        onCriticalityChange={handleCriticalityChange}
-        disabled={loading}
-      />
-
       <Box sx={{ 
         display: 'grid',
         gridTemplateColumns: {
@@ -81,13 +73,28 @@ const Chart: React.FC = () => {
         minHeight: '400px',
         height: '100%',
       }}>
-        <Box sx={{ height: '100%' }}>
+        <Box sx={{ height: '100%', position: 'relative' }}>
           {data && (
             <D3LineChart
               dataPoints={data.timeSeriesData.dataPoints}
               loading={loading}
             />
           )}
+          
+          <Box sx={{
+            position: 'absolute',
+            top: 16,
+            right: 16,
+            zIndex: 10,
+          }}>
+            <ChartControls
+              timeRange={timeRange}
+              selectedCriticalities={selectedCriticalities}
+              onTimeRangeChange={handleTimeRangeChange}
+              onCriticalityChange={handleCriticalityChange}
+              disabled={loading}
+            />
+          </Box>
         </Box>
 
         {data && (
