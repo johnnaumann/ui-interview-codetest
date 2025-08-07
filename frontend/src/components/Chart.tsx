@@ -81,7 +81,7 @@ const Chart: React.FC = () => {
         minHeight: '400px',
         height: '100%',
       }}>
-        <Box>
+        <Box sx={{ height: '100%' }}>
           {data && (
             <D3LineChart
               dataPoints={data.timeSeriesData.dataPoints}

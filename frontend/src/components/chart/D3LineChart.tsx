@@ -67,11 +67,11 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     svg.selectAll('*').remove();
 
     const isMobile = dimensions.width < 768;
-    const margin = { 
-      top: 40, 
-      right: isMobile ? 40 : 40, 
-      bottom: 40, 
-      left: isMobile ? 40 : 40 
+        const margin = {
+      top: 20,
+      right: isMobile ? 20 : 20,
+      bottom: 20,
+      left: isMobile ? 20 : 20
     };
     
     const chartWidth = dimensions.width - margin.left - margin.right;
@@ -105,12 +105,11 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .domain([0, maxValue * 1.1])
       .range([chartHeight, 0]);
 
-    const gridSpacing = Math.min(chartWidth, chartHeight) / 4;
-    const xGridLines = Math.floor(chartWidth / gridSpacing);
-    const yGridLines = Math.floor(chartHeight / gridSpacing);
+    const xGridSpacing = chartWidth / 4;
+    const yGridSpacing = chartHeight / 4;
     
-    for (let i = 0; i <= xGridLines; i++) {
-      const x = i * gridSpacing;
+    for (let i = 0; i <= 4; i++) {
+      const x = i * xGridSpacing;
       g.append('line')
         .attr('class', 'grid-line-vertical')
         .attr('x1', x)
@@ -123,8 +122,8 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         .style('opacity', 1);
     }
 
-    for (let i = 0; i <= yGridLines; i++) {
-      const y = i * gridSpacing;
+    for (let i = 0; i <= 4; i++) {
+      const y = i * yGridSpacing;
       g.append('line')
         .attr('class', 'grid-line-horizontal')
         .attr('x1', 0)
@@ -185,13 +184,13 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
   }, [dataPoints, dimensions, loading]);
 
   return (
-    <Paper elevation={2} className="chart-paper" sx={{ p: 2 }}>
+    <Paper elevation={2} className="chart-paper" sx={{ p: 2, height: '100%' }}>
       <Box 
         ref={containerRef} 
         className="chart-container"
         sx={{ 
           width: '100%', 
-          minHeight: 400,
+          height: '100%',
           display: 'flex',
           flexDirection: 'column',
           flex: 1,
