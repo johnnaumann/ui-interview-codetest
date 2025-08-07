@@ -39,9 +39,9 @@ const darkColors = {
   primary: mondooColors.primary,
   secondary: mondooColors.secondary,
   background: {
-    default: '#0F172A',
-    paper: '#1E293B',
-    elevated: '#334155',
+    default: '#2D1B69', // Consistent purple background
+    paper: '#2D1B69', // Match app header purple
+    elevated: '#2D1B69', // Match app header purple
   },
   text: {
     primary: '#F8FAFC',
@@ -172,6 +172,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
         styleOverrides: {
           root: {
             boxShadow: 'none',
+            backgroundColor: mode === 'dark' ? '#2D1B69' : undefined, // Dark purple header in dark mode
           },
         },
       },
