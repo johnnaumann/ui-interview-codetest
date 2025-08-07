@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { useTheme } from '@mui/material/styles';
+import React from 'react';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface LogoProps {
   width?: number;
@@ -14,43 +14,10 @@ const Logo: React.FC<LogoProps> = ({
   height = 24, 
   className = 'logo-header' 
 }) => {
-  const theme = useTheme();
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  // Watch for theme changes
-  useEffect(() => {
-    const updateTheme = () => {
-      if (typeof document !== 'undefined') {
-        const colorScheme = document.documentElement.getAttribute('data-mui-color-scheme');
-        setIsDarkMode(colorScheme === 'dark');
-      }
-    };
-
-    // Initial check
-    updateTheme();
-
-    // Create a MutationObserver to watch for theme changes
-    if (typeof document !== 'undefined') {
-      const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-          if (mutation.type === 'attributes' && 
-              mutation.attributeName === 'data-mui-color-scheme') {
-            updateTheme();
-          }
-        });
-      });
-
-      observer.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ['data-mui-color-scheme']
-      });
-
-      return () => observer.disconnect();
-    }
-  }, []);
+  const { mode } = useTheme();
   
   // Use white for dark mode, purple brand color for light mode
-  const fillColor = isDarkMode ? '#FFFFFF' : '#6B46C1';
+  const fillColor = mode === 'dark' ? '#FFFFFF' : '#6B46C1';
 
   return (
     <svg 
