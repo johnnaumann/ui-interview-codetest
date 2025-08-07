@@ -16,9 +16,6 @@ export const navigation: Navigation = [
     icon: <DashboardIcon />,
   },
   {
-    kind: 'divider',
-  },
-  {
     kind: 'header',
     title: 'Security',
   },
