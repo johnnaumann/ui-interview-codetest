@@ -6,7 +6,10 @@ import {
   CardContent,
   Typography,
   Box,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
+import { Info } from '@mui/icons-material';
 
 
 interface AdvisoriesSummaryData {
@@ -37,11 +40,19 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
   return (
                <Card sx={{
              backgroundColor: '#E9D5FF',
+             position: 'relative',
            }}>
                    <CardContent>
-        <Typography variant="h6" color="#6B46C1" gutterBottom>
-          Advisories
-        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
+          <Typography variant="h6" color="#6B46C1">
+            Advisories
+          </Typography>
+          <Tooltip title="Security advisories are official notifications about security issues, vulnerabilities, or threats. This shows the average number of advisories issued over the selected time period.">
+            <IconButton size="small" sx={{ color: '#6B46C1', p: 0.5 }}>
+              <Info fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
         {loading ? (
           <Box sx={{ display: 'flex', alignItems: 'center', minHeight: 60 }}>
             <Typography variant="body2" color="#6B46C1">

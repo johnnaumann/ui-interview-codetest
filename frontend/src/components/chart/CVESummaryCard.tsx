@@ -6,7 +6,10 @@ import {
   CardContent,
   Typography,
   Box,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
+import { Info } from '@mui/icons-material';
 
 
 interface CVESummaryData {
@@ -37,11 +40,19 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
   return (
                <Card sx={{
              backgroundColor: '#6B46C1',
+             position: 'relative',
            }}>
                    <CardContent>
-        <Typography variant="h6" color="white" gutterBottom>
-          CVEs
-        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
+          <Typography variant="h6" color="white">
+            CVEs
+          </Typography>
+          <Tooltip title="Common Vulnerabilities and Exposures (CVEs) are security flaws in software or hardware that can be exploited by attackers. This shows the average number of CVEs detected over the selected time period.">
+            <IconButton size="small" sx={{ color: 'white', p: 0.5 }}>
+              <Info fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
         {loading ? (
           <Box sx={{ display: 'flex', alignItems: 'center', minHeight: 60 }}>
             <Typography variant="body2" color="white">
