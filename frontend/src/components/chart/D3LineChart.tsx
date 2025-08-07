@@ -72,10 +72,138 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     // Check if this is the initial render
     const isInitial = svg.select('g.main-chart-group').empty();
     
-    // Clear everything except the main group on data changes
+    // Handle data changes with animation
     if (!isInitial) {
-      svg.selectAll('g.main-chart-group > *').remove();
+      animateDataChange(svg, dataPoints, dimensions, isInitial);
+      return;
     }
+    
+    // Initial render - create everything from scratch
+    renderChart(svg, dataPoints, dimensions, isInitial);
+  }, [dataPoints, dimensions.width, dimensions.height, loading]);
+
+  const animateDataChange = (svg: any, newDataPoints: any[], dimensions: any, isInitial: boolean) => {
+    const isMobile = dimensions.width < 768;
+    const margin = { 
+      top: 20, 
+      right: isMobile ? 40 : 80, 
+      bottom: isMobile ? 50 : 40, 
+      left: isMobile ? 40 : 60 
+    };
+    
+    const chartWidth = dimensions.width - margin.left - margin.right;
+    const chartHeight = dimensions.height - margin.top - margin.bottom;
+    
+    const g = svg.select('g.main-chart-group');
+    
+    // Parse new data
+    const parsedData = newDataPoints
+      .map(d => ({
+        ...d,
+        date: new Date(d.timestamp),
+      }))
+      .sort((a, b) => a.date.getTime() - b.date.getTime());
+
+    // Create scales for new data
+    const xScale = d3
+      .scaleTime()
+      .domain(d3.extent(parsedData, d => d.date) as [Date, Date])
+      .range([0, chartWidth]);
+
+    const maxValue = Math.max(
+      d3.max(parsedData, d => d.cves) || 0,
+      d3.max(parsedData, d => d.advisories) || 0
+    );
+
+    const yScale = d3
+      .scaleLinear()
+      .domain([0, maxValue * 1.1])
+      .range([chartHeight, 0]);
+
+    // Create flat line generators (at x-axis)
+    const flatCveLineGenerator = d3
+      .line<any>()
+      .x(d => xScale(d.date))
+      .y(() => chartHeight)
+      .curve(d3.curveMonotoneX);
+
+    const flatAdvisoryLineGenerator = d3
+      .line<any>()
+      .x(d => xScale(d.date))
+      .y(() => chartHeight)
+      .curve(d3.curveMonotoneX);
+
+    // Create new line generators
+    const cveLineGenerator = d3
+      .line<any>()
+      .x(d => xScale(d.date))
+      .y(d => yScale(d.cves))
+      .curve(d3.curveMonotoneX);
+
+    const advisoryLineGenerator = d3
+      .line<any>()
+      .x(d => xScale(d.date))
+      .y(d => yScale(d.advisories))
+      .curve(d3.curveMonotoneX);
+
+    // Phase 1: Animate existing lines to flat (x-axis)
+    const existingCveLine = g.select('path.cve-line');
+    const existingAdvisoryLine = g.select('path.advisory-line');
+
+    if (!existingCveLine.empty()) {
+      existingCveLine
+        .transition()
+        .duration(400)
+        .ease(d3.easeQuadInOut)
+        .attr('d', flatCveLineGenerator(parsedData))
+        .on('end', () => {
+          // Phase 2: Update to new data and animate up
+          existingCveLine
+            .transition()
+            .duration(600)
+            .delay(100)
+            .ease(d3.easeQuadOut)
+            .attr('d', cveLineGenerator(parsedData));
+        });
+    }
+
+    if (!existingAdvisoryLine.empty()) {
+      existingAdvisoryLine
+        .transition()
+        .duration(400)
+        .ease(d3.easeQuadInOut)
+        .attr('d', flatAdvisoryLineGenerator(parsedData))
+        .on('end', () => {
+          // Phase 2: Update to new data and animate up
+          existingAdvisoryLine
+            .transition()
+            .duration(600)
+            .delay(100)
+            .ease(d3.easeQuadOut)
+            .attr('d', advisoryLineGenerator(parsedData));
+        });
+    }
+
+    // Update axes with smooth transitions
+    const xAxis = d3.axisBottom(xScale)
+      .tickFormat(d3.timeFormat(isMobile ? '%m/%d' : '%m/%d') as (date: Date | d3.NumberValue) => string)
+      .ticks(isMobile ? 4 : 8);
+
+    const yAxis = d3.axisLeft(yScale)
+      .ticks(isMobile ? 5 : 8);
+
+    g.select('g.x-axis')
+      .transition()
+      .duration(500)
+      .call(xAxis);
+
+    g.select('g.y-axis')
+      .transition()
+      .duration(500)
+      .call(yAxis);
+  };
+
+  const renderChart = (svg: any, dataPoints: any[], dimensions: any, isInitial: boolean) => {
 
     // Responsive margins based on screen size
     const isMobile = dimensions.width < 768;
@@ -270,8 +398,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .style('fill', '#1A202C')
       .style('font-weight', '600')
       .text('Advisories');
-
-  }, [dataPoints, dimensions, loading]);
+  };
 
   return (
     <Paper elevation={2} className="chart-paper" sx={{ p: 2 }}>
