@@ -6,11 +6,11 @@ import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import Image from 'next/image';
 import client from '../lib/apollo-client';
 import { mondooTheme } from '../theme/mondooTheme';
 import { NAVIGATION } from '../lib/navigation';
 import ThemeToggle from './ThemeToggle';
+import Logo from './Logo';
 interface ApolloWrapperProps {
   children: React.ReactNode;
 }
@@ -27,19 +27,7 @@ const router = {
 
 // Branding configuration
 const branding = {
-  logo: (
-    <Image
-      src="/logo.svg"
-      alt="Mondoo Logo"
-      width={108}
-      height={19}
-      className="mondoo-logo-header"
-      style={{
-        maxWidth: '100%',
-        height: 'auto',
-      }}
-    />
-  ),
+  logo: <Logo width={108} height={19} />,
   title: '',
   homeUrl: '/dashboard',
 };

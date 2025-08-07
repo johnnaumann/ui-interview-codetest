@@ -432,31 +432,12 @@ export const mondooTheme = createTheme({
           textDecoration: 'none',
         },
 
-        // Mondoo Logo Color Switching - default (purple brand color on light backgrounds)
-        '.mondoo-logo-header, .mondoo-logo-subtitle': {
-          filter: 'brightness(0) saturate(100%) invert(15%) sepia(97%) saturate(7103%) hue-rotate(270deg) brightness(79%) contrast(106%)',
-          transition: 'filter 0.3s ease-in-out',
+        // Logo component styles (keeping basic styling for the custom SVG component)
+        '.logo-header, .logo-subtitle': {
+          transition: 'all 0.3s ease-in-out',
           display: 'block !important',
-          visibility: 'visible !important',
-          opacity: '1 !important',
-        },
-
-        // White logo on dark backgrounds (in dark mode)
-        '[data-mui-color-scheme="dark"] .mondoo-logo-header, [data-mui-color-scheme="dark"] .mondoo-logo-subtitle': {
-          filter: 'brightness(0) invert(1) !important',
-        },
-
-        // White logo on headers and navigation areas (AppBar and Drawer)
-        '.MuiAppBar-root .mondoo-logo-header, .MuiAppBar-root .mondoo-logo-subtitle, .MuiDrawer-root .mondoo-logo-header, .MuiDrawer-root .mondoo-logo-subtitle': {
-          filter: 'brightness(0) invert(1) !important',
-        },
-
-        // Ensure logo always shows regardless of next/image's default styles
-        'img.mondoo-logo-header, img.mondoo-logo-subtitle': {
-          color: 'unset !important',
-          display: 'block !important',
-          visibility: 'visible !important',
-          opacity: '1 !important',
+          maxWidth: '100%',
+          height: 'auto',
         },
 
         // Chart container responsiveness
