@@ -68,142 +68,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     if (!dataPoints.length || !svgRef.current || !dimensions.width || loading) return;
 
     const svg = d3.select(svgRef.current);
-    
-    // Check if this is the initial render
-    const isInitial = svg.select('g.main-chart-group').empty();
-    
-    // Handle data changes with animation
-    if (!isInitial) {
-      animateDataChange(svg, dataPoints, dimensions, isInitial);
-      return;
-    }
-    
-    // Initial render - create everything from scratch
-    renderChart(svg, dataPoints, dimensions, isInitial);
-  }, [dataPoints, dimensions.width, dimensions.height, loading]);
-
-  const animateDataChange = (svg: any, newDataPoints: any[], dimensions: any, isInitial: boolean) => {
-    const isMobile = dimensions.width < 768;
-    const margin = { 
-      top: 20, 
-      right: isMobile ? 40 : 80, 
-      bottom: isMobile ? 50 : 40, 
-      left: isMobile ? 40 : 60 
-    };
-    
-    const chartWidth = dimensions.width - margin.left - margin.right;
-    const chartHeight = dimensions.height - margin.top - margin.bottom;
-    
-    const g = svg.select('g.main-chart-group');
-    
-    // Parse new data
-    const parsedData = newDataPoints
-      .map(d => ({
-        ...d,
-        date: new Date(d.timestamp),
-      }))
-      .sort((a, b) => a.date.getTime() - b.date.getTime());
-
-    // Create scales for new data
-    const xScale = d3
-      .scaleTime()
-      .domain(d3.extent(parsedData, d => d.date) as [Date, Date])
-      .range([0, chartWidth]);
-
-    const maxValue = Math.max(
-      d3.max(parsedData, d => d.cves) || 0,
-      d3.max(parsedData, d => d.advisories) || 0
-    );
-
-    const yScale = d3
-      .scaleLinear()
-      .domain([0, maxValue * 1.1])
-      .range([chartHeight, 0]);
-
-    // Create flat line generators (at x-axis)
-    const flatCveLineGenerator = d3
-      .line<any>()
-      .x(d => xScale(d.date))
-      .y(() => chartHeight)
-      .curve(d3.curveMonotoneX);
-
-    const flatAdvisoryLineGenerator = d3
-      .line<any>()
-      .x(d => xScale(d.date))
-      .y(() => chartHeight)
-      .curve(d3.curveMonotoneX);
-
-    // Create new line generators
-    const cveLineGenerator = d3
-      .line<any>()
-      .x(d => xScale(d.date))
-      .y(d => yScale(d.cves))
-      .curve(d3.curveMonotoneX);
-
-    const advisoryLineGenerator = d3
-      .line<any>()
-      .x(d => xScale(d.date))
-      .y(d => yScale(d.advisories))
-      .curve(d3.curveMonotoneX);
-
-    // Phase 1: Animate existing lines to flat (x-axis)
-    const existingCveLine = g.select('path.cve-line');
-    const existingAdvisoryLine = g.select('path.advisory-line');
-
-    if (!existingCveLine.empty()) {
-      existingCveLine
-        .transition()
-        .duration(400)
-        .ease(d3.easeQuadInOut)
-        .attr('d', flatCveLineGenerator(parsedData))
-        .on('end', () => {
-          // Phase 2: Update to new data and animate up
-          existingCveLine
-            .transition()
-            .duration(600)
-            .delay(100)
-            .ease(d3.easeQuadOut)
-            .attr('d', cveLineGenerator(parsedData));
-        });
-    }
-
-    if (!existingAdvisoryLine.empty()) {
-      existingAdvisoryLine
-        .transition()
-        .duration(400)
-        .ease(d3.easeQuadInOut)
-        .attr('d', flatAdvisoryLineGenerator(parsedData))
-        .on('end', () => {
-          // Phase 2: Update to new data and animate up
-          existingAdvisoryLine
-            .transition()
-            .duration(600)
-            .delay(100)
-            .ease(d3.easeQuadOut)
-            .attr('d', advisoryLineGenerator(parsedData));
-        });
-    }
-
-    // Update axes with smooth transitions
-    const xAxis = d3.axisBottom(xScale)
-      .tickFormat(d3.timeFormat(isMobile ? '%m/%d' : '%m/%d') as (date: Date | d3.NumberValue) => string)
-      .ticks(isMobile ? 4 : 8);
-
-    const yAxis = d3.axisLeft(yScale)
-      .ticks(isMobile ? 5 : 8);
-
-    g.select('g.x-axis')
-      .transition()
-      .duration(500)
-      .call(xAxis);
-
-    g.select('g.y-axis')
-      .transition()
-      .duration(500)
-      .call(yAxis);
-  };
-
-  const renderChart = (svg: any, dataPoints: any[], dimensions: any, isInitial: boolean) => {
+    svg.selectAll('*').remove();
 
     // Responsive margins based on screen size
     const isMobile = dimensions.width < 768;
@@ -241,40 +106,30 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .domain([0, maxValue * 1.1])
       .range([chartHeight, 0]);
 
-    // Get or create main group
-    let g = svg.select('g.main-chart-group');
-    if (g.empty()) {
-      g = svg
-        .append('g')
-        .attr('class', 'main-chart-group');
-    }
-    
-    // Always set/update the transform
-    g.attr('transform', `translate(${margin.left},${margin.top})`);
+    // Create main group
+    const g = svg
+      .append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
 
     // Add X axis with responsive ticks
     const xAxis = d3.axisBottom(xScale)
       .tickFormat(d3.timeFormat(isMobile ? '%m/%d' : '%m/%d') as (date: Date | d3.NumberValue) => string)
       .ticks(isMobile ? 4 : 8);
-    
-    const xAxisGroup = g.append('g')
-      .attr('class', 'x-axis')
-      .attr('transform', `translate(0,${chartHeight})`)
-      .call(xAxis);
       
-    xAxisGroup.selectAll('text')
+    g.append('g')
+      .attr('transform', `translate(0,${chartHeight})`)
+      .call(xAxis)
+      .selectAll('text')
       .style('font-size', isMobile ? '12px' : '14px')
       .style('fill', '#4A5568');
 
     // Add Y axis with responsive ticks
     const yAxis = d3.axisLeft(yScale)
       .ticks(isMobile ? 5 : 8);
-    
-    const yAxisGroup = g.append('g')
-      .attr('class', 'y-axis')
-      .call(yAxis);
       
-    yAxisGroup.selectAll('text')
+    g.append('g')
+      .call(yAxis)
+      .selectAll('text')
       .style('font-size', isMobile ? '12px' : '14px')
       .style('fill', '#4A5568');
 
@@ -321,17 +176,15 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .attr('stroke-width', isMobile ? 2 : 3)
       .attr('d', cveLineGenerator(parsedData));
     
-    // Animate line drawing on initial load
-    if (isInitial) {
-      const totalLength = cveLine.node()?.getTotalLength() || 0;
-      cveLine
-        .attr('stroke-dasharray', totalLength + ' ' + totalLength)
-        .attr('stroke-dashoffset', totalLength)
-        .transition()
-        .duration(1000)
-        .ease(d3.easeLinear)
-        .attr('stroke-dashoffset', 0);
-    }
+    // Animate line drawing
+    const cveTotalLength = cveLine.node()?.getTotalLength() || 0;
+    cveLine
+      .attr('stroke-dasharray', cveTotalLength + ' ' + cveTotalLength)
+      .attr('stroke-dashoffset', cveTotalLength)
+      .transition()
+      .duration(1000)
+      .ease(d3.easeLinear)
+      .attr('stroke-dashoffset', 0);
 
     // Add Advisory line with smooth transitions
     const advisoryLine = g.append('path')
@@ -341,18 +194,16 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .attr('stroke-width', isMobile ? 2 : 3)
       .attr('d', advisoryLineGenerator(parsedData));
     
-    // Animate line drawing on initial load
-    if (isInitial) {
-      const totalLength = advisoryLine.node()?.getTotalLength() || 0;
-      advisoryLine
-        .attr('stroke-dasharray', totalLength + ' ' + totalLength)
-        .attr('stroke-dashoffset', totalLength)
-        .transition()
-        .duration(1000)
-        .delay(200) // Slight delay for staggered effect
-        .ease(d3.easeLinear)
-        .attr('stroke-dashoffset', 0);
-    }
+    // Animate line drawing
+    const advisoryTotalLength = advisoryLine.node()?.getTotalLength() || 0;
+    advisoryLine
+      .attr('stroke-dasharray', advisoryTotalLength + ' ' + advisoryTotalLength)
+      .attr('stroke-dashoffset', advisoryTotalLength)
+      .transition()
+      .duration(1000)
+      .delay(200) // Slight delay for staggered effect
+      .ease(d3.easeLinear)
+      .attr('stroke-dashoffset', 0);
 
     // Add legend - responsive positioning
     const legendX = isMobile ? 20 : chartWidth - 80;
@@ -361,20 +212,20 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .attr('transform', `translate(${legendX}, ${legendY})`);
 
     // Legend lines and text - responsive layout
-    const legendSpacing = isMobile ? 80 : 25;
-    const legendLineLength = isMobile ? 12 : 15;
+    const legendSpacing = isMobile ? 15 : 20;
     const legendFontSize = isMobile ? '12px' : '14px';
 
+    // CVE legend
     legend.append('line')
       .attr('x1', 0)
-      .attr('x2', legendLineLength)
       .attr('y1', 0)
+      .attr('x2', isMobile ? 20 : 30)
       .attr('y2', 0)
       .attr('stroke', '#6B46C1')
       .attr('stroke-width', isMobile ? 2 : 3);
 
     legend.append('text')
-      .attr('x', legendLineLength + 5)
+      .attr('x', isMobile ? 25 : 35)
       .attr('y', 0)
       .attr('dy', '0.32em')
       .style('font-size', legendFontSize)
@@ -382,23 +233,25 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .style('font-weight', '600')
       .text('CVEs');
 
+    // Advisory legend
     legend.append('line')
-      .attr('x1', isMobile ? legendSpacing : 0)
-      .attr('x2', (isMobile ? legendSpacing : 0) + legendLineLength)
+      .attr('x1', 0)
       .attr('y1', isMobile ? 0 : legendSpacing)
+      .attr('x2', isMobile ? 20 : 30)
       .attr('y2', isMobile ? 0 : legendSpacing)
       .attr('stroke', '#1E40AF')
       .attr('stroke-width', isMobile ? 2 : 3);
 
     legend.append('text')
-      .attr('x', (isMobile ? legendSpacing : 0) + legendLineLength + 5)
+      .attr('x', isMobile ? 25 : 35)
       .attr('y', isMobile ? 0 : legendSpacing)
       .attr('dy', '0.32em')
       .style('font-size', legendFontSize)
       .style('fill', '#1A202C')
       .style('font-weight', '600')
       .text('Advisories');
-  };
+
+  }, [dataPoints, dimensions, loading]);
 
   return (
     <Paper elevation={2} className="chart-paper" sx={{ p: 2 }}>
