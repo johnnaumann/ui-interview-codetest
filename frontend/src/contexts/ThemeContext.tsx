@@ -102,6 +102,7 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       root: {
         boxShadow: 'none',
         borderRadius: 2,
+        border: mode === 'dark' ? `1px solid ${colors.dark.divider}` : 'none',
         '&:hover': {
           boxShadow: 'none',
         },
@@ -113,6 +114,7 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       root: {
         boxShadow: 'none',
         borderRadius: 2,
+        border: mode === 'dark' ? `1px solid ${colors.dark.divider}` : 'none',
       },
       elevation1: {
         boxShadow: 'none',
@@ -171,6 +173,7 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
   MuiDrawer: {
     styleOverrides: {
       paper: {
+        border: mode === 'dark' ? `1px solid ${colors.dark.divider}` : 'none',
         '& .MuiListItemButton-root': {
           color: mode === 'dark' ? `${colors.white} !important` : undefined,
           '& .MuiTypography-root, & .MuiListItemIcon-root, & .MuiSvgIcon-root': {
