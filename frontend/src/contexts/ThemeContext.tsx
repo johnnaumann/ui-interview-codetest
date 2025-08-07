@@ -1,9 +1,8 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { createTheme, ThemeProvider as MuiThemeProvider, Theme } from '@mui/material/styles';
 
-// Mondoo-inspired color palette
 const mondooColors = {
   primary: {
     main: '#6B46C1',
@@ -34,14 +33,13 @@ const mondooColors = {
   info: { main: '#1E40AF', light: '#3B82F6', dark: '#1E3A8A' },
 };
 
-// Dark mode colors
 const darkColors = {
   primary: mondooColors.primary,
   secondary: mondooColors.secondary,
   background: {
-    default: '#2D1B69', // Consistent purple background
-    paper: '#2D1B69', // Match app header purple
-    elevated: '#2D1B69', // Match app header purple
+    default: '#2D1B69',
+    paper: '#2D1B69',
+    elevated: '#2D1B69',
   },
   text: {
     primary: '#F8FAFC',
@@ -148,7 +146,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
         styleOverrides: {
           root: {
             boxShadow: 'none',
-            backgroundColor: mode === 'dark' ? '#2D1B69' : undefined, // Dark purple header in dark mode
+            backgroundColor: mode === 'dark' ? '#2D1B69' : undefined,
           },
         },
       },

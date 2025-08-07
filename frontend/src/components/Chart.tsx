@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import {
   Box,
-  Typography,
   CircularProgress,
   Alert,
 } from '@mui/material';
@@ -64,7 +63,6 @@ const Chart: React.FC = () => {
 
   return (
     <Box sx={{ width: '100%' }}>
-      {/* Chart Controls */}
       <ChartControls
         timeRange={timeRange}
         selectedCriticalities={selectedCriticalities}
@@ -73,18 +71,16 @@ const Chart: React.FC = () => {
         disabled={loading}
       />
 
-      {/* Main Content Grid */}
       <Box sx={{ 
         display: 'grid',
         gridTemplateColumns: {
-          xs: '1fr', // Single column on mobile
-          md: '1fr 300px', // Chart takes main space, cards on right
-          lg: '1fr 350px', // Slightly wider cards on large screens
+          xs: '1fr',
+          md: '1fr 300px',
+          lg: '1fr 350px',
         },
         minHeight: '400px',
         height: '100%',
       }}>
-        {/* Chart Area */}
         <Box>
           {data && (
             <D3LineChart
@@ -94,7 +90,6 @@ const Chart: React.FC = () => {
           )}
         </Box>
 
-        {/* Summary Cards Area */}
         {data && (
           <Box sx={{ 
             display: 'flex', 
