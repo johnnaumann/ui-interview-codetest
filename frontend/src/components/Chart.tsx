@@ -87,7 +87,7 @@ const Chart: React.FC = () => {
           <Box sx={{
             position: 'absolute',
             top: 16,
-            right: 16,
+            left: 16,
             zIndex: 10,
             backgroundColor: 'white',
             borderRadius: 1,
