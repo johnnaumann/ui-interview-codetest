@@ -64,10 +64,13 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, [updateDimensions]);
 
+  // Combined chart setup and data update effect
   useEffect(() => {
-    if (!dataPoints.length || !svgRef.current || !dimensions.width || loading) return;
+    if (!svgRef.current || !dimensions.width || loading) return;
 
     const svg = d3.select(svgRef.current);
+    
+    // Clear existing content
     svg.selectAll('*').remove();
 
     // Responsive margins based on screen size
@@ -81,7 +84,15 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     
     const chartWidth = dimensions.width - margin.left - margin.right;
     const chartHeight = dimensions.height - margin.top - margin.bottom;
-    
+
+    // Create main group
+    const g = svg
+      .append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    // Only proceed with data rendering if we have data
+    if (!dataPoints.length) return;
+
     // Parse timestamps and sort data chronologically
     const parsedData = dataPoints
       .map(d => ({
@@ -106,54 +117,29 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .domain([0, maxValue * 1.1])
       .range([chartHeight, 0]);
 
-    // Create main group
-    const g = svg
-      .append('g')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
-
-    // Add X axis with responsive ticks
+    // Add X axis
     const xAxis = d3.axisBottom(xScale)
       .tickFormat(d3.timeFormat(isMobile ? '%m/%d' : '%m/%d') as (date: Date | d3.NumberValue) => string)
       .ticks(isMobile ? 4 : 8);
       
     g.append('g')
+      .attr('class', 'x-axis')
       .attr('transform', `translate(0,${chartHeight})`)
       .call(xAxis)
       .selectAll('text')
       .style('font-size', isMobile ? '12px' : '14px')
       .style('fill', '#4A5568');
 
-    // Add Y axis with responsive ticks
+    // Add Y axis
     const yAxis = d3.axisLeft(yScale)
       .ticks(isMobile ? 5 : 8);
       
     g.append('g')
+      .attr('class', 'y-axis')
       .call(yAxis)
       .selectAll('text')
       .style('font-size', isMobile ? '12px' : '14px')
       .style('fill', '#4A5568');
-
-    // Add axis labels - only show on larger screens
-    if (!isMobile) {
-      g.append('text')
-        .attr('transform', 'rotate(-90)')
-        .attr('y', 0 - margin.left)
-        .attr('x', 0 - (chartHeight / 2))
-        .attr('dy', '1em')
-        .style('text-anchor', 'middle')
-        .style('font-size', '14px')
-        .style('fill', '#4A5568')
-        .style('font-weight', '500')
-        .text('Count');
-
-      g.append('text')
-        .attr('transform', `translate(${chartWidth / 2}, ${chartHeight + margin.bottom - 5})`)
-        .style('text-anchor', 'middle')
-        .style('font-size', '14px')
-        .style('fill', '#4A5568')
-        .style('font-weight', '500')
-        .text('Date');
-    }
 
     // Create line generators
     const cveLineGenerator = d3
@@ -172,7 +158,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     const cveLine = g.append('path')
       .attr('class', 'cve-line')
       .attr('fill', 'none')
-      .attr('stroke', '#6B46C1') // Main brand purple for CVEs
+      .attr('stroke', '#6B46C1')
       .attr('stroke-width', isMobile ? 1 : 1.5)
       .attr('d', cveLineGenerator(parsedData));
     
@@ -190,7 +176,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     const advisoryLine = g.append('path')
       .attr('class', 'advisory-line')
       .attr('fill', 'none')
-      .attr('stroke', '#E9D5FF') // Very light purple for advisories
+      .attr('stroke', '#E9D5FF')
       .attr('stroke-width', isMobile ? 1 : 1.5)
       .attr('d', advisoryLineGenerator(parsedData));
     
@@ -204,8 +190,6 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .delay(200) // Slight delay for staggered effect
       .ease(d3.easeLinear)
       .attr('stroke-dashoffset', 0);
-
-
 
   }, [dataPoints, dimensions, loading]);
 
