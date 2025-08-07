@@ -36,7 +36,19 @@ const Chart: React.FC = () => {
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" height={400}>
+      <Box 
+        display="flex" 
+        justifyContent="center" 
+        alignItems="center" 
+        sx={{ 
+          height: '100vh',
+          width: '100%',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          zIndex: 1000,
+        }}
+      >
         <CircularProgress />
       </Box>
     );
