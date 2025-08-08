@@ -1,4 +1,10 @@
-// Theme Context Interfaces
+// =============================================================================
+// THEME & CONTEXT TYPES
+// =============================================================================
+// Types used by ThemeContext and theme-related components
+
+import type { AppTheme } from '@toolpad/core/AppProvider';
+
 export interface AdvisoriesColor {
   main: string;
   light: string;
@@ -13,8 +19,6 @@ export interface PaletteOptions {
   advisories?: AdvisoriesColor;
 }
 
-import type { AppTheme } from '@toolpad/core/AppProvider';
-
 export interface ThemeContextType {
   mode: 'light' | 'dark';
   toggleColorMode: () => void;
@@ -25,7 +29,11 @@ export interface ThemeProviderProps {
   children: React.ReactNode;
 }
 
-// GraphQL Data Interfaces
+// =============================================================================
+// API & GRAPHQL TYPES
+// =============================================================================
+// Types used for data fetching, GraphQL operations, and API responses
+
 export interface DataPoint {
   timestamp: string;
   cves: number;
@@ -66,7 +74,11 @@ export interface UserResponse {
 export type TimeRange = 'THREE_DAYS' | 'SEVEN_DAYS' | 'FOURTEEN_DAYS' | 'THIRTY_DAYS';
 export type CriticalityLevel = 'NONE' | 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
 
-// Common Component Props
+// =============================================================================
+// COMMON COMPONENT TYPES
+// =============================================================================
+// Reusable base types and utility interfaces used across multiple components
+
 export interface BaseProps {
   children?: React.ReactNode;
 }
@@ -79,7 +91,6 @@ export interface DisabledProps {
   disabled?: boolean;
 }
 
-// Component Props Interfaces
 export interface WrapperProps extends BaseProps {
   children: React.ReactNode;
 }
@@ -90,7 +101,11 @@ export interface LogoProps {
   className?: string;
 }
 
-// Chart Component Interfaces
+// =============================================================================
+// CHART COMPONENT TYPES
+// =============================================================================
+// Types used by chart-related components (D3LineChart, SummaryCards, etc.)
+
 // Use MetricSummary instead of duplicating CVESummaryData and AdvisoriesSummaryData
 export type CVESummaryData = MetricSummary;
 export type AdvisoriesSummaryData = MetricSummary;
@@ -115,7 +130,11 @@ export interface D3LineChartProps extends LoadingProps {
   dataPoints: DataPoint[];
 }
 
-// Filter Component Props
+// =============================================================================
+// FILTER COMPONENT TYPES
+// =============================================================================
+// Types used by filter components (TimeRangeFilter, CriticalityFilter, etc.)
+
 export interface FilterProps<T> extends DisabledProps {
   value: T;
   onChange: (value: T) => void;
@@ -131,7 +150,11 @@ export interface ChartControlsProps extends LoadingProps, DisabledProps {
   onCriticalityChange: (criticalities: CriticalityLevel[]) => void;
 }
 
-// Utility Interfaces
+// =============================================================================
+// UTILITY TYPES
+// =============================================================================
+// Helper types and interfaces for internal functionality
+
 export interface TooltipState {
   visible: boolean;
   x: number;
