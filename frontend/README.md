@@ -82,7 +82,6 @@ frontend/
 │       ├── test-utils.tsx     # Testing utilities
 │       └── [component].test.tsx # Component tests
 ├── public/                    # Static assets
-├── package.json              # Dependencies and scripts
 ├── next.config.ts            # Next.js configuration
 ├── jest.config.js            # Jest configuration
 ├── jest.setup.js             # Jest setup file
@@ -104,8 +103,8 @@ frontend/
 git clone https://github.com/johnnaumann/ui-interview-codetest.git
 cd ui-interview-codetest
 
-# Install all dependencies (root + frontend) concurrently
-yarn install:all
+# Install all dependencies (single package.json)
+yarn install
 
 # Start both GraphQL server and frontend
 yarn dev
@@ -115,13 +114,13 @@ yarn dev
 ```bash
 # Clone the repository
 git clone https://github.com/johnnaumann/ui-interview-codetest.git
-cd ui-interview-codetest/frontend
+cd ui-interview-codetest
 
-# Install frontend dependencies
+# Install all dependencies (single package.json)
 yarn install
 
 # Start frontend only (requires GraphQL server on port 3000)
-yarn dev
+yarn dev:frontend
 ```
 
 ### Access the Application
@@ -130,22 +129,16 @@ yarn dev
 
 ### Available Scripts
 
-**Frontend Scripts (run from frontend directory):**
-- `yarn dev` - Start development server on port 3001
-- `yarn build` - Build for production
-- `yarn start` - Start production server
-- `yarn lint` - Run ESLint
-- `yarn test` - Run tests
-- `yarn test:watch` - Run tests in watch mode
-- `yarn test:coverage` - Run tests with coverage report
-
 **Root Scripts (run from project root):**
 - `yarn dev` - Start both GraphQL server and frontend concurrently
 - `yarn dev:server` - Start GraphQL server only
 - `yarn dev:frontend` - Start frontend only
-- `yarn install:all` - Install dependencies in both root and frontend concurrently
+- `yarn install` - Install all dependencies (single package.json)
 - `yarn build` - Build the frontend application
+- `yarn start` - Start the production frontend
 - `yarn test` - Run frontend tests
+- `yarn test:watch` - Run frontend tests in watch mode
+- `yarn test:coverage` - Run frontend tests with coverage report
 - `yarn lint` - Run frontend linting
 
 ## 📊 Data Structure
