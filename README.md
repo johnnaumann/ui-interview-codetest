@@ -2,7 +2,7 @@
 
 ## Development Setup
 
-This project uses `concurrently` to run both the GraphQL server and Next.js frontend simultaneously during development. The entire build system uses **Yarn** exclusively for consistent package management.
+This project uses `concurrently` to run both the GraphQL server and Next.js frontend simultaneously during development. The entire build system uses **Yarn** exclusively for consistent package management with a **single package.json** file for simplified dependency management.
 
 ### Prerequisites
 
@@ -12,8 +12,8 @@ This project uses `concurrently` to run both the GraphQL server and Next.js fron
 ### Quick Start
 
 ```bash
-# Install all dependencies (root + frontend) concurrently
-yarn install:all
+# Install all dependencies (single package.json)
+yarn install
 
 # Start both servers concurrently
 yarn dev
@@ -32,13 +32,14 @@ yarn dev:server            # Start GraphQL server only
 yarn dev:frontend          # Start Next.js frontend only
 
 # Dependencies
-yarn install               # Install root dependencies only
-yarn install:all           # Install dependencies in both root and frontend concurrently
+yarn install               # Install all dependencies (single package.json)
 
 # Frontend (runs from frontend directory)
 yarn build                 # Build the Next.js application
 yarn start                 # Start the production frontend
 yarn test                  # Run frontend tests
+yarn test:watch            # Run frontend tests in watch mode
+yarn test:coverage         # Run frontend tests with coverage
 yarn lint                  # Run frontend linting
 ```
 
@@ -46,6 +47,7 @@ yarn lint                  # Run frontend linting
 
 - **Concurrent Execution**: Both servers start simultaneously using `concurrently`
 - **Yarn-Only**: Consistent package management with yarn throughout the project
+- **Single Package.json**: All dependencies managed in one place for simplicity
 - **Process Management**: If one process fails, the other is automatically terminated
 - **Colored Output**: Each process has distinct colored output for easy identification
 - **Auto-restart**: Failed processes will attempt to restart up to 3 times
@@ -57,8 +59,8 @@ yarn lint                  # Run frontend linting
 ui-interview-codetest/
 ├── api/                   # GraphQL server
 ├── frontend/              # Next.js application
-├── package.json           # Root dependencies and scripts
-├── yarn.lock             # Root dependency lock file
+├── package.json           # All dependencies and scripts (single file)
+├── yarn.lock             # Dependency lock file
 ├── .yarnrc.yml           # Yarn configuration
 └── concurrently.config.js # Concurrent execution configuration
 ```
@@ -85,8 +87,8 @@ node --version
 **Dependency Issues:**
 ```bash
 # Clean install all dependencies
-rm -rf node_modules frontend/node_modules
-yarn install:all
+rm -rf node_modules
+yarn install
 ```
 
 The GraphQL server will automatically try the next available port if 3000 is in use.
