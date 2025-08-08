@@ -102,8 +102,6 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
             No data available
           </Typography>
         )}
-
-
       </CardContent>
     </Card>
   );

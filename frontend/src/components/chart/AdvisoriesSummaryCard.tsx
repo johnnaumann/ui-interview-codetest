@@ -49,9 +49,9 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
             Advisories
           </Typography>
           <Tooltip title="Security advisories are official notifications about security issues, vulnerabilities, or threats. This shows the average number of advisories issued over the selected time period.">
-            <IconButton 
-              size="small" 
-              sx={{ 
+            <IconButton
+              size="small"
+              sx={{
                 color: `${theme.palette.mode === 'dark' ? colors.white : colors.primary.main} !important`,
                 p: 0.5,
                 '& .MuiSvgIcon-root': {
@@ -102,8 +102,6 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
             No data available
           </Typography>
         )}
-
-
       </CardContent>
     </Card>
   );
