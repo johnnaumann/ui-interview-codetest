@@ -150,22 +150,44 @@ declare module '@mui/material/styles' {
 const createComponentOverrides = (mode: 'light' | 'dark') => ({
   // Global CSS baseline overrides
   MuiCssBaseline: {
-    styleOverrides: {
-      // Import Roboto font from Google Fonts
-      '@import': [
-        'url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap")'
-      ],
-      body: {
-        fontFamily: 'var(--font-roboto), "Roboto", "Helvetica", "Arial", sans-serif',
-        // Ensure proper text color for navigation elements in dark mode
-        '& .MuiDrawer-root .MuiListItemButton-root, & [data-segment="dashboard"], & .MuiListItemButton-root, & .MuiListItem-root .MuiListItemButton-root, & nav .MuiListItemButton-root': {
-          color: mode === 'dark' ? `${colors.white} !important` : undefined,
-          '& .MuiTypography-root, & .MuiListItemIcon-root, & .MuiSvgIcon-root, & svg': {
-            color: mode === 'dark' ? `${colors.white} !important` : undefined,
-          },
-        },
-      },
-    },
+    styleOverrides: `
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+      
+      body {
+        font-family: var(--font-roboto), "Roboto", "Helvetica", "Arial", sans-serif;
+      }
+      
+      body .MuiDrawer-root .MuiListItemButton-root, 
+      body [data-segment="dashboard"], 
+      body .MuiListItemButton-root, 
+      body .MuiListItem-root .MuiListItemButton-root, 
+      body nav .MuiListItemButton-root {
+        color: ${mode === 'dark' ? `${colors.white} !important` : 'inherit'};
+      }
+      
+      body .MuiDrawer-root .MuiListItemButton-root .MuiTypography-root, 
+      body .MuiDrawer-root .MuiListItemButton-root .MuiListItemIcon-root, 
+      body .MuiDrawer-root .MuiListItemButton-root .MuiSvgIcon-root, 
+      body .MuiDrawer-root .MuiListItemButton-root svg,
+      body [data-segment="dashboard"] .MuiTypography-root, 
+      body [data-segment="dashboard"] .MuiListItemIcon-root, 
+      body [data-segment="dashboard"] .MuiSvgIcon-root, 
+      body [data-segment="dashboard"] svg,
+      body .MuiListItemButton-root .MuiTypography-root, 
+      body .MuiListItemButton-root .MuiListItemIcon-root, 
+      body .MuiListItemButton-root .MuiSvgIcon-root, 
+      body .MuiListItemButton-root svg,
+      body .MuiListItem-root .MuiListItemButton-root .MuiTypography-root, 
+      body .MuiListItem-root .MuiListItemButton-root .MuiListItemIcon-root, 
+      body .MuiListItem-root .MuiListItemButton-root .MuiSvgIcon-root, 
+      body .MuiListItem-root .MuiListItemButton-root svg,
+      body nav .MuiListItemButton-root .MuiTypography-root, 
+      body nav .MuiListItemButton-root .MuiListItemIcon-root, 
+      body nav .MuiListItemButton-root .MuiSvgIcon-root, 
+      body nav .MuiListItemButton-root svg {
+        color: ${mode === 'dark' ? `${colors.white} !important` : 'inherit'};
+      }
+    `,
   },
   
   // Button component overrides - remove default shadows
