@@ -15,6 +15,7 @@ import TimeRangeFilter from './chart/TimeRangeFilter';
 import CriticalityFilter from './chart/CriticalityFilter';
 import SummaryCards from './chart/SummaryCards';
 import D3LineChart from './chart/D3LineChart';
+import ChartTitle from './chart/ChartTitle';
 
 const Chart: React.FC = () => {
   const theme = useTheme();
@@ -66,39 +67,7 @@ const Chart: React.FC = () => {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Box sx={{ 
-        mt: 3,
-        mb: 2,
-        px: 2,
-      }}>
-        <Typography 
-          variant="h4" 
-          component="h1" 
-          sx={{ 
-            fontWeight: 'bold',
-            color: 'text.primary',
-            mb: 1,
-          }}
-        >
-          Security Metrics Dashboard
-        </Typography>
-        
-        <Typography 
-          variant="body1" 
-          component="p" 
-          sx={{ 
-            color: 'text.secondary',
-            fontWeight: 'medium',
-          }}
-        >
-          {new Date().toLocaleDateString('en-US', { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-          })}
-        </Typography>
-      </Box>
+      <ChartTitle />
       
       <Box sx={{ 
         display: 'grid',
