@@ -93,7 +93,7 @@ frontend/
 
 ### Prerequisites
 - Node.js 20 or higher
-- npm or yarn package manager
+- yarn package manager
 
 ### Installation
 
@@ -105,15 +105,11 @@ frontend/
 
 2. **Install dependencies**
    ```bash
-   npm install
-   # or
    yarn install
    ```
 
 3. **Start the development server**
    ```bash
-   npm run dev
-   # or
    yarn dev
    ```
 
@@ -122,13 +118,13 @@ frontend/
 
 ### Available Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-- `npm run test` - Run tests
-- `npm run test:watch` - Run tests in watch mode
-- `npm run test:coverage` - Run tests with coverage report
+- `yarn dev` - Start development server
+- `yarn build` - Build for production
+- `yarn start` - Start production server
+- `yarn lint` - Run ESLint
+- `yarn test` - Run tests
+- `yarn test:watch` - Run tests in watch mode
+- `yarn test:coverage` - Run tests with coverage report
 
 ## 📊 Data Structure
 
@@ -184,8 +180,8 @@ The project includes comprehensive testing with:
 
 Run tests with:
 ```bash
-npm run test
-npm run test:coverage
+yarn test
+yarn test:coverage
 ```
 
 ## 📱 Responsive Design
@@ -213,20 +209,6 @@ The dashboard is fully responsive with:
 - Next.js recommended rules
 - TypeScript support
 - Custom rule overrides
-
-## 🚀 Deployment
-
-### Build for Production
-```bash
-npm run build
-npm run start
-```
-
-### Environment Variables
-Create a `.env.local` file for environment-specific configuration:
-```env
-NEXT_PUBLIC_GRAPHQL_ENDPOINT=your-graphql-endpoint
-```
 
 ## 🤝 Contributing
 
