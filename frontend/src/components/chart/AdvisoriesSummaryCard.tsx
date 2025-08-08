@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { Info } from '@mui/icons-material';
 import { AdvisoriesSummaryCardProps } from '../../types';
+import { colors } from '../../contexts/ThemeContext';
 
 const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
   data,
@@ -38,26 +39,26 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
 
   return (
     <Card sx={{
-      backgroundColor: theme.palette.mode === 'dark' ? '#A855F7' : '#E9D5FF',
-      border: `1px solid ${theme.palette.mode === 'dark' ? '#A855F7' : '#E9D5FF'}`,
+      backgroundColor: theme.palette.mode === 'dark' ? colors.advisories.dark : colors.advisories.light,
+      border: `1px solid ${theme.palette.mode === 'dark' ? colors.advisories.dark : colors.advisories.light}`,
       position: 'relative',
     }}>
       <CardContent>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
-          <Typography variant="h6" color={theme.palette.mode === 'dark' ? 'white' : '#6B46C1'}>
+          <Typography variant="h6" color={theme.palette.mode === 'dark' ? colors.white : colors.primary.main}>
             Advisories
           </Typography>
           <Tooltip title="Security advisories are official notifications about security issues, vulnerabilities, or threats. This shows the average number of advisories issued over the selected time period.">
             <IconButton 
               size="small" 
               sx={{ 
-                color: `${theme.palette.mode === 'dark' ? 'white' : '#6B46C1'} !important`,
+                color: `${theme.palette.mode === 'dark' ? colors.white : colors.primary.main} !important`,
                 p: 0.5,
                 '& .MuiSvgIcon-root': {
-                  color: `${theme.palette.mode === 'dark' ? 'white' : '#6B46C1'} !important`,
+                  color: `${theme.palette.mode === 'dark' ? colors.white : colors.primary.main} !important`,
                 },
                 '& svg': {
-                  color: `${theme.palette.mode === 'dark' ? 'white' : '#6B46C1'} !important`,
+                  color: `${theme.palette.mode === 'dark' ? colors.white : colors.primary.main} !important`,
                 }
               }}
             >
@@ -67,13 +68,13 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
         </Box>
         {loading ? (
           <Box sx={{ display: 'flex', alignItems: 'center', minHeight: 60 }}>
-            <Typography variant="body2" color={theme.palette.mode === 'dark' ? 'white' : '#6B46C1'}>
+            <Typography variant="body2" color={theme.palette.mode === 'dark' ? colors.white : colors.primary.main}>
               Loading...
             </Typography>
           </Box>
         ) : data ? (
           <>
-            <Typography variant="h4" component="div" sx={{ mb: 1, color: theme.palette.mode === 'dark' ? 'white' : '#6B46C1' }}>
+            <Typography variant="h4" component="div" sx={{ mb: 1, color: theme.palette.mode === 'dark' ? colors.white : colors.primary.main }}>
               {getAverageValueDisplay(data.averageValue, data.delta)}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
