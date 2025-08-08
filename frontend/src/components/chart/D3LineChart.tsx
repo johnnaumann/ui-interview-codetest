@@ -54,7 +54,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
 
   useEffect(() => {
     let resizeTimeout: NodeJS.Timeout;
-    
+
     const handleResize = () => {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(() => {
@@ -211,7 +211,6 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         .ease(d3.easeLinear)
         .attr('stroke-dashoffset', 0);
     } else {
-      // Update existing line with smooth transition
       existingCveLine
         .transition()
         .duration(500)
@@ -220,7 +219,6 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     }
 
     if (existingAdvisoryLine.empty()) {
-      // Initial render with animation
       const advisoryLine = g.append('path')
         .attr('class', 'advisory-line')
         .attr('fill', 'none')
@@ -239,7 +237,6 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         .ease(d3.easeLinear)
         .attr('stroke-dashoffset', 0);
     } else {
-      // Update existing line with smooth transition
       existingAdvisoryLine
         .transition()
         .duration(500)
@@ -247,11 +244,9 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         .attr('d', advisoryLineGenerator(parsedData));
     }
 
-    // Handle data points with smooth transitions
     const existingDataPoints = svg.select('.data-points');
 
     if (existingDataPoints.empty()) {
-      // Initial render with animation
       const dataPointsGroup = g.append('g').attr('class', 'data-points');
 
       parsedData.forEach((d, i) => {
@@ -259,7 +254,6 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         const advisoryY = yScale(d.advisories);
         const x = xScale(d.date);
 
-        // CVE data point
         dataPointsGroup.append('circle')
           .attr('cx', x)
           .attr('cy', cveY)
@@ -297,7 +291,6 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
           .duration(300)
           .attr('r', 3);
 
-        // Advisory data point
         dataPointsGroup.append('circle')
           .attr('cx', x)
           .attr('cy', advisoryY)
@@ -336,10 +329,8 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
           .attr('r', 3);
       });
     } else {
-      // Update existing data points with smooth transitions
       const circles = existingDataPoints.selectAll('circle');
 
-      // Update positions with transition
       circles
         .data(parsedData.flatMap(d => [
           { ...d, type: 'cve', y: yScale(d.cves) },
@@ -380,15 +371,15 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
   };
 
   return (
-             <Paper elevation={0} className="chart-paper" sx={{
-           p: 2,
-           backgroundColor: theme.palette.mode === 'dark' ? 'transparent' : 'white',
-           border: theme.palette.mode === 'dark' ? '1px solid #334155' : 'none',
-         }}>
-      <Box 
+    <Paper elevation={0} className="chart-paper" sx={{
+      p: 2,
+      backgroundColor: theme.palette.mode === 'dark' ? 'transparent' : 'white',
+      border: theme.palette.mode === 'dark' ? '1px solid #334155' : 'none',
+    }}>
+      <Box
         ref={containerRef}
         className="chart-container"
-        sx={{ 
+        sx={{
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
@@ -409,10 +400,10 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
           viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
           preserveAspectRatio="xMidYMid meet"
         />
-        
-        <Typography 
+
+        <Typography
           variant="body2"
-          sx={{ 
+          sx={{
             textAlign: 'center',
             mt: 1,
             mb: 1,

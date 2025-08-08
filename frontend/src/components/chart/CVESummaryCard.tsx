@@ -37,11 +37,11 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
   };
 
   return (
-               <Card sx={{
-             backgroundColor: theme.palette.mode === 'dark' ? '#553C9A' : '#6B46C1',
-             position: 'relative',
-           }}>
-                   <CardContent>
+    <Card sx={{
+      backgroundColor: theme.palette.mode === 'dark' ? '#553C9A' : '#6B46C1',
+      position: 'relative',
+    }}>
+      <CardContent>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
           <Typography variant="h6" color="white">
             CVEs
@@ -88,8 +88,8 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
             No data available
           </Typography>
         )}
-        
-        
+
+
       </CardContent>
     </Card>
   );

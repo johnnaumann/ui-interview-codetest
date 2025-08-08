@@ -71,7 +71,6 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
             key={criticality}
             label={criticality}
             size="medium"
-            color={theme.palette.mode === 'light' ? getCriticalityColor(criticality) : undefined}
             variant={isSelected ? "filled" : "outlined"}
             onClick={() => handleChipClick(criticality)}
             sx={{

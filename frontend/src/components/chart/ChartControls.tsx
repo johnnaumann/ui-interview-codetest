@@ -2,17 +2,9 @@
 
 import React from 'react';
 import { Box, useTheme } from '@mui/material';
-import { TimeRange, CriticalityLevel } from '../../api/graphql-queries';
+import { ChartControlsProps } from '../../interfaces';
 import TimeRangeFilter from './TimeRangeFilter';
 import CriticalityFilter from './CriticalityFilter';
-
-interface ChartControlsProps {
-  timeRange: TimeRange;
-  selectedCriticalities: CriticalityLevel[];
-  onTimeRangeChange: (timeRange: TimeRange) => void;
-  onCriticalityChange: (criticalities: CriticalityLevel[]) => void;
-  disabled?: boolean;
-}
 
 const ChartControls: React.FC<ChartControlsProps> = ({
   timeRange,
