@@ -29,7 +29,9 @@ jest.mock('../types', () => ({
   },
 }))
 
-const mockUseQuery = require('@apollo/client').useQuery
+import { useQuery } from '@apollo/client';
+
+const mockUseQuery = useQuery as jest.MockedFunction<typeof useQuery>;
 
 const mockData = {
   timeSeriesData: {

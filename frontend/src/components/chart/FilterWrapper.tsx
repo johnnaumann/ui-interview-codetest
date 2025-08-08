@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Box, useTheme, useMediaQuery } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { FilterWrapperProps } from '../../types';
 import TimeRangeFilter from './TimeRangeFilter';
 import CriticalityFilter from './CriticalityFilter';
@@ -14,7 +14,6 @@ const FilterWrapper: React.FC<FilterWrapperProps> = ({
   disabled = false,
 }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   
   return (
     <Box 

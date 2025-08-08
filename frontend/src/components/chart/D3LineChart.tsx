@@ -343,7 +343,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         .attr('cy', d => d.y);
     }
 
-  }, [dataPoints, dimensions, loading, theme.palette.primary.main, theme.palette.advisories.main, theme.palette.gray[800]]);
+  }, [dataPoints, dimensions, loading, theme.palette.primary.main, theme.palette.advisories.main, theme.palette.gray]);
 
   const formatDateRange = () => {
     if (dataPoints.length === 0) return '';

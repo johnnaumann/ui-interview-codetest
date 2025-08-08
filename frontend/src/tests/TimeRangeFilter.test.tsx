@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, fireEvent } from './test-utils'
 import TimeRangeFilter from '../components/chart/TimeRangeFilter'
-import { TimeRange } from '../api/graphql-queries'
+
 
 describe('TimeRangeFilter', () => {
   const mockOnChange = jest.fn()

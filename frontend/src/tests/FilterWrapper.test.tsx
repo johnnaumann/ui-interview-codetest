@@ -7,7 +7,7 @@ import { TimeRange, CriticalityLevel } from '../types';
 
 // Mock the child components
 jest.mock('../components/chart/TimeRangeFilter', () => {
-  return function MockTimeRangeFilter({ value, onChange, disabled }: any) {
+  return function MockTimeRangeFilter({ value, onChange, disabled }: { value: string; onChange: (value: string) => void; disabled?: boolean }) {
     return (
       <div data-testid="time-range-filter">
         <select 
@@ -26,7 +26,7 @@ jest.mock('../components/chart/TimeRangeFilter', () => {
 });
 
 jest.mock('../components/chart/CriticalityFilter', () => {
-  return function MockCriticalityFilter({ value, onChange, disabled }: any) {
+  return function MockCriticalityFilter({ value, onChange, disabled }: { value: string[]; onChange: (value: string[]) => void; disabled?: boolean }) {
     return (
       <div data-testid="criticality-filter">
         {['NONE', 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL'].map((level) => (

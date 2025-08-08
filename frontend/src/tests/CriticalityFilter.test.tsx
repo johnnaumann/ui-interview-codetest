@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, fireEvent } from './test-utils'
 import CriticalityFilter from '../components/chart/CriticalityFilter'
-import { CriticalityLevel } from '../api/graphql-queries'
+
 
 describe('CriticalityFilter', () => {
   const mockOnChange = jest.fn()

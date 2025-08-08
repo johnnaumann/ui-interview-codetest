@@ -5,8 +5,6 @@ import {
   Box,
   CircularProgress,
   Alert,
-  Typography,
-  useTheme,
 } from '@mui/material';
 import { useQuery } from '@apollo/client';
 import { GET_TIME_SERIES_DATA } from '../api/graphql-queries';
@@ -17,7 +15,6 @@ import ChartTitle from './chart/ChartTitle';
 import FilterWrapper from './chart/FilterWrapper';
 
 const Chart: React.FC = () => {
-  const theme = useTheme();
   const [timeRange, setTimeRange] = useState<TimeRange>('THIRTY_DAYS');
   const [selectedCriticalities, setSelectedCriticalities] = useState<CriticalityLevel[]>([]);
 
