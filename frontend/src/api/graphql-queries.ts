@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { 
+import type { 
   DataPoint, 
   MetricSummary, 
   TimeSeriesSummary, 
@@ -36,7 +36,7 @@ export const GET_TIME_SERIES_DATA = gql`
 
 
 // Re-export types for backward compatibility
-export {
+export type {
   DataPoint,
   MetricSummary,
   TimeSeriesSummary,
