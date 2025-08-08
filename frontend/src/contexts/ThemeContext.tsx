@@ -245,9 +245,9 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
   MuiListItemButton: {
     styleOverrides: {
       root: {
-        color: mode === 'dark' ? `${colors.white} !important` : undefined,
+        color: mode === 'dark' ? `${colors.white} !important` : `${colors.light.text.secondary} !important`,
         '& .MuiTypography-root, & .MuiListItemIcon-root, & .MuiSvgIcon-root': {
-          color: mode === 'dark' ? `${colors.white} !important` : undefined,
+          color: mode === 'dark' ? `${colors.white} !important` : `${colors.light.text.secondary} !important`,
         },
         '&.Mui-selected': {
           backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : undefined,
@@ -306,9 +306,9 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
   MuiListItemIcon: {
     styleOverrides: {
       root: {
-        color: mode === 'dark' ? `${colors.white} !important` : undefined,
+        color: mode === 'dark' ? `${colors.white} !important` : `${colors.light.text.secondary} !important`,
         '& .Mui-selected &, &.Mui-selected, & .MuiSvgIcon-root, & svg': {
-          color: mode === 'dark' ? `${colors.white} !important` : undefined,
+          color: mode === 'dark' ? `${colors.white} !important` : `${colors.light.text.secondary} !important`,
         },
       },
     },
@@ -338,7 +338,25 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
   MuiSvgIcon: {
     styleOverrides: {
       root: {
-        color: mode === 'dark' ? `${colors.white} !important` : undefined,
+        color: mode === 'dark' ? `${colors.white} !important` : `${colors.light.text.secondary} !important`,
+      },
+    },
+  },
+  
+  // IconButton component overrides - ensure proper icon colors for theme toggle and menu buttons
+  MuiIconButton: {
+    styleOverrides: {
+      root: {
+        color: mode === 'dark' ? `${colors.white} !important` : `${colors.light.text.secondary} !important`,
+        '& .MuiSvgIcon-root, & svg': {
+          color: mode === 'dark' ? `${colors.white} !important` : `${colors.light.text.secondary} !important`,
+        },
+        '&:hover': {
+          backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)',
+          '& .MuiSvgIcon-root, & svg': {
+            color: mode === 'dark' ? `${colors.white} !important` : `${colors.light.text.secondary} !important`,
+          },
+        },
       },
     },
   },
