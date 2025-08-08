@@ -5,7 +5,9 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "nodemon dev"
+    "dev": "concurrently --config concurrently.config.js dev",
+    "dev:server": "nodemon dev",
+    "dev:frontend": "cd frontend && next dev -p 3001"
   },
   "dependencies": {
     "@apollo/client": "^3.13.9",
@@ -20,6 +22,7 @@
     "graphql": "^16.11.0"
   },
   "devDependencies": {
+    "concurrently": "^9.2.0",
     "consola": "^3.2.3",
     "dotenv": "^16.3.1",
     "nodemon": "^3.0.1"
