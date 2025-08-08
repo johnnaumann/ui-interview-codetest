@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme, colors } from '../contexts/ThemeContext';
 import { LogoProps } from '../interfaces';
 
 const Logo: React.FC<LogoProps> = ({ 
@@ -11,7 +11,7 @@ const Logo: React.FC<LogoProps> = ({
 }) => {
   const { mode } = useTheme();
   
-  const fillColor = mode === 'dark' ? '#FFFFFF' : '#6B46C1';
+  const fillColor = mode === 'dark' ? colors.white : colors.primary.main;
 
   return (
     <svg 

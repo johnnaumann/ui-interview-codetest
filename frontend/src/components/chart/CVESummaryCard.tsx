@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { Info } from '@mui/icons-material';
 import { CVESummaryCardProps } from '../../interfaces';
+import { colors } from '../../contexts/ThemeContext';
 
 const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
   data,
@@ -38,7 +39,7 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
 
   return (
     <Card sx={{
-      backgroundColor: theme.palette.mode === 'dark' ? '#553C9A' : '#6B46C1',
+      backgroundColor: theme.palette.mode === 'dark' ? colors.primary.dark : colors.primary.main,
       position: 'relative',
     }}>
       <CardContent>

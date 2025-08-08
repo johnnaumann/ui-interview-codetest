@@ -22,13 +22,13 @@ const ChartControls: React.FC<ChartControlsProps> = ({
         gap: 2, 
         flexWrap: 'wrap',
         alignItems: 'center',
-        backgroundColor: theme.palette.mode === 'dark' ? 'rgba(45, 27, 105, 0.9)' : 'rgba(255, 255, 255, 0.95)',
+        backgroundColor: theme.palette.mode === 'dark' 
+          ? `${theme.palette.background.paper}E6`
+          : `${theme.palette.background.paper}F2`,
         backdropFilter: 'blur(8px)',
         borderRadius: 1,
         padding: 1.5,
-        border: theme.palette.mode === 'dark'
-          ? '1px solid rgba(255, 255, 255, 0.1)'
-          : '1px solid rgba(0, 0, 0, 0.1)',
+        border: `1px solid ${theme.palette.divider}`,
       }}
     >
       <TimeRangeFilter

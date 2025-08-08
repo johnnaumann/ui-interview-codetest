@@ -7,6 +7,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { CriticalityFilterProps, CriticalityLevel } from '../../interfaces';
+import { colors } from '../../contexts/ThemeContext';
 
 const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
   value,
@@ -29,32 +30,32 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
     if (theme.palette.mode === 'dark') {
       switch (criticality) {
         case 'CRITICAL':
-          return '#EF4444';
+          return colors.error.light;
         case 'HIGH':
-          return '#F59E0B';
+          return colors.warning.light;
         case 'MEDIUM':
-          return '#3B82F6';
+          return colors.info.light;
         case 'LOW':
-          return '#10B981';
+          return colors.success.light;
         case 'NONE':
-          return '#6B7280';
+          return colors.dark.text.disabled;
         default:
-          return '#6B7280';
+          return colors.dark.text.disabled;
       }
     } else {
       switch (criticality) {
         case 'CRITICAL':
-          return 'error';
+          return colors.error.main;
         case 'HIGH':
-          return 'warning';
+          return colors.warning.main;
         case 'MEDIUM':
-          return 'info';
+          return colors.info.main;
         case 'LOW':
-          return 'success';
+          return colors.success.main;
         case 'NONE':
-          return 'default';
+          return colors.light.text.disabled;
         default:
-          return 'default';
+          return colors.light.text.disabled;
       }
     }
   };
@@ -76,19 +77,13 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
             sx={{
               cursor: disabled ? 'default' : 'pointer',
               opacity: disabled ? 0.6 : 1,
-              ...(theme.palette.mode === 'dark' ? {
-                backgroundColor: isSelected ? chipColor : 'transparent',
-                color: isSelected ? 'white' : chipColor,
-                borderColor: chipColor,
-                border: '1px solid',
-                '&:hover': disabled ? {} : {
-                  backgroundColor: isSelected ? chipColor : `${chipColor}20`,
-                },
-              } : {
-                '&:hover': disabled ? {} : {
-                  backgroundColor: isSelected ? undefined : 'rgba(107, 70, 193, 0.1)',
-                },
-              }),
+              backgroundColor: isSelected ? chipColor : 'transparent',
+              color: isSelected ? 'white' : chipColor,
+              borderColor: chipColor,
+              border: '1px solid',
+              '&:hover': disabled ? {} : {
+                backgroundColor: isSelected ? chipColor : `${chipColor}20`,
+              },
             }}
           />
         );

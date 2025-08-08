@@ -5,7 +5,7 @@ import { createTheme, ThemeProvider as MuiThemeProvider, Theme } from '@mui/mate
 import { ThemeContextType, ThemeProviderProps } from '../interfaces';
 
 
-const colors = {
+export const colors = {
 
   primary: {
     main: '#6B46C1',
