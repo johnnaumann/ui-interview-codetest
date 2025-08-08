@@ -205,7 +205,11 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
   },
   MuiDrawer: {
     styleOverrides: {
+      root: {
+        maxWidth: '250px',
+      },
       paper: {
+        maxWidth: '250px',
         borderRight: `1px solid ${mode === 'dark' ? colors.dark.divider : colors.light.divider}`,
         '& .MuiListItemButton-root': {
           color: mode === 'dark' ? `${colors.white} !important` : undefined,
