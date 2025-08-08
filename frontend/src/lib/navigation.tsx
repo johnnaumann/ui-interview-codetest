@@ -13,7 +13,7 @@ export const navigation: Navigation = [
   {
     segment: 'dashboard',
     title: 'Dashboard',
-    icon: <DashboardIcon />,
+    icon: <DashboardIcon fontSize="small" />,
   },
   {
     kind: 'header',
@@ -22,17 +22,17 @@ export const navigation: Navigation = [
   {
     segment: 'vulnerabilities',
     title: 'Vulnerabilities',
-    icon: <VulnerabilityIcon />,
+    icon: <VulnerabilityIcon fontSize="small" />,
   },
   {
     segment: 'compliance',
     title: 'Compliance',
-    icon: <ComplianceIcon />,
+    icon: <ComplianceIcon fontSize="small" />,
   },
   {
     segment: 'assets',
     title: 'Assets',
-    icon: <AssetsIcon />,
+    icon: <AssetsIcon fontSize="small" />,
   },
   {
     kind: 'divider',
@@ -44,7 +44,7 @@ export const navigation: Navigation = [
   {
     segment: 'reports',
     title: 'Reports',
-    icon: <ReportsIcon />,
+    icon: <ReportsIcon fontSize="small" />,
   },
   {
     kind: 'divider',
@@ -52,6 +52,6 @@ export const navigation: Navigation = [
   {
     segment: 'settings',
     title: 'Settings',
-    icon: <SettingsIcon />,
+    icon: <SettingsIcon fontSize="small" />,
   },
 ];
