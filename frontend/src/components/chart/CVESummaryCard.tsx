@@ -45,20 +45,20 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
     }}>
       <CardContent>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
-          <Typography variant="h6" color="white">
+          <Typography variant="h6" color={colors.white}>
             CVEs
           </Typography>
           <Tooltip title="Common Vulnerabilities and Exposures (CVEs) are security flaws in software or hardware that can be exploited by attackers. This shows the average number of CVEs detected over the selected time period.">
             <IconButton 
               size="small" 
               sx={{ 
-                color: 'white !important',
+                color: `${colors.white} !important`,
                 p: 0.5,
                 '& .MuiSvgIcon-root': {
-                  color: 'white !important',
+                  color: `${colors.white} !important`,
                 },
                 '& svg': {
-                  color: 'white !important',
+                  color: `${colors.white} !important`,
                 }
               }}
             >
@@ -68,17 +68,17 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
         </Box>
         {loading ? (
           <Box sx={{ display: 'flex', alignItems: 'center', minHeight: 60 }}>
-            <Typography variant="body2" color="white">
+            <Typography variant="body2" color={colors.white}>
               Loading...
             </Typography>
           </Box>
         ) : data ? (
           <>
-            <Typography variant="h4" component="div" sx={{ mb: 1, color: 'white' }}>
+            <Typography variant="h4" component="div" sx={{ mb: 1, color: colors.white }}>
               {getAverageValueDisplay(data.averageValue, data.delta)}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
-              <Typography variant="body2" color="white">
+              <Typography variant="body2" color={colors.white}>
                 Average change
               </Typography>
               <Chip
@@ -86,7 +86,7 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
                 size="small"
                 sx={{
                   backgroundColor: getDeltaColor(data.delta),
-                  color: 'white',
+                  color: colors.white,
                   fontWeight: 'medium',
                   height: 'auto',
                   '& .MuiChip-label': {
@@ -98,7 +98,7 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
             </Box>
           </>
         ) : (
-          <Typography variant="body2" color="white">
+          <Typography variant="body2" color={colors.white}>
             No data available
           </Typography>
         )}

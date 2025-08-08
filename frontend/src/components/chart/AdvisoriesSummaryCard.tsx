@@ -78,7 +78,7 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
               {getAverageValueDisplay(data.averageValue, data.delta)}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
-              <Typography variant="body2" color={theme.palette.mode === 'dark' ? 'white' : '#6B46C1'}>
+              <Typography variant="body2" color={theme.palette.mode === 'dark' ? colors.white : colors.primary.main}>
                 Average change
               </Typography>
               <Chip
@@ -98,7 +98,7 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
             </Box>
           </>
         ) : (
-          <Typography variant="body2" color={theme.palette.mode === 'dark' ? 'white' : '#6B46C1'}>
+          <Typography variant="body2" color={theme.palette.mode === 'dark' ? colors.white : colors.primary.main}>
             No data available
           </Typography>
         )}
