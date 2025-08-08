@@ -263,7 +263,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
           .on('mouseover', (event) => {
             const tooltipContent = `
               <div style="font-family: Arial, sans-serif; font-size: 12px;">
-                <div style="font-weight: bold; margin-bottom: 4px; color: #1F2937;">
+                <div style="font-weight: bold; margin-bottom: 4px; color: ${theme.palette.gray[800]};">
                   ${d.date.toLocaleDateString('en-US', {
                     weekday: 'long',
                     year: 'numeric',
@@ -300,7 +300,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
           .on('mouseover', (event) => {
             const tooltipContent = `
               <div style="font-family: Arial, sans-serif; font-size: 12px;">
-                <div style="font-weight: bold; margin-bottom: 4px; color: #1F2937;">
+                <div style="font-weight: bold; margin-bottom: 4px; color: ${theme.palette.gray[800]};">
                   ${d.date.toLocaleDateString('en-US', {
                     weekday: 'long',
                     year: 'numeric',
@@ -343,7 +343,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         .attr('cy', d => d.y);
     }
 
-  }, [dataPoints, dimensions, loading, theme.palette.primary.main, theme.palette.advisories.main]);
+  }, [dataPoints, dimensions, loading, theme.palette.primary.main, theme.palette.advisories.main, theme.palette.gray[800]]);
 
   const formatDateRange = () => {
     if (dataPoints.length === 0) return '';
@@ -420,15 +420,14 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
               position: 'fixed',
               left: tooltip.x,
               top: tooltip.y,
-              backgroundColor: 'white',
-              color: '#333333',
+              backgroundColor: theme.palette.tooltip.background,
+              color: theme.palette.gray[700],
               padding: 1.5,
               borderRadius: 1,
               fontSize: '12px',
               zIndex: 1000,
               pointerEvents: 'none',
-
-              border: '1px solid #E2E8F0',
+              border: `1px solid ${theme.palette.tooltip.border}`,
             }}
             dangerouslySetInnerHTML={{ __html: tooltip.content }}
           />

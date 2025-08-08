@@ -60,15 +60,45 @@ export const colors = {
 
   white: '#FFFFFF',
   black: '#000000',
+  
+  // Additional colors for tooltips and UI elements
+  tooltip: {
+    text: '#1F2937',
+    border: '#E2E8F0',
+    background: '#FFFFFF',
+  },
+  gray: {
+    300: '#D1D5DB',
+    400: '#9CA3AF',
+    500: '#6B7280',
+    600: '#4B5563',
+    700: '#374151',
+    800: '#1F2937',
+  },
 } as const;
 
 
 declare module '@mui/material/styles' {
   interface Palette {
     advisories: import('../interfaces').AdvisoriesColor;
+    tooltip: {
+      text: string;
+      border: string;
+      background: string;
+    };
+    gray: {
+      300: string;
+      400: string;
+      500: string;
+      600: string;
+      700: string;
+      800: string;
+    };
   }
   interface PaletteOptions {
     advisories?: Palette['advisories'];
+    tooltip?: Palette['tooltip'];
+    gray?: Palette['gray'];
   }
 }
 
@@ -265,6 +295,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       error: colors.error,
       info: colors.info,
       advisories: colors.advisories,
+      // Custom colors for tooltips and UI elements
+      tooltip: colors.tooltip,
+      gray: colors.gray,
     },
     shadows: Array(25).fill('none') as Theme['shadows'],
     components: createComponentOverrides(mode),
