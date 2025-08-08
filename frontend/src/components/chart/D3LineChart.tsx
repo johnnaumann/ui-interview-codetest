@@ -204,13 +204,26 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         const advisoryY = yScale(d.advisories);
         const x = xScale(d.date);
 
+        // CVE dot with halo and hit area
+        const cveColor = theme.palette?.primary?.main || '#1976d2';
+        
+        // Invisible larger hit area circle
         dataPointsGroup.append('circle')
           .attr('cx', x)
           .attr('cy', cveY)
-          .attr('r', 0)
-          .attr('fill', theme.palette?.primary?.main || '#1976d2')
+          .attr('r', 12) // Larger hit area
+          .attr('fill', 'transparent')
+          .attr('data-index', i)
+          .attr('data-type', 'cve-hit')
           .style('cursor', 'pointer')
           .on('mouseover', (event) => {
+            // Show halo effect
+            const target = event.target as Element;
+            const index = target.getAttribute('data-index');
+            const type = target.getAttribute('data-type');
+            if (index !== null && type === 'cve-hit') {
+              d3.select(`.cve-halo[data-index="${index}"]`).style('opacity', 0.5);
+            }
             const tooltipContent = `
               <div style="font-family: Arial, sans-serif; font-size: 12px;">
                 <div style="font-weight: bold; margin-bottom: 4px; color: ${theme.palette?.gray?.[800] || '#424242'};">
@@ -221,7 +234,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
                     day: 'numeric'
                   })}
                 </div>
-                <div style="color: ${theme.palette?.primary?.main || '#1976d2'}; font-weight: 600;">
+                <div style="color: ${cveColor}; font-weight: 600;">
                   CVEs: ${d.cves}
                 </div>
               </div>
@@ -233,21 +246,61 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
               content: tooltipContent
             });
           })
-          .on('mouseout', () => {
+          .on('mouseout', (event) => {
+            // Hide halo effect
+            const target = event.target as Element;
+            const index = target.getAttribute('data-index');
+            const type = target.getAttribute('data-type');
+            if (index !== null && type === 'cve-hit') {
+              d3.select(`.cve-halo[data-index="${index}"]`).style('opacity', 0);
+            }
             setTooltip({ visible: false, x: 0, y: 0, content: '' });
-          })
+          });
+
+        // Halo effect circle (semi-transparent)
+        dataPointsGroup.append('circle')
+          .attr('class', 'cve-halo')
+          .attr('data-index', i)
+          .attr('cx', x)
+          .attr('cy', cveY)
+          .attr('r', 8)
+          .attr('fill', cveColor)
+          .style('opacity', 0)
+          .style('pointer-events', 'none');
+
+        // Main CVE dot
+        dataPointsGroup.append('circle')
+          .attr('cx', x)
+          .attr('cy', cveY)
+          .attr('r', 0)
+          .attr('fill', cveColor)
+          .style('cursor', 'pointer')
+          .style('pointer-events', 'none') // Let the hit area handle events
           .transition()
           .delay(1000 + i * 50)
           .duration(300)
           .attr('r', 3);
 
+        // Advisory dot with halo and hit area
+        const advisoryColor = theme.palette?.advisories?.main || '#ff9800';
+        
+        // Invisible larger hit area circle
         dataPointsGroup.append('circle')
           .attr('cx', x)
           .attr('cy', advisoryY)
-          .attr('r', 0)
-                      .attr('fill', theme.palette?.advisories?.main || '#ff9800')
+          .attr('r', 12) // Larger hit area
+          .attr('fill', 'transparent')
+          .attr('data-index', i)
+          .attr('data-type', 'advisory-hit')
           .style('cursor', 'pointer')
           .on('mouseover', (event) => {
+            // Show halo effect
+            const target = event.target as Element;
+            const index = target.getAttribute('data-index');
+            const type = target.getAttribute('data-type');
+            if (index !== null && type === 'advisory-hit') {
+              d3.select(`.advisory-halo[data-index="${index}"]`).style('opacity', 0.5);
+            }
             const tooltipContent = `
               <div style="font-family: Arial, sans-serif; font-size: 12px;">
                 <div style="font-weight: bold; margin-bottom: 4px; color: ${theme.palette?.gray?.[800] || '#424242'};">
@@ -258,7 +311,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
                     day: 'numeric'
                   })}
                 </div>
-                <div style="color: ${theme.palette?.advisories?.main || '#ff9800'}; font-weight: 600;">
+                <div style="color: ${advisoryColor}; font-weight: 600;">
                   Advisories: ${d.advisories}
                 </div>
               </div>
@@ -270,9 +323,36 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
               content: tooltipContent
             });
           })
-          .on('mouseout', () => {
+          .on('mouseout', (event) => {
+            // Hide halo effect
+            const target = event.target as Element;
+            const index = target.getAttribute('data-index');
+            const type = target.getAttribute('data-type');
+            if (index !== null && type === 'advisory-hit') {
+              d3.select(`.advisory-halo[data-index="${index}"]`).style('opacity', 0);
+            }
             setTooltip({ visible: false, x: 0, y: 0, content: '' });
-          })
+          });
+
+        // Halo effect circle (semi-transparent)
+        dataPointsGroup.append('circle')
+          .attr('class', 'advisory-halo')
+          .attr('data-index', i)
+          .attr('cx', x)
+          .attr('cy', advisoryY)
+          .attr('r', 8)
+          .attr('fill', advisoryColor)
+          .style('opacity', 0)
+          .style('pointer-events', 'none');
+
+        // Main advisory dot
+        dataPointsGroup.append('circle')
+          .attr('cx', x)
+          .attr('cy', advisoryY)
+          .attr('r', 0)
+          .attr('fill', advisoryColor)
+          .style('cursor', 'pointer')
+          .style('pointer-events', 'none') // Let the hit area handle events
           .transition()
           .delay(1000 + i * 50)
           .duration(300)
