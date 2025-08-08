@@ -65,7 +65,7 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
   return (
     <Box sx={{ 
       display: 'flex', 
-      gap: { xs: 0.5, sm: 1 }, 
+      gap: 1,
       flexWrap: 'wrap',
       justifyContent: { xs: 'center', sm: 'flex-start' },
     }}>

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import * as d3 from 'd3';
-import { Box, Paper, useTheme, Typography } from '@mui/material';
+import { Box, useTheme, Typography } from '@mui/material';
 import { D3LineChartProps, DataPoint } from '../../types';
 
 const D3LineChart: React.FC<D3LineChartProps> = ({
@@ -12,78 +12,31 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
   const theme = useTheme();
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 800, height: 400 });
   const [tooltip, setTooltip] = useState<{
     visible: boolean;
     x: number;
     y: number;
     content: string;
   }>({ visible: false, x: 0, y: 0, content: '' });
+  const [resizeKey, setResizeKey] = useState(0);
 
-  const updateDimensions = useCallback(() => {
-    if (containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect();
-      const containerWidth = Math.max(300, rect.width || containerRef.current.offsetWidth);
-      const containerHeight = Math.max(400, Math.min(600, containerWidth * 0.6));
 
-      setDimensions({
-        width: containerWidth,
-        height: containerHeight,
-      });
-    }
-  }, []);
 
-  useEffect(() => {
-    const resizeObserver = new ResizeObserver(() => {
-      requestAnimationFrame(() => {
-        updateDimensions();
-      });
-    });
 
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
-    }
-
-    const timer = setTimeout(updateDimensions, 100);
-
-    return () => {
-      resizeObserver.disconnect();
-      clearTimeout(timer);
-    };
-  }, [updateDimensions]);
-
-  useEffect(() => {
-    let resizeTimeout: NodeJS.Timeout;
-
-    const handleResize = () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        updateDimensions();
-      }, 150);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      clearTimeout(resizeTimeout);
-    };
-  }, [updateDimensions]);
 
 
   useEffect(() => {
-    if (!svgRef.current || !dimensions.width) return;
+    if (!svgRef.current) return;
 
     const svg = d3.select(svgRef.current);
-    const isMobile = dimensions.width < 768;
-    const margin = {
-      top: 20,
-      right: isMobile ? 20 : 20,
-      bottom: 20,
-      left: isMobile ? 20 : 20
-    };
-
-    const chartWidth = dimensions.width - margin.left - margin.right;
-    const chartHeight = dimensions.height - margin.top - margin.bottom;
+    
+    // Get the SVG dimensions - D3 will handle the responsive sizing
+    const width = svgRef.current.clientWidth || 800;
+    const height = svgRef.current.clientHeight || 400;
+    
+    const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
 
 
     svg.selectAll('.grid-group').remove();
@@ -93,6 +46,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .attr('class', 'grid-group')
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
+    // Simple grid spacing
     const xGridSpacing = chartWidth / 4;
     const yGridSpacing = chartHeight / 4;
 
@@ -104,7 +58,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         .attr('x2', x)
         .attr('y1', 0)
         .attr('y2', chartHeight)
-        .style('stroke', theme.palette.divider)
+        .style('stroke', theme.palette?.divider || '#e0e0e0')
         .style('stroke-width', 1)
         .style('stroke-dasharray', '3,3')
         .style('opacity', 1);
@@ -118,35 +72,31 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         .attr('x2', chartWidth)
         .attr('y1', y)
         .attr('y2', y)
-        .style('stroke', theme.palette.divider)
+        .style('stroke', theme.palette?.divider || '#e0e0e0')
         .style('stroke-width', 1)
         .style('stroke-dasharray', '3,3')
         .style('opacity', 1);
     }
-  }, [dimensions, theme.palette.divider]);
+  }, [theme.palette?.divider, resizeKey]);
 
 
   useEffect(() => {
-    if (!svgRef.current || !dimensions.width || loading) return;
+    if (!svgRef.current || loading) return;
 
     const svg = d3.select(svgRef.current);
-
+    
+    // Get the SVG dimensions - D3 will handle the responsive sizing
+    const width = svgRef.current.clientWidth || 800;
+    const height = svgRef.current.clientHeight || 400;
 
     svg.selectAll('.chart-group').remove();
     svg.selectAll('.data-points').remove();
     svg.selectAll('.cve-line').remove();
     svg.selectAll('.advisory-line').remove();
 
-    const isMobile = dimensions.width < 768;
-    const margin = {
-      top: 20,
-      right: isMobile ? 20 : 20,
-      bottom: 20,
-      left: isMobile ? 20 : 20
-    };
-
-    const chartWidth = dimensions.width - margin.left - margin.right;
-    const chartHeight = dimensions.height - margin.top - margin.bottom;
+    const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
 
     const g = svg
       .append('g')
@@ -197,8 +147,8 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       const cveLine = g.append('path')
         .attr('class', 'cve-line')
         .attr('fill', 'none')
-        .attr('stroke', theme.palette.primary.main)
-        .attr('stroke-width', isMobile ? 1 : 1.5)
+        .attr('stroke', theme.palette?.primary?.main || '#1976d2')
+        .attr('stroke-width', 1.5)
         .attr('d', cveLineGenerator(parsedData))
         .style('cursor', 'pointer');
 
@@ -222,8 +172,8 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       const advisoryLine = g.append('path')
         .attr('class', 'advisory-line')
         .attr('fill', 'none')
-        .attr('stroke', theme.palette.advisories.main)
-        .attr('stroke-width', isMobile ? 1 : 1.5)
+        .attr('stroke', theme.palette?.advisories?.main || '#ff9800')
+        .attr('stroke-width', 1.5)
         .attr('d', advisoryLineGenerator(parsedData))
         .style('cursor', 'pointer');
 
@@ -258,12 +208,12 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
           .attr('cx', x)
           .attr('cy', cveY)
           .attr('r', 0)
-          .attr('fill', theme.palette.primary.main)
+          .attr('fill', theme.palette?.primary?.main || '#1976d2')
           .style('cursor', 'pointer')
           .on('mouseover', (event) => {
             const tooltipContent = `
               <div style="font-family: Arial, sans-serif; font-size: 12px;">
-                <div style="font-weight: bold; margin-bottom: 4px; color: ${theme.palette.gray[800]};">
+                <div style="font-weight: bold; margin-bottom: 4px; color: ${theme.palette?.gray?.[800] || '#424242'};">
                   ${d.date.toLocaleDateString('en-US', {
                     weekday: 'long',
                     year: 'numeric',
@@ -271,7 +221,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
                     day: 'numeric'
                   })}
                 </div>
-                <div style="color: ${theme.palette.primary.main}; font-weight: 600;">
+                <div style="color: ${theme.palette?.primary?.main || '#1976d2'}; font-weight: 600;">
                   CVEs: ${d.cves}
                 </div>
               </div>
@@ -295,12 +245,12 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
           .attr('cx', x)
           .attr('cy', advisoryY)
           .attr('r', 0)
-          .attr('fill', theme.palette.advisories.main)
+                      .attr('fill', theme.palette?.advisories?.main || '#ff9800')
           .style('cursor', 'pointer')
           .on('mouseover', (event) => {
             const tooltipContent = `
               <div style="font-family: Arial, sans-serif; font-size: 12px;">
-                <div style="font-weight: bold; margin-bottom: 4px; color: ${theme.palette.gray[800]};">
+                <div style="font-weight: bold; margin-bottom: 4px; color: ${theme.palette?.gray?.[800] || '#424242'};">
                   ${d.date.toLocaleDateString('en-US', {
                     weekday: 'long',
                     year: 'numeric',
@@ -308,7 +258,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
                     day: 'numeric'
                   })}
                 </div>
-                <div style="color: ${theme.palette.advisories.main}; font-weight: 600;">
+                <div style="color: ${theme.palette?.advisories?.main || '#ff9800'}; font-weight: 600;">
                   Advisories: ${d.advisories}
                 </div>
               </div>
@@ -343,7 +293,35 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         .attr('cy', d => d.y);
     }
 
-  }, [dataPoints, dimensions, loading, theme.palette.primary.main, theme.palette.advisories.main, theme.palette.gray]);
+  }, [dataPoints, loading, theme.palette?.primary?.main, theme.palette?.advisories?.main, theme.palette?.gray, resizeKey]);
+
+  // Simple resize observer to trigger D3 chart redraw
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(() => {
+      setResizeKey(prev => prev + 1);
+    });
+
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  // Window resize listener for browser window resizing
+  useEffect(() => {
+    const handleResize = () => {
+      setResizeKey(prev => prev + 1);
+    };
+
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const formatDateRange = () => {
     if (dataPoints.length === 0) return '';
@@ -371,70 +349,61 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
   };
 
   return (
-    <Paper elevation={0} className="chart-paper" sx={{
-      pb: 2,
-      pt: 0.5,
-      backgroundColor: theme.palette.mode === 'dark' ? 'transparent' : 'white',
-      border: `1px solid ${theme.palette.divider}`,
-    }}>
-      <Box
-        ref={containerRef}
-        className="chart-container"
-        sx={{
+    <Box
+      ref={containerRef}
+      className="chart-container"
+              sx={{
           width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-          position: 'relative'
+          height: '500px',
+          backgroundColor: theme.palette.mode === 'dark' ? 'transparent' : 'white',
+          border: `1px solid ${theme.palette.divider}`,
+          borderRadius: 1,
+          pb: 1,
+          mb: 2,
         }}
-      >
-        <svg
+    >
+              <svg
           ref={svgRef}
-          width={dimensions.width}
-          height={dimensions.height}
+          width="100%"
+          height="calc(100% - 40px)"
           style={{
-            width: '100%',
-            height: 'auto',
-            maxWidth: '100%',
             display: 'block'
           }}
-          viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
-          preserveAspectRatio="xMidYMid meet"
         />
 
-        <Typography
-          variant="body2"
-          sx={{
-            textAlign: 'center',
-            mt: 1,
-            mb: 1,
-            color: 'text.secondary',
-            fontSize: '0.875rem',
-          }}
-        >
-          {formatDateRange()}
-        </Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          textAlign: 'center',
+          mt: 0.5,
+          mb: 0.5,
+          color: 'text.secondary',
+          fontSize: '0.875rem',
+          flexShrink: 0
+        }}
+      >
+        {formatDateRange()}
+      </Typography>
 
-        {tooltip.visible && (
-          <Box
-            sx={{
-              position: 'fixed',
-              left: tooltip.x,
-              top: tooltip.y,
-              backgroundColor: theme.palette.tooltip.background,
-              color: theme.palette.gray[700],
-              padding: 1.5,
-              borderRadius: 1,
-              fontSize: '12px',
-              zIndex: 1000,
-              pointerEvents: 'none',
-              border: `1px solid ${theme.palette.tooltip.border}`,
-            }}
-            dangerouslySetInnerHTML={{ __html: tooltip.content }}
-          />
-        )}
-      </Box>
-    </Paper>
+      {tooltip.visible && (
+        <Box
+          sx={{
+            position: 'fixed',
+            left: tooltip.x,
+            top: tooltip.y,
+                          backgroundColor: theme.palette?.tooltip?.background || '#ffffff',
+            color: theme.palette?.gray?.[700] || '#616161',
+            padding: 1.5,
+            borderRadius: 1,
+            fontSize: '12px',
+            zIndex: 1000,
+            pointerEvents: 'none',
+                          border: `1px solid ${theme.palette?.tooltip?.border || '#e0e0e0'}`,
+          }}
+          dangerouslySetInnerHTML={{ __html: tooltip.content }}
+        />
+      )}
+    </Box>
   );
 };
 

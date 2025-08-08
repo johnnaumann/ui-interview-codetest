@@ -19,7 +19,7 @@ const FilterWrapper: React.FC<FilterWrapperProps> = ({
     <Box 
       sx={{ 
         display: 'flex', 
-        gap: { xs: 1, md: 2 },
+        gap: 2,
         flexDirection: { xs: 'column', md: 'row' },
         alignItems: { xs: 'stretch', md: 'center' },
         justifyContent: { xs: 'stretch', md: 'space-between' },
@@ -28,8 +28,8 @@ const FilterWrapper: React.FC<FilterWrapperProps> = ({
           : `${theme.palette.background.paper}F2`,
         backdropFilter: 'blur(8px)',
         borderRadius: 1,
-        padding: { xs: 1, md: 2 },
-        paddingTop: { xs: 1, md: 2.5 },
+        padding: 2,
+        paddingTop: 2.5,
         border: `1px solid ${theme.palette.divider}`,
         marginBottom: 2,
       }}
@@ -48,7 +48,7 @@ const FilterWrapper: React.FC<FilterWrapperProps> = ({
 
       {/* Criticality Filter - Right side on desktop, bottom on mobile */}
       <Box sx={{ 
-        flex: { xs: '1 1 auto', md: '0 0 auto' },
+        flex: '0 0 auto',
         minWidth: { xs: '100%', md: 'auto' },
       }}>
         <CriticalityFilter
