@@ -113,7 +113,7 @@ const Chart: React.FC = () => {
   }
 
   return (
-    <Box sx={{ width: '100%', overflow: 'hidden' }}>
+    <Box sx={{ width: '100%' }}>
       {/* Chart title component */}
       <ChartTitle />
       
