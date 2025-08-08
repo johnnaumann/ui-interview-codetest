@@ -14,8 +14,7 @@
     "test": "cd frontend && jest",
     "test:watch": "cd frontend && jest --watch",
     "test:coverage": "cd frontend && jest --coverage",
-    "lint": "cd frontend && next lint",
-    "install": "yarn install"
+    "lint": "cd frontend && next lint"
   },
   "dependencies": {
     "@apollo/client": "^3.13.9",
