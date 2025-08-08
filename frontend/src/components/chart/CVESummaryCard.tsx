@@ -49,7 +49,19 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
             CVEs
           </Typography>
           <Tooltip title="Common Vulnerabilities and Exposures (CVEs) are security flaws in software or hardware that can be exploited by attackers. This shows the average number of CVEs detected over the selected time period.">
-            <IconButton size="small" sx={{ color: 'white', p: 0.5 }}>
+            <IconButton 
+              size="small" 
+              sx={{ 
+                color: 'white !important',
+                p: 0.5,
+                '& .MuiSvgIcon-root': {
+                  color: 'white !important',
+                },
+                '& svg': {
+                  color: 'white !important',
+                }
+              }}
+            >
               <Info fontSize="small" />
             </IconButton>
           </Tooltip>

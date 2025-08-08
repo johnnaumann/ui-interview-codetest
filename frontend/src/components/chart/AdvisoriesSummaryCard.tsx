@@ -48,7 +48,19 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
             Advisories
           </Typography>
           <Tooltip title="Security advisories are official notifications about security issues, vulnerabilities, or threats. This shows the average number of advisories issued over the selected time period.">
-            <IconButton size="small" sx={{ color: theme.palette.mode === 'dark' ? 'white' : '#6B46C1', p: 0.5 }}>
+            <IconButton 
+              size="small" 
+              sx={{ 
+                color: `${theme.palette.mode === 'dark' ? 'white' : '#6B46C1'} !important`,
+                p: 0.5,
+                '& .MuiSvgIcon-root': {
+                  color: `${theme.palette.mode === 'dark' ? 'white' : '#6B46C1'} !important`,
+                },
+                '& svg': {
+                  color: `${theme.palette.mode === 'dark' ? 'white' : '#6B46C1'} !important`,
+                }
+              }}
+            >
               <Info fontSize="small" />
             </IconButton>
           </Tooltip>
