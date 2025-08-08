@@ -34,7 +34,6 @@ const FilterWrapper: React.FC<FilterWrapperProps> = ({
         marginBottom: 2,
       }}
     >
-      {/* Time Range Filter - Left side on desktop, top on mobile */}
       <Box sx={{ 
         flex: { xs: '1 1 auto', md: '0 0 auto' },
         minWidth: { xs: '100%', md: '200px' },
@@ -46,7 +45,6 @@ const FilterWrapper: React.FC<FilterWrapperProps> = ({
         />
       </Box>
 
-      {/* Criticality Filter - Right side on desktop, bottom on mobile */}
       <Box sx={{ 
         flex: '0 0 auto',
         minWidth: { xs: '100%', md: 'auto' },

@@ -5,7 +5,6 @@ import { createTheme } from '@mui/material';
 import FilterWrapper from '../components/chart/FilterWrapper';
 import { TimeRange, CriticalityLevel } from '../types';
 
-// Mock the child components
 jest.mock('../components/chart/TimeRangeFilter', () => {
   return function MockTimeRangeFilter({ value, onChange, disabled }: { value: string; onChange: (value: string) => void; disabled?: boolean }) {
     return (
@@ -117,15 +116,12 @@ describe('FilterWrapper', () => {
   it('renders with proper structure', () => {
     renderWithTheme();
     
-    // Should render both filters
     expect(screen.getByTestId('time-range-filter')).toBeInTheDocument();
     expect(screen.getByTestId('criticality-filter')).toBeInTheDocument();
     
-    // Both filters should be within the same wrapper
     const timeFilter = screen.getByTestId('time-range-filter');
     const criticalityFilter = screen.getByTestId('criticality-filter');
     
-    // They should be siblings (same parent)
     expect(timeFilter.parentElement?.parentElement).toBe(criticalityFilter.parentElement?.parentElement);
   });
 });

@@ -1,17 +1,14 @@
-// Helper function to generate a date string for a specific day offset
 const getDateString = (dayOffset) => {
   const date = new Date();
   date.setDate(date.getDate() - dayOffset);
   return date.toISOString().split("T")[0] + "T01:00:00Z";
 };
 
-// Helper function to calculate percentage change
 const calculatePercentageChange = (current, previous) => {
   if (previous === 0) return 100;
   return ((current - previous) / previous) * 100;
 };
 
-// Helper function to calculate metric summary
 const calculateMetricSummary = (dataPoints, metric) => {
   const averageValue =
     dataPoints.reduce((sum, point) => sum + point[metric], 0) /
@@ -26,7 +23,6 @@ const calculateMetricSummary = (dataPoints, metric) => {
   };
 };
 
-// Static data for 30 days with criticality-specific values
 const staticData = {
   THREE_DAYS: Array.from({ length: 3 }, (_, i) => ({
     timestamp: getDateString(i),
@@ -145,12 +141,10 @@ const staticData = {
   })),
 };
 
-// Generate time series data using static data
 const generateTimeSeriesData = (
   timeRange = "THIRTY_DAYS",
   criticalities = null
 ) => {
-  // Ensure timeRange is valid, default to THIRTY_DAYS if invalid
   const validTimeRanges = [
     "THREE_DAYS",
     "SEVEN_DAYS",
@@ -161,7 +155,6 @@ const generateTimeSeriesData = (
     ? timeRange
     : "THIRTY_DAYS";
 
-  // Ensure criticalities is an array and contains valid values
   const validCriticalities = ["NONE", "LOW", "MEDIUM", "HIGH", "CRITICAL"];
   const allCriticalities = validCriticalities;
   const validCriticalityArray =
@@ -171,7 +164,6 @@ const generateTimeSeriesData = (
 
   const rawDataPoints = staticData[validTimeRange];
 
-  // Aggregate data points based on requested criticalities
   const dataPoints = rawDataPoints.map((point) => {
     const aggregated = validCriticalityArray.reduce(
       (acc, criticality) => {

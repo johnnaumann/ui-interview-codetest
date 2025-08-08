@@ -15,11 +15,10 @@ const ChartTitle: React.FC = () => {
           fontWeight: 'bold',
           color: 'text.primary',
           mb: 1,
-          // Responsive typography: smaller on mobile, larger on desktop
           fontSize: {
-            xs: '1.5rem',    // 24px on extra small devices (mobile)
-            sm: '1.75rem',   // 28px on small devices (tablet)
-            md: '2.125rem',  // 34px on medium devices and up (desktop) - default h4 size
+            xs: '1.5rem',
+            sm: '1.75rem',
+            md: '2.125rem',
           },
           lineHeight: {
             xs: 1.2,

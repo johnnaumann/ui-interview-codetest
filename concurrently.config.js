@@ -1,5 +1,4 @@
 export default {
-  // Configuration for running both GraphQL server and Next.js frontend
   dev: {
     command: [
       "yarn dev:server",
@@ -11,9 +10,7 @@ export default {
     killOthers: ["failure", "success"],
     restartTries: 3,
     restartDelay: 1000,
-    // Wait for server to be ready before starting frontend
     spawn: true,
-    // Show timestamps
     timestampFormat: "HH:mm:ss"
   }
 };

@@ -18,7 +18,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Serve README at /readme
 app.get("/readme", (req, res) => {
   try {
     const readmePath = join(__dirname, "..", "README.md");
@@ -34,7 +33,6 @@ app.get("/readme", (req, res) => {
 
 const httpServer = http.createServer(app);
 
-// User Data Store
 const user = {
   id: 1,
   name: "Jane Smith",

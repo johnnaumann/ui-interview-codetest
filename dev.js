@@ -33,6 +33,5 @@ const startServer = async (port) => {
   }
 };
 
-// Always try port 3000 first
 consola.info("Attempting to start server on port 3000...");
 startServer(3000);

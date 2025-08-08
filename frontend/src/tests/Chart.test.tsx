@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/// <reference types="jest" />
 import React from 'react'
 import { render, screen } from './test-utils'
 import Chart from '../components/Chart'

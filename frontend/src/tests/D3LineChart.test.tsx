@@ -3,7 +3,6 @@ import { render } from './test-utils'
 import D3LineChart from '../components/chart/D3LineChart'
 import { DataPoint } from '../types'
 
-// Mock D3 completely to avoid test environment issues
 jest.mock('d3', () => ({
   select: jest.fn(() => ({
     select: jest.fn(() => ({
@@ -105,21 +104,24 @@ jest.mock('d3', () => ({
   })),
   scaleLinear: jest.fn(() => ({
     domain: jest.fn(() => ({
-      range: jest.fn(),
+      range: jest.fn(() => ({
+        nice: jest.fn(),
+      })),
     })),
-    range: jest.fn(),
   })),
   scaleTime: jest.fn(() => ({
     domain: jest.fn(() => ({
-      range: jest.fn(),
+      range: jest.fn(() => ({
+        nice: jest.fn(),
+      })),
     })),
-    range: jest.fn(),
   })),
   line: jest.fn(() => ({
     x: jest.fn(() => ({
-      y: jest.fn(),
+      y: jest.fn(() => ({
+        curve: jest.fn(),
+      })),
     })),
-    y: jest.fn(),
   })),
   axisBottom: jest.fn(() => ({
     scale: jest.fn(() => ({
@@ -175,7 +177,6 @@ describe('D3LineChart', () => {
   it('handles empty data points', () => {
     render(<D3LineChart dataPoints={[]} />)
     
-    // Should still render the SVG container even with empty data
     const svg = document.querySelector('svg')
     expect(svg).toBeInTheDocument()
   })
