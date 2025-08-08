@@ -151,8 +151,6 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
   // Global CSS baseline overrides
   MuiCssBaseline: {
     styleOverrides: `
-      @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
-      
       body {
         font-family: var(--font-roboto), "Roboto", "Helvetica", "Arial", sans-serif;
       }
