@@ -6,7 +6,7 @@ import {
   Chip,
   useTheme,
 } from '@mui/material';
-import { CriticalityFilterProps, CriticalityLevel } from '../../interfaces';
+import { CriticalityFilterProps, CriticalityLevel } from '../../types';
 import { colors } from '../../contexts/ThemeContext';
 
 const CriticalityFilter: React.FC<CriticalityFilterProps> = ({

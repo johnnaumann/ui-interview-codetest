@@ -8,7 +8,7 @@ import {
   MenuItem,
   SelectChangeEvent,
 } from '@mui/material';
-import { TimeRangeFilterProps, TimeRange } from '../../interfaces';
+import { TimeRangeFilterProps, TimeRange } from '../../types';
 
 const TimeRangeFilter: React.FC<TimeRangeFilterProps> = ({
   value,

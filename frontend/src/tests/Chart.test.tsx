@@ -13,7 +13,7 @@ jest.mock('../api/graphql-queries', () => ({
 }))
 
 
-jest.mock('../interfaces', () => ({
+jest.mock('../types', () => ({
   TimeRange: {
     THREE_DAYS: 'THREE_DAYS',
     SEVEN_DAYS: 'SEVEN_DAYS',

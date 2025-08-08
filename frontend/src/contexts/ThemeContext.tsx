@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState } from 'react';
 import { createTheme, ThemeProvider as MuiThemeProvider, Theme } from '@mui/material/styles';
-import { ThemeContextType, ThemeProviderProps } from '../interfaces';
+import { ThemeContextType, ThemeProviderProps } from '../types';
 
 
 export const colors = {
@@ -80,7 +80,7 @@ export const colors = {
 
 declare module '@mui/material/styles' {
   interface Palette {
-    advisories: import('../interfaces').AdvisoriesColor;
+    advisories: import('../types').AdvisoriesColor;
     tooltip: {
       text: string;
       border: string;

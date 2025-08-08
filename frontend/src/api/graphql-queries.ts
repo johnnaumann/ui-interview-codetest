@@ -9,7 +9,7 @@ import {
   UserResponse, 
   TimeRange, 
   CriticalityLevel 
-} from '../interfaces';
+} from '../types';
 
 export const GET_TIME_SERIES_DATA = gql`
   query GetTimeSeriesData($timeRange: TimeRange, $criticalities: [CriticalityLevel!]) {

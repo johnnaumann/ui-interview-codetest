@@ -99,8 +99,8 @@ frontend/
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd ui-interview-codetest/frontend
+   git clone https://github.com/johnnaumann/ui-interview-codetest.git
+   cd frontend
    ```
 
 2. **Install dependencies**
@@ -114,7 +114,7 @@ frontend/
    ```
 
 4. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+   Navigate to [http://localhost:3001](http://localhost:3001)
 
 ### Available Scripts
 

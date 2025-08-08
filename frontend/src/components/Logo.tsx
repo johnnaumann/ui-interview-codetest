@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useTheme, colors } from '../contexts/ThemeContext';
-import { LogoProps } from '../interfaces';
+import { LogoProps } from '../types';
 
 const Logo: React.FC<LogoProps> = ({ 
   width = 135, 

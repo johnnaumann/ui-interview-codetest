@@ -12,7 +12,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { Info } from '@mui/icons-material';
-import { CVESummaryCardProps } from '../../interfaces';
+import { CVESummaryCardProps } from '../../types';
 import { colors } from '../../contexts/ThemeContext';
 
 const CVESummaryCard: React.FC<CVESummaryCardProps> = ({

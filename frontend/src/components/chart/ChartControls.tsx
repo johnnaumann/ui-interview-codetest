@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Box, useTheme } from '@mui/material';
-import { ChartControlsProps } from '../../interfaces';
+import { ChartControlsProps } from '../../types';
 import TimeRangeFilter from './TimeRangeFilter';
 import CriticalityFilter from './CriticalityFilter';
 

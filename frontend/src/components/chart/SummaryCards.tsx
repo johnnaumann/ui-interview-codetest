@@ -4,7 +4,7 @@ import React from 'react';
 import { Box } from '@mui/material';
 import CVESummaryCard from './CVESummaryCard';
 import AdvisoriesSummaryCard from './AdvisoriesSummaryCard';
-import { SummaryCardsProps } from '../../interfaces';
+import { SummaryCardsProps } from '../../types';
 
 const SummaryCards: React.FC<SummaryCardsProps> = ({
   data,

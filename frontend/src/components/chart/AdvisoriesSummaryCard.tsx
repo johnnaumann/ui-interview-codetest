@@ -12,7 +12,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { Info } from '@mui/icons-material';
-import { AdvisoriesSummaryCardProps } from '../../interfaces';
+import { AdvisoriesSummaryCardProps } from '../../types';
 
 const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
   data,

@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import * as d3 from 'd3';
 import { Box, Paper, useTheme, Typography } from '@mui/material';
-import { D3LineChartProps, DataPoint } from '../../interfaces';
+import { D3LineChartProps, DataPoint } from '../../types';
 
 const D3LineChart: React.FC<D3LineChartProps> = ({
   dataPoints,
