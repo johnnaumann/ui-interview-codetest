@@ -42,11 +42,36 @@ yarn install
 
 #### Start the Development Server
 
+The project consists of two parts:
+1. **GraphQL Server** (parent directory) - Provides the API endpoints
+2. **Frontend Application** (frontend directory) - React application with the visualization
+
+To start the complete development environment:
+
 ```bash
+# From the frontend directory
+cd frontend
 yarn dev
 ```
 
-The server will start on `http://localhost:3000`. You can access the GraphQL playground at `http://localhost:3000/graphql`
+This will automatically:
+1. Start the GraphQL server on `http://localhost:3000` (from the parent directory)
+2. Wait 3 seconds for the server to initialize
+3. Start the frontend application on `http://localhost:3001`
+
+You can access:
+- **GraphQL Playground**: `http://localhost:3000/graphql`
+- **Frontend Application**: `http://localhost:3001`
+
+Alternatively, you can start them separately:
+```bash
+# Terminal 1 - Start GraphQL server (from parent directory)
+yarn dev
+
+# Terminal 2 - Start frontend (from frontend directory)
+cd frontend
+yarn dev
+```
 
 ## The Assignment 📝
 
