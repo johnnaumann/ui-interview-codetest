@@ -5,8 +5,6 @@ import {
   TimeSeriesSummary, 
   TimeSeriesData, 
   TimeSeriesResponse, 
-  User, 
-  UserResponse, 
   TimeRange, 
   CriticalityLevel 
 } from '../types';
@@ -35,14 +33,7 @@ export const GET_TIME_SERIES_DATA = gql`
   }
 `;
 
-export const GET_USER = gql`
-  query GetUser {
-    user {
-      id
-      name
-    }
-  }
-`;
+
 
 // Re-export types for backward compatibility
 export {
@@ -51,8 +42,6 @@ export {
   TimeSeriesSummary,
   TimeSeriesData,
   TimeSeriesResponse,
-  User,
-  UserResponse,
   TimeRange,
   CriticalityLevel
 };

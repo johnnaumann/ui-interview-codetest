@@ -61,15 +61,6 @@ export interface TimeSeriesResponse {
   timeSeriesData: TimeSeriesData;
 }
 
-export interface User {
-  id: string;
-  name: string;
-}
-
-export interface UserResponse {
-  user: User;
-}
-
 // GraphQL Type Definitions
 export type TimeRange = 'THREE_DAYS' | 'SEVEN_DAYS' | 'FOURTEEN_DAYS' | 'THIRTY_DAYS';
 export type CriticalityLevel = 'NONE' | 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
