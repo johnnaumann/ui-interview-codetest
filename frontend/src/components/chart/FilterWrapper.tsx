@@ -28,9 +28,10 @@ const FilterWrapper: React.FC<FilterWrapperProps> = ({
           : `${theme.palette.background.paper}F2`,
         backdropFilter: 'blur(8px)',
         borderRadius: 1,
-        padding: { xs: 1, md: 1.5 },
+        padding: { xs: 1, md: 2 },
+        paddingTop: { xs: 1, md: 2.5 },
         border: `1px solid ${theme.palette.divider}`,
-        marginBottom: { xs: 2, md: 1 },
+        marginBottom: 2,
       }}
     >
       {/* Time Range Filter - Left side on desktop, top on mobile */}

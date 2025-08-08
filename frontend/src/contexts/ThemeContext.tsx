@@ -54,7 +54,7 @@ export const colors = {
       secondary: '#CBD5E1',
       disabled: '#64748B',
     },
-    divider: '#334155',
+    divider: 'rgba(255, 255, 255, 0.15)',
   },
   
 

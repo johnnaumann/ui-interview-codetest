@@ -5,7 +5,7 @@ const ChartTitle: React.FC = () => {
   return (
     <Box sx={{ 
       mt: 3,
-      mb: 2,
+      mb: 1,
       px: 2,
     }}>
       <Typography 
