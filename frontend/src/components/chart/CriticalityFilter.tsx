@@ -88,13 +88,13 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
               border: `1px solid ${chipColor}`,
               fontWeight: 'medium',
               minWidth: 'fit-content',
-              fontSize: { xs: '0.75rem', sm: '0.8125rem' },
-              height: { xs: '28px', sm: '32px' },
+              fontSize: '0.8125rem',
+              height: '32px',
               '& .MuiChip-label': {
                 fontWeight: 'medium',
-                fontSize: { xs: '0.75rem', sm: '0.8125rem' },
+                fontSize: '0.8125rem',
                 lineHeight: '1.2',
-                padding: { xs: '0 8px', sm: '0 12px' },
+                padding: '0 12px',
               },
               '&:hover': disabled ? {} : {
                 backgroundColor: isSelected ? chipColor : `${chipColor}20`,
