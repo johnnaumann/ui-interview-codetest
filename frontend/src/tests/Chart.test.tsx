@@ -1,17 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/// <reference types="jest" />
 import React from 'react'
 import { render, screen } from './test-utils'
 import Chart from '../components/Chart'
-
+import '@testing-library/jest-dom'
 
 jest.mock('@apollo/client', () => ({
   useQuery: jest.fn()
 }))
 
-
 jest.mock('../api/graphql-queries', () => ({
   GET_TIME_SERIES_DATA: 'mock-query',
 }))
-
 
 jest.mock('../types', () => ({
   TimeRange: {
@@ -69,8 +69,8 @@ describe('Chart', () => {
     mockUseQuery.mockReturnValue({
       data: mockData,
       loading: false,
-      error: null
-    })
+      error: undefined
+    } as any)
 
     render(<Chart />)
     
@@ -81,8 +81,8 @@ describe('Chart', () => {
     mockUseQuery.mockReturnValue({
       data: mockData,
       loading: false,
-      error: null
-    })
+      error: undefined
+    } as any)
 
     render(<Chart />)
     
@@ -101,7 +101,7 @@ describe('Chart', () => {
       data: null,
       loading: true,
       error: null
-    })
+    } as any)
 
     render(<Chart />)
     
@@ -115,7 +115,7 @@ describe('Chart', () => {
       data: null,
       loading: false,
       error: { message: errorMessage }
-    })
+    } as any)
 
     render(<Chart />)
     
@@ -127,7 +127,7 @@ describe('Chart', () => {
       data: mockData,
       loading: false,
       error: null
-    })
+    } as any)
 
     render(<Chart />)
     
@@ -145,7 +145,7 @@ describe('Chart', () => {
       data: mockData,
       loading: false,
       error: null
-    })
+    } as any)
 
     render(<Chart />)
     
@@ -157,7 +157,7 @@ describe('Chart', () => {
       data: mockData,
       loading: false,
       error: null
-    })
+    } as any)
 
     render(<Chart />)
     

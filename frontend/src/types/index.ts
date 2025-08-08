@@ -16,7 +16,7 @@
 // =============================================================================
 // Types used by ThemeContext and theme-related components
 
-import type { AppTheme } from '@toolpad/core/AppProvider';
+import type { Theme } from '@mui/material/styles';
 
 /**
  * Custom color definition for advisory data visualization
@@ -51,7 +51,7 @@ export interface PaletteOptions {
 export interface ThemeContextType {
   mode: 'light' | 'dark';                    // Current theme mode
   toggleColorMode: () => void;               // Function to switch between modes
-  theme: AppTheme;                           // Material-UI theme object
+  theme: Theme;                              // Material-UI theme object
 }
 
 /**
