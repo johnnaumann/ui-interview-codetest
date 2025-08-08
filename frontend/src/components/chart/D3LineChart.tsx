@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import { Box, useTheme, Typography } from '@mui/material';
 import { D3LineChartProps, DataPoint } from '../../types';
@@ -20,33 +20,26 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
   }>({ visible: false, x: 0, y: 0, content: '' });
   const [resizeKey, setResizeKey] = useState(0);
 
-
-
-
-
-
+  // Combined useEffect for grid and chart rendering
   useEffect(() => {
-    if (!svgRef.current) return;
+    if (!svgRef.current || loading) return;
 
     const svg = d3.select(svgRef.current);
-    
-    // Get the SVG dimensions - D3 will handle the responsive sizing
-    const width = svgRef.current.clientWidth || 800;
-    const height = svgRef.current.clientHeight || 400;
-    
+    const width = svgRef.current.clientWidth;
+    const height = svgRef.current.clientHeight;
     const margin = { top: 20, right: 20, bottom: 20, left: 20 };
     const chartWidth = width - margin.left - margin.right;
     const chartHeight = height - margin.top - margin.bottom;
 
+    // Clear existing elements
+    svg.selectAll('.grid-group, .chart-group, .data-points, .cve-line, .advisory-line').remove();
 
-    svg.selectAll('.grid-group').remove();
-
+    // Create grid
     const gridGroup = svg
       .append('g')
       .attr('class', 'grid-group')
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    // Simple grid spacing
     const xGridSpacing = chartWidth / 4;
     const yGridSpacing = chartHeight / 4;
 
@@ -58,7 +51,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         .attr('x2', x)
         .attr('y1', 0)
         .attr('y2', chartHeight)
-        .style('stroke', theme.palette?.divider || '#e0e0e0')
+        .style('stroke', theme.palette.divider)
         .style('stroke-width', 1)
         .style('stroke-dasharray', '3,3')
         .style('opacity', 1);
@@ -72,32 +65,13 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         .attr('x2', chartWidth)
         .attr('y1', y)
         .attr('y2', y)
-        .style('stroke', theme.palette?.divider || '#e0e0e0')
+        .style('stroke', theme.palette.divider)
         .style('stroke-width', 1)
         .style('stroke-dasharray', '3,3')
         .style('opacity', 1);
     }
-  }, [theme.palette?.divider, resizeKey]);
 
-
-  useEffect(() => {
-    if (!svgRef.current || loading) return;
-
-    const svg = d3.select(svgRef.current);
-    
-    // Get the SVG dimensions - D3 will handle the responsive sizing
-    const width = svgRef.current.clientWidth || 800;
-    const height = svgRef.current.clientHeight || 400;
-
-    svg.selectAll('.chart-group').remove();
-    svg.selectAll('.data-points').remove();
-    svg.selectAll('.cve-line').remove();
-    svg.selectAll('.advisory-line').remove();
-
-    const margin = { top: 20, right: 20, bottom: 20, left: 20 };
-    const chartWidth = width - margin.left - margin.right;
-    const chartHeight = height - margin.top - margin.bottom;
-
+    // Create chart group
     const g = svg
       .append('g')
       .attr('class', 'chart-group')
@@ -139,243 +113,205 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       .y(d => yScale(d.advisories))
       .curve(d3.curveMonotoneX);
 
+    // Create lines
+    const cveLine = g.append('path')
+      .attr('class', 'cve-line')
+      .attr('fill', 'none')
+      .attr('stroke', theme.palette.primary.main)
+      .attr('stroke-width', 1.5)
+      .attr('d', cveLineGenerator(parsedData))
+      .style('cursor', 'pointer');
 
-    const existingCveLine = svg.select('.cve-line');
-    const existingAdvisoryLine = svg.select('.advisory-line');
+    const advisoryLine = g.append('path')
+      .attr('class', 'advisory-line')
+      .attr('fill', 'none')
+      .attr('stroke', theme.palette.advisories.main)
+      .attr('stroke-width', 1.5)
+      .attr('d', advisoryLineGenerator(parsedData))
+      .style('cursor', 'pointer');
 
-    if (existingCveLine.empty()) {
-      const cveLine = g.append('path')
-        .attr('class', 'cve-line')
-        .attr('fill', 'none')
-        .attr('stroke', theme.palette?.primary?.main || '#1976d2')
-        .attr('stroke-width', 1.5)
-        .attr('d', cveLineGenerator(parsedData))
-        .style('cursor', 'pointer');
+    // Animate lines
+    const cveTotalLength = cveLine.node()?.getTotalLength() || 0;
+    cveLine
+      .attr('stroke-dasharray', cveTotalLength + ' ' + cveTotalLength)
+      .attr('stroke-dashoffset', cveTotalLength)
+      .transition()
+      .duration(1000)
+      .ease(d3.easeLinear)
+      .attr('stroke-dashoffset', 0);
 
-      const cveTotalLength = cveLine.node()?.getTotalLength() || 0;
-      cveLine
-        .attr('stroke-dasharray', cveTotalLength + ' ' + cveTotalLength)
-        .attr('stroke-dashoffset', cveTotalLength)
-        .transition()
-        .duration(1000)
-        .ease(d3.easeLinear)
-        .attr('stroke-dashoffset', 0);
-    } else {
-      existingCveLine
-        .transition()
-        .duration(500)
-        .ease(d3.easeLinear)
-        .attr('d', cveLineGenerator(parsedData));
-    }
+    const advisoryTotalLength = advisoryLine.node()?.getTotalLength() || 0;
+    advisoryLine
+      .attr('stroke-dasharray', advisoryTotalLength + ' ' + advisoryTotalLength)
+      .attr('stroke-dashoffset', advisoryTotalLength)
+      .transition()
+      .duration(1000)
+      .delay(200)
+      .ease(d3.easeLinear)
+      .attr('stroke-dashoffset', 0);
 
-    if (existingAdvisoryLine.empty()) {
-      const advisoryLine = g.append('path')
-        .attr('class', 'advisory-line')
-        .attr('fill', 'none')
-        .attr('stroke', theme.palette?.advisories?.main || '#ff9800')
-        .attr('stroke-width', 1.5)
-        .attr('d', advisoryLineGenerator(parsedData))
-        .style('cursor', 'pointer');
+    // Create data points
+    const dataPointsGroup = g.append('g').attr('class', 'data-points');
 
-      const advisoryTotalLength = advisoryLine.node()?.getTotalLength() || 0;
-      advisoryLine
-        .attr('stroke-dasharray', advisoryTotalLength + ' ' + advisoryTotalLength)
-        .attr('stroke-dashoffset', advisoryTotalLength)
-        .transition()
-        .duration(1000)
-        .delay(200)
-        .ease(d3.easeLinear)
-        .attr('stroke-dashoffset', 0);
-    } else {
-      existingAdvisoryLine
-        .transition()
-        .duration(500)
-        .ease(d3.easeLinear)
-        .attr('d', advisoryLineGenerator(parsedData));
-    }
+    parsedData.forEach((d, i) => {
+      const cveY = yScale(d.cves);
+      const advisoryY = yScale(d.advisories);
+      const x = xScale(d.date);
 
-    const existingDataPoints = svg.select('.data-points');
+      // CVE dot with halo and hit area
+      const cveColor = theme.palette.primary.main;
 
-    if (existingDataPoints.empty()) {
-      const dataPointsGroup = g.append('g').attr('class', 'data-points');
-
-      parsedData.forEach((d, i) => {
-        const cveY = yScale(d.cves);
-        const advisoryY = yScale(d.advisories);
-        const x = xScale(d.date);
-
-        // CVE dot with halo and hit area
-        const cveColor = theme.palette?.primary?.main || '#1976d2';
-        
-        // Invisible larger hit area circle
-        dataPointsGroup.append('circle')
-          .attr('cx', x)
-          .attr('cy', cveY)
-          .attr('r', 12) // Larger hit area
-          .attr('fill', 'transparent')
-          .attr('data-index', i)
-          .attr('data-type', 'cve-hit')
-          .style('cursor', 'pointer')
-          .on('mouseover', (event) => {
-            // Show halo effect
-            const target = event.target as Element;
-            const index = target.getAttribute('data-index');
-            const type = target.getAttribute('data-type');
-            if (index !== null && type === 'cve-hit') {
-              d3.select(`.cve-halo[data-index="${index}"]`).style('opacity', 0.5);
-            }
-            const tooltipContent = `
-              <div style="font-family: Arial, sans-serif; font-size: 12px;">
-                <div style="font-weight: bold; margin-bottom: 4px; color: ${theme.palette?.gray?.[800] || '#424242'};">
-                  ${d.date.toLocaleDateString('en-US', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </div>
-                <div style="color: ${cveColor}; font-weight: 600;">
-                  CVEs: ${d.cves}
-                </div>
+      // Invisible larger hit area circle
+      dataPointsGroup.append('circle')
+        .attr('cx', x)
+        .attr('cy', cveY)
+        .attr('r', 12)
+        .attr('fill', 'transparent')
+        .attr('data-index', i)
+        .attr('data-type', 'cve-hit')
+        .style('cursor', 'pointer')
+        .on('mouseover', (event) => {
+          const target = event.target as Element;
+          const index = target.getAttribute('data-index');
+          const type = target.getAttribute('data-type');
+          if (index !== null && type === 'cve-hit') {
+            d3.select(`.cve-halo[data-index="${index}"]`).style('opacity', 0.5);
+          }
+          const tooltipContent = `
+            <div style="font-family: Arial, sans-serif; font-size: 12px;">
+              <div style="font-weight: bold; margin-bottom: 4px; color: ${theme.palette.gray[800]};">
+                ${d.date.toLocaleDateString('en-US', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
               </div>
-            `;
-            setTooltip({
-              visible: true,
-              x: event.pageX + 10,
-              y: event.pageY - 10,
-              content: tooltipContent
-            });
-          })
-          .on('mouseout', (event) => {
-            // Hide halo effect
-            const target = event.target as Element;
-            const index = target.getAttribute('data-index');
-            const type = target.getAttribute('data-type');
-            if (index !== null && type === 'cve-hit') {
-              d3.select(`.cve-halo[data-index="${index}"]`).style('opacity', 0);
-            }
-            setTooltip({ visible: false, x: 0, y: 0, content: '' });
-          });
-
-        // Halo effect circle (semi-transparent)
-        dataPointsGroup.append('circle')
-          .attr('class', 'cve-halo')
-          .attr('data-index', i)
-          .attr('cx', x)
-          .attr('cy', cveY)
-          .attr('r', 8)
-          .attr('fill', cveColor)
-          .style('opacity', 0)
-          .style('pointer-events', 'none');
-
-        // Main CVE dot
-        dataPointsGroup.append('circle')
-          .attr('cx', x)
-          .attr('cy', cveY)
-          .attr('r', 0)
-          .attr('fill', cveColor)
-          .style('cursor', 'pointer')
-          .style('pointer-events', 'none') // Let the hit area handle events
-          .transition()
-          .delay(1000 + i * 50)
-          .duration(300)
-          .attr('r', 3);
-
-        // Advisory dot with halo and hit area
-        const advisoryColor = theme.palette?.advisories?.main || '#ff9800';
-        
-        // Invisible larger hit area circle
-        dataPointsGroup.append('circle')
-          .attr('cx', x)
-          .attr('cy', advisoryY)
-          .attr('r', 12) // Larger hit area
-          .attr('fill', 'transparent')
-          .attr('data-index', i)
-          .attr('data-type', 'advisory-hit')
-          .style('cursor', 'pointer')
-          .on('mouseover', (event) => {
-            // Show halo effect
-            const target = event.target as Element;
-            const index = target.getAttribute('data-index');
-            const type = target.getAttribute('data-type');
-            if (index !== null && type === 'advisory-hit') {
-              d3.select(`.advisory-halo[data-index="${index}"]`).style('opacity', 0.5);
-            }
-            const tooltipContent = `
-              <div style="font-family: Arial, sans-serif; font-size: 12px;">
-                <div style="font-weight: bold; margin-bottom: 4px; color: ${theme.palette?.gray?.[800] || '#424242'};">
-                  ${d.date.toLocaleDateString('en-US', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </div>
-                <div style="color: ${advisoryColor}; font-weight: 600;">
-                  Advisories: ${d.advisories}
-                </div>
+              <div style="color: ${cveColor}; font-weight: 600;">
+                CVEs: ${d.cves}
               </div>
-            `;
-            setTooltip({
-              visible: true,
-              x: event.pageX + 10,
-              y: event.pageY - 10,
-              content: tooltipContent
-            });
-          })
-          .on('mouseout', (event) => {
-            // Hide halo effect
-            const target = event.target as Element;
-            const index = target.getAttribute('data-index');
-            const type = target.getAttribute('data-type');
-            if (index !== null && type === 'advisory-hit') {
-              d3.select(`.advisory-halo[data-index="${index}"]`).style('opacity', 0);
-            }
-            setTooltip({ visible: false, x: 0, y: 0, content: '' });
+            </div>
+          `;
+          setTooltip({
+            visible: true,
+            x: event.pageX + 10,
+            y: event.pageY - 10,
+            content: tooltipContent
           });
+        })
+        .on('mouseout', (event) => {
+          const target = event.target as Element;
+          const index = target.getAttribute('data-index');
+          const type = target.getAttribute('data-type');
+          if (index !== null && type === 'cve-hit') {
+            d3.select(`.cve-halo[data-index="${index}"]`).style('opacity', 0);
+          }
+          setTooltip({ visible: false, x: 0, y: 0, content: '' });
+        });
 
-        // Halo effect circle (semi-transparent)
-        dataPointsGroup.append('circle')
-          .attr('class', 'advisory-halo')
-          .attr('data-index', i)
-          .attr('cx', x)
-          .attr('cy', advisoryY)
-          .attr('r', 8)
-          .attr('fill', advisoryColor)
-          .style('opacity', 0)
-          .style('pointer-events', 'none');
+      // Halo effect circle
+      dataPointsGroup.append('circle')
+        .attr('class', 'cve-halo')
+        .attr('data-index', i)
+        .attr('cx', x)
+        .attr('cy', cveY)
+        .attr('r', 8)
+        .attr('fill', cveColor)
+        .style('opacity', 0)
+        .style('pointer-events', 'none');
 
-        // Main advisory dot
-        dataPointsGroup.append('circle')
-          .attr('cx', x)
-          .attr('cy', advisoryY)
-          .attr('r', 0)
-          .attr('fill', advisoryColor)
-          .style('cursor', 'pointer')
-          .style('pointer-events', 'none') // Let the hit area handle events
-          .transition()
-          .delay(1000 + i * 50)
-          .duration(300)
-          .attr('r', 3);
-      });
-    } else {
-      const circles = existingDataPoints.selectAll('circle');
-
-      circles
-        .data(parsedData.flatMap(d => [
-          { ...d, type: 'cve', y: yScale(d.cves) },
-          { ...d, type: 'advisory', y: yScale(d.advisories) }
-        ]))
+      // Main CVE dot
+      dataPointsGroup.append('circle')
+        .attr('cx', x)
+        .attr('cy', cveY)
+        .attr('r', 0)
+        .attr('fill', cveColor)
+        .style('cursor', 'pointer')
+        .style('pointer-events', 'none')
         .transition()
-        .duration(500)
-        .ease(d3.easeLinear)
-        .attr('cx', d => xScale(d.date))
-        .attr('cy', d => d.y);
-    }
+        .delay(1000 + i * 50)
+        .duration(300)
+        .attr('r', 3);
 
-  }, [dataPoints, loading, theme.palette?.primary?.main, theme.palette?.advisories?.main, theme.palette?.gray, resizeKey]);
+      // Advisory dot with halo and hit area
+      const advisoryColor = theme.palette.advisories.main;
 
-  // Simple resize observer to trigger D3 chart redraw
+      // Invisible larger hit area circle
+      dataPointsGroup.append('circle')
+        .attr('cx', x)
+        .attr('cy', advisoryY)
+        .attr('r', 12)
+        .attr('fill', 'transparent')
+        .attr('data-index', i)
+        .attr('data-type', 'advisory-hit')
+        .style('cursor', 'pointer')
+        .on('mouseover', (event) => {
+          const target = event.target as Element;
+          const index = target.getAttribute('data-index');
+          const type = target.getAttribute('data-type');
+          if (index !== null && type === 'advisory-hit') {
+            d3.select(`.advisory-halo[data-index="${index}"]`).style('opacity', 0.5);
+          }
+          const tooltipContent = `
+            <div style="font-family: Arial, sans-serif; font-size: 12px;">
+              <div style="font-weight: bold; margin-bottom: 4px; color: ${theme.palette.gray[800]};">
+                ${d.date.toLocaleDateString('en-US', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </div>
+              <div style="color: ${advisoryColor}; font-weight: 600;">
+                Advisories: ${d.advisories}
+              </div>
+            </div>
+          `;
+          setTooltip({
+            visible: true,
+            x: event.pageX + 10,
+            y: event.pageY - 10,
+            content: tooltipContent
+          });
+        })
+        .on('mouseout', (event) => {
+          const target = event.target as Element;
+          const index = target.getAttribute('data-index');
+          const type = target.getAttribute('data-type');
+          if (index !== null && type === 'advisory-hit') {
+            d3.select(`.advisory-halo[data-index="${index}"]`).style('opacity', 0);
+          }
+          setTooltip({ visible: false, x: 0, y: 0, content: '' });
+        });
+
+      // Halo effect circle
+      dataPointsGroup.append('circle')
+        .attr('class', 'advisory-halo')
+        .attr('data-index', i)
+        .attr('cx', x)
+        .attr('cy', advisoryY)
+        .attr('r', 8)
+        .attr('fill', advisoryColor)
+        .style('opacity', 0)
+        .style('pointer-events', 'none');
+
+      // Main advisory dot
+      dataPointsGroup.append('circle')
+        .attr('cx', x)
+        .attr('cy', advisoryY)
+        .attr('r', 0)
+        .attr('fill', advisoryColor)
+        .style('cursor', 'pointer')
+        .style('pointer-events', 'none')
+        .transition()
+        .delay(1000 + i * 50)
+        .duration(300)
+        .attr('r', 3);
+    });
+
+  }, [dataPoints, loading, theme.palette.divider, theme.palette.primary.main, theme.palette.advisories.main, theme.palette.gray, resizeKey]);
+
+  // Resize observer
   useEffect(() => {
     const resizeObserver = new ResizeObserver(() => {
       setResizeKey(prev => prev + 1);
@@ -390,14 +326,13 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     };
   }, []);
 
-  // Window resize listener for browser window resizing
+  // Window resize listener
   useEffect(() => {
     const handleResize = () => {
       setResizeKey(prev => prev + 1);
     };
 
     window.addEventListener('resize', handleResize);
-    
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -432,24 +367,24 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     <Box
       ref={containerRef}
       className="chart-container"
-              sx={{
-          width: '100%',
-          height: '500px',
-          backgroundColor: theme.palette.mode === 'dark' ? 'transparent' : 'white',
-          border: `1px solid ${theme.palette.divider}`,
-          borderRadius: 1,
-          pb: 1,
-          mb: 2,
-        }}
+      sx={{
+        width: '100%',
+        height: '500px',
+        backgroundColor: theme.palette.mode === 'dark' ? 'transparent' : 'white',
+        border: `1px solid ${theme.palette.divider}`,
+        borderRadius: 1,
+        pb: 1,
+        mb: 2,
+      }}
     >
-              <svg
-          ref={svgRef}
-          width="100%"
-          height="calc(100% - 40px)"
-          style={{
-            display: 'block'
-          }}
-        />
+      <svg
+        ref={svgRef}
+        width="100%"
+        height="calc(100% - 40px)"
+        style={{
+          display: 'block'
+        }}
+      />
 
       <Typography
         variant="body2"
@@ -471,14 +406,14 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
             position: 'fixed',
             left: tooltip.x,
             top: tooltip.y,
-                          backgroundColor: theme.palette?.tooltip?.background || '#ffffff',
-            color: theme.palette?.gray?.[700] || '#616161',
+            backgroundColor: theme.palette.tooltip.background,
+            color: theme.palette.gray[700],
             padding: 1.5,
             borderRadius: 1,
             fontSize: '12px',
             zIndex: 1000,
             pointerEvents: 'none',
-                          border: `1px solid ${theme.palette?.tooltip?.border || '#e0e0e0'}`,
+            border: `1px solid ${theme.palette.tooltip.border}`,
           }}
           dangerouslySetInnerHTML={{ __html: tooltip.content }}
         />
