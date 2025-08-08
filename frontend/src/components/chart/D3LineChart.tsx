@@ -76,7 +76,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     const svg = d3.select(svgRef.current);
     const isMobile = dimensions.width < 768;
     const margin = {
-      top: 88,
+      top: 20,
       right: isMobile ? 20 : 20,
       bottom: 20,
       left: isMobile ? 20 : 20
@@ -139,7 +139,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
 
     const isMobile = dimensions.width < 768;
     const margin = {
-      top: 88,
+      top: 20,
       right: isMobile ? 20 : 20,
       bottom: 20,
       left: isMobile ? 20 : 20
@@ -372,9 +372,10 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
 
   return (
     <Paper elevation={0} className="chart-paper" sx={{
-      p: 2,
+      pb: 2,
+      pt: 0.5,
       backgroundColor: theme.palette.mode === 'dark' ? 'transparent' : 'white',
-      border: theme.palette.mode === 'dark' ? '1px solid #334155' : 'none',
+      border: `1px solid ${theme.palette.divider}`,
     }}>
       <Box
         ref={containerRef}
