@@ -60,6 +60,7 @@ frontend/
 │   │   │   ├── CriticalityFilter.tsx
 │   │   │   ├── CVESummaryCard.tsx
 │   │   │   ├── D3LineChart.tsx
+│   │   │   ├── FilterWrapper.tsx
 │   │   │   ├── SummaryCards.tsx
 │   │   │   └── TimeRangeFilter.tsx
 │   │   ├── Chart.tsx          # Main chart container
@@ -92,39 +93,60 @@ frontend/
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 20 or higher
-- yarn package manager
+- **Node.js**: Version 18.18.0 or higher (required for Next.js)
+- **Yarn**: Version 1.22.22 or higher
 
 ### Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/johnnaumann/ui-interview-codetest.git
-   cd frontend
-   ```
+**Option 1: Install from project root (Recommended)**
+```bash
+# Clone the repository
+git clone https://github.com/johnnaumann/ui-interview-codetest.git
+cd ui-interview-codetest
 
-2. **Install dependencies**
-   ```bash
-   yarn install
-   ```
+# Install all dependencies (root + frontend) concurrently
+yarn install:all
 
-3. **Start the development server**
-   ```bash
-   yarn dev
-   ```
+# Start both GraphQL server and frontend
+yarn dev
+```
 
-4. **Open your browser**
-   Navigate to [http://localhost:3001](http://localhost:3001)
+**Option 2: Install frontend only**
+```bash
+# Clone the repository
+git clone https://github.com/johnnaumann/ui-interview-codetest.git
+cd ui-interview-codetest/frontend
+
+# Install frontend dependencies
+yarn install
+
+# Start frontend only (requires GraphQL server on port 3000)
+yarn dev
+```
+
+### Access the Application
+- **Frontend**: [http://localhost:3001](http://localhost:3001)
+- **GraphQL Server**: [http://localhost:3000](http://localhost:3000)
 
 ### Available Scripts
 
-- `yarn dev` - Start development server
+**Frontend Scripts (run from frontend directory):**
+- `yarn dev` - Start development server on port 3001
 - `yarn build` - Build for production
 - `yarn start` - Start production server
 - `yarn lint` - Run ESLint
 - `yarn test` - Run tests
 - `yarn test:watch` - Run tests in watch mode
 - `yarn test:coverage` - Run tests with coverage report
+
+**Root Scripts (run from project root):**
+- `yarn dev` - Start both GraphQL server and frontend concurrently
+- `yarn dev:server` - Start GraphQL server only
+- `yarn dev:frontend` - Start frontend only
+- `yarn install:all` - Install dependencies in both root and frontend concurrently
+- `yarn build` - Build the frontend application
+- `yarn test` - Run frontend tests
+- `yarn lint` - Run frontend linting
 
 ## 📊 Data Structure
 
@@ -192,6 +214,13 @@ The dashboard is fully responsive with:
 - **Adaptive chart sizing**
 - **Touch-friendly controls**
 
+### Filter Layout
+- **Desktop**: Time range filter on left, criticality filter on right
+- **Mobile**: Filters stack vertically with optimized sizing
+- **Responsive chips**: Smaller, more compact criticality chips on mobile
+- **Full-width selects**: Time range filter takes full width on mobile
+- **Centered alignment**: Criticality chips center on mobile for better visual balance
+
 ## 🔧 Configuration
 
 ### Next.js Configuration
@@ -210,12 +239,44 @@ The dashboard is fully responsive with:
 - TypeScript support
 - Custom rule overrides
 
+## 🔧 Troubleshooting
+
+### Node.js Version Issues
+```bash
+# Check your Node.js version
+node --version
+
+# Should be 18.18.0 or higher for Next.js compatibility
+```
+
+### Port Conflicts
+```bash
+# Stop all running processes
+pkill -f "nodemon\|next"
+
+# Restart with
+yarn dev
+```
+
+### Dependency Issues
+```bash
+# Clean install all dependencies
+rm -rf node_modules
+yarn install
+```
+
+### GraphQL Server Connection
+- Ensure the GraphQL server is running on port 3000
+- Check that the frontend can connect to http://localhost:3000
+- Verify Apollo Client configuration in `src/api/apollo-client.ts`
+
 ## 🤝 Contributing
 
 1. Follow the existing code style and TypeScript patterns
 2. Write tests for new components
 3. Update interfaces when adding new data structures
 4. Ensure responsive design for all new components
+5. Use yarn for all package management operations
 
 ## 📄 License
 

@@ -11,11 +11,10 @@ import {
 import { useQuery } from '@apollo/client';
 import { GET_TIME_SERIES_DATA } from '../api/graphql-queries';
 import { TimeSeriesResponse, TimeRange, CriticalityLevel } from '../types';
-import TimeRangeFilter from './chart/TimeRangeFilter';
-import CriticalityFilter from './chart/CriticalityFilter';
 import SummaryCards from './chart/SummaryCards';
 import D3LineChart from './chart/D3LineChart';
 import ChartTitle from './chart/ChartTitle';
+import FilterWrapper from './chart/FilterWrapper';
 
 const Chart: React.FC = () => {
   const theme = useTheme();
@@ -80,44 +79,22 @@ const Chart: React.FC = () => {
         height: '100%',
         p: 2,
       }}>
-        <Box sx={{ height: '100%', position: 'relative' }}>
-          {data && (
-            <D3LineChart
-              dataPoints={data.timeSeriesData.dataPoints}
-              loading={loading}
-            />
-          )}
+        <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <FilterWrapper
+            timeRange={timeRange}
+            selectedCriticalities={selectedCriticalities}
+            onTimeRangeChange={handleTimeRangeChange}
+            onCriticalityChange={handleCriticalityChange}
+            disabled={loading}
+          />
           
-          <Box sx={{
-            position: 'absolute',
-            top: 16,
-            left: 24,
-            zIndex: 10,
-            backgroundColor: theme.palette.mode === 'dark' ? '#2D1B69' : 'white',
-            borderRadius: 1,
-            p: 1,
-          }}>
-            <TimeRangeFilter
-              value={timeRange}
-              onChange={handleTimeRangeChange}
-              disabled={loading}
-            />
-          </Box>
-          
-          <Box sx={{
-            position: 'absolute',
-            top: 16,
-            right: 24,
-            zIndex: 10,
-            backgroundColor: theme.palette.mode === 'dark' ? '#2D1B69' : 'white',
-            borderRadius: 1,
-            p: 1,
-          }}>
-            <CriticalityFilter
-              value={selectedCriticalities}
-              onChange={handleCriticalityChange}
-              disabled={loading}
-            />
+          <Box sx={{ flex: 1, position: 'relative' }}>
+            {data && (
+              <D3LineChart
+                dataPoints={data.timeSeriesData.dataPoints}
+                loading={loading}
+              />
+            )}
           </Box>
         </Box>
 

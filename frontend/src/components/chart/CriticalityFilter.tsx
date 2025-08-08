@@ -63,7 +63,12 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
   const allCriticalities: CriticalityLevel[] = ['NONE', 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
 
   return (
-    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+    <Box sx={{ 
+      display: 'flex', 
+      gap: { xs: 0.5, sm: 1 }, 
+      flexWrap: 'wrap',
+      justifyContent: { xs: 'center', sm: 'flex-start' },
+    }}>
       {allCriticalities.map((criticality) => {
         const isSelected = value.includes(criticality);
         const chipColor = getCriticalityColor(criticality);
@@ -71,7 +76,7 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
           <Chip
             key={criticality}
             label={criticality}
-            size="medium"
+            size="small"
             variant={isSelected ? "filled" : "outlined"}
             onClick={() => handleChipClick(criticality)}
             sx={{
@@ -83,13 +88,13 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
               border: '1px solid',
               fontWeight: 'medium',
               minWidth: 'fit-content',
-              fontSize: '0.8125rem',
-              height: '32px',
+              fontSize: { xs: '0.75rem', sm: '0.8125rem' },
+              height: { xs: '28px', sm: '32px' },
               '& .MuiChip-label': {
                 fontWeight: 'medium',
-                fontSize: '0.8125rem',
+                fontSize: { xs: '0.75rem', sm: '0.8125rem' },
                 lineHeight: '1.2',
-                padding: '0 12px',
+                padding: { xs: '0 8px', sm: '0 12px' },
               },
               '&:hover': disabled ? {} : {
                 backgroundColor: isSelected ? chipColor : `${chipColor}20`,

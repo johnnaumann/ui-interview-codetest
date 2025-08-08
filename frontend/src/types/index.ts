@@ -150,6 +150,13 @@ export interface ChartControlsProps extends LoadingProps, DisabledProps {
   onCriticalityChange: (criticalities: CriticalityLevel[]) => void;
 }
 
+export interface FilterWrapperProps extends LoadingProps, DisabledProps {
+  timeRange: TimeRange;
+  onTimeRangeChange: (timeRange: TimeRange) => void;
+  selectedCriticalities: CriticalityLevel[];
+  onCriticalityChange: (criticalities: CriticalityLevel[]) => void;
+}
+
 // =============================================================================
 // UTILITY TYPES
 // =============================================================================

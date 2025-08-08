@@ -20,7 +20,13 @@ const TimeRangeFilter: React.FC<TimeRangeFilterProps> = ({
   };
 
   return (
-    <FormControl sx={{ minWidth: 200 }} disabled={disabled}>
+    <FormControl 
+      sx={{ 
+        minWidth: { xs: '100%', sm: 200 },
+        width: { xs: '100%', sm: 'auto' },
+      }} 
+      disabled={disabled}
+    >
       <InputLabel id="time-range-label">Time Range</InputLabel>
       <Select
         labelId="time-range-label"
@@ -28,6 +34,7 @@ const TimeRangeFilter: React.FC<TimeRangeFilterProps> = ({
         value={value}
         label="Time Range"
         onChange={handleChange}
+        size="small"
       >
         <MenuItem value="THREE_DAYS">Last 3 Days</MenuItem>
         <MenuItem value="SEVEN_DAYS">Last 7 Days</MenuItem>

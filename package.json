@@ -4,10 +4,17 @@
   "main": "index.js",
   "license": "MIT",
   "type": "module",
+  "packageManager": "yarn@1.22.22",
   "scripts": {
-    "dev": "concurrently --config concurrently.config.js dev",
+    "dev": "concurrently \"yarn dev:server\" \"yarn dev:frontend\" --names \"server,frontend\" --prefix-colors \"blue,green\"",
     "dev:server": "nodemon dev",
-    "dev:frontend": "cd frontend && next dev -p 3001"
+    "dev:frontend": "cd frontend && yarn dev",
+    "build": "cd frontend && yarn build",
+    "start": "cd frontend && yarn start",
+    "test": "cd frontend && yarn test",
+    "lint": "cd frontend && yarn lint",
+    "install": "yarn install",
+    "install:all": "concurrently \"yarn install\" \"cd frontend && yarn install\" --names \"root,frontend\" --prefix-colors \"blue,green\""
   },
   "dependencies": {
     "@apollo/client": "^3.13.9",
