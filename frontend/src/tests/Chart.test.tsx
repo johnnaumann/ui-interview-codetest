@@ -28,6 +28,12 @@ jest.mock('../types', () => ({
   },
 }))
 
+jest.mock('../components/chart/D3LineChart', () => {
+  return function MockD3LineChart() {
+    return <div data-testid="d3-line-chart">Mock D3 Line Chart</div>
+  }
+})
+
 import { useQuery } from '@apollo/client';
 
 const mockUseQuery = useQuery as jest.MockedFunction<typeof useQuery>;
@@ -148,7 +154,7 @@ describe('Chart', () => {
 
     render(<Chart />)
     
-    expect(screen.getByText('Time Range')).toBeInTheDocument()
+    expect(screen.getByLabelText('Time Range')).toBeInTheDocument()
   })
 
   it('renders criticality filter', () => {

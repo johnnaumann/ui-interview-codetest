@@ -9,9 +9,7 @@ const customJestConfig = {
   testEnvironment: 'jsdom',
   testPathIgnorePatterns: [
     '<rootDir>/.next/', 
-    '<rootDir>/node_modules/',
-    'D3LineChart.test.tsx',
-    'Chart.test.tsx'
+    '<rootDir>/node_modules/'
   ],
   collectCoverageFrom: [
     'src/**/*.{js,jsx,ts,tsx}',
