@@ -39,6 +39,7 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
   return (
     <Card sx={{
       backgroundColor: theme.palette.mode === 'dark' ? '#A855F7' : '#E9D5FF',
+      border: `1px solid ${theme.palette.mode === 'dark' ? '#A855F7' : '#E9D5FF'}`,
       position: 'relative',
     }}>
       <CardContent>

@@ -40,6 +40,7 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
   return (
     <Card sx={{
       backgroundColor: theme.palette.mode === 'dark' ? colors.primary.dark : colors.primary.main,
+      border: `1px solid ${theme.palette.mode === 'dark' ? colors.primary.dark : colors.primary.main}`,
       position: 'relative',
     }}>
       <CardContent>
