@@ -4,88 +4,123 @@ import React, { createContext, useContext, useState } from 'react';
 import { createTheme, ThemeProvider as MuiThemeProvider, Theme } from '@mui/material/styles';
 import { ThemeContextType, ThemeProviderProps } from '../types';
 
+/**
+ * Theme Context and Provider
+ * 
+ * This file provides a comprehensive theming system for the application with:
+ * - Light and dark mode support
+ * - Custom color palette with semantic naming
+ * - Material-UI component overrides for consistent styling
+ * - Type-safe theme context with custom hooks
+ * 
+ * The theme system is designed to be:
+ * - Accessible: Proper contrast ratios and color semantics
+ * - Consistent: Unified color palette across all components
+ * - Flexible: Easy to extend with new colors and component styles
+ * - Type-safe: Full TypeScript support with proper type definitions
+ */
 
+/**
+ * Application Color Palette
+ * 
+ * Defines all colors used throughout the application with semantic naming.
+ * Colors are organized by purpose and include both light and dark variants.
+ */
 export const colors = {
-
+  // Primary brand colors - used for main actions and branding
   primary: {
-    main: '#6B46C1',
-    light: '#8B5CF6',
-    dark: '#553C9A',
+    main: '#6B46C1',    // Purple - main brand color
+    light: '#8B5CF6',   // Lighter purple for hover states
+    dark: '#553C9A',    // Darker purple for active states
   },
+  
+  // Secondary brand colors - used for secondary actions and accents
   secondary: {
-    main: '#1E40AF',
-    light: '#3B82F6',
-    dark: '#1E3A8A',
+    main: '#1E40AF',    // Blue - secondary brand color
+    light: '#3B82F6',   // Lighter blue for hover states
+    dark: '#1E3A8A',    // Darker blue for active states
   },
   
-
-  success: { main: '#059669', light: '#10B981', dark: '#047857' },
-  warning: { main: '#D97706', light: '#F59E0B', dark: '#B45309' },
-  error: { main: '#DC2626', light: '#EF4444', dark: '#B91C1C' },
-  info: { main: '#1E40AF', light: '#3B82F6', dark: '#1E3A8A' },
+  // Semantic colors for status indicators and feedback
+  success: { main: '#059669', light: '#10B981', dark: '#047857' }, // Green
+  warning: { main: '#D97706', light: '#F59E0B', dark: '#B45309' }, // Orange
+  error: { main: '#DC2626', light: '#EF4444', dark: '#B91C1C' },   // Red
+  info: { main: '#1E40AF', light: '#3B82F6', dark: '#1E3A8A' },    // Blue
   
-
-  advisories: { main: '#C084FC', light: '#E9D5FF', dark: '#A855F7' },
+  // Custom color for advisory data visualization
+  advisories: { main: '#C084FC', light: '#E9D5FF', dark: '#A855F7' }, // Purple variant
   
-
+  // Light mode color scheme
   light: {
     background: {
-      default: '#FAFBFC',
-      paper: '#FFFFFF',
-      elevated: '#F8FAFC',
+      default: '#FAFBFC',  // Main background
+      paper: '#FFFFFF',    // Card/paper background
+      elevated: '#F8FAFC', // Elevated surface background
     },
     text: {
-      primary: '#0F172A',
-      secondary: '#475569',
-      disabled: '#94A3B8',
+      primary: '#0F172A',   // Primary text color
+      secondary: '#475569', // Secondary text color
+      disabled: '#94A3B8',  // Disabled text color
     },
-    divider: '#E2E8F0',
+    divider: '#E2E8F0',     // Border/divider color
   },
   
-
+  // Dark mode color scheme
   dark: {
     background: {
-      default: '#2D1B69',
-      paper: '#2D1B69',
-      elevated: '#2D1B69',
+      default: '#2D1B69',   // Main background (dark purple)
+      paper: '#2D1B69',     // Card/paper background
+      elevated: '#2D1B69',  // Elevated surface background
     },
     text: {
-      primary: '#F8FAFC',
-      secondary: '#CBD5E1',
-      disabled: '#64748B',
+      primary: '#F8FAFC',   // Primary text color (light)
+      secondary: '#CBD5E1', // Secondary text color
+      disabled: '#64748B',  // Disabled text color
     },
-    divider: 'rgba(255, 255, 255, 0.15)',
+    divider: 'rgba(255, 255, 255, 0.15)', // Semi-transparent white divider
   },
   
-
+  // Utility colors
   white: '#FFFFFF',
   black: '#000000',
   
-  // Additional colors for tooltips and UI elements
+  // Tooltip-specific colors for consistent tooltip styling
   tooltip: {
-    text: '#1F2937',
-    border: '#E2E8F0',
-    background: '#FFFFFF',
+    text: '#1F2937',        // Tooltip text color
+    border: '#E2E8F0',      // Tooltip border color
+    background: '#FFFFFF',  // Tooltip background color
   },
+  
+  // Gray scale for various UI elements
   gray: {
-    300: '#D1D5DB',
-    400: '#9CA3AF',
-    500: '#6B7280',
-    600: '#4B5563',
-    700: '#374151',
-    800: '#1F2937',
+    300: '#D1D5DB', // Light gray
+    400: '#9CA3AF', // Medium light gray
+    500: '#6B7280', // Medium gray
+    600: '#4B5563', // Medium dark gray
+    700: '#374151', // Dark gray
+    800: '#1F2937', // Very dark gray
   },
 } as const;
 
-
+/**
+ * Material-UI Theme Extension
+ * 
+ * Extends the default Material-UI theme with custom color properties.
+ * This ensures type safety when accessing custom colors throughout the application.
+ */
 declare module '@mui/material/styles' {
   interface Palette {
+    // Custom advisories color for data visualization
     advisories: import('../types').AdvisoriesColor;
+    
+    // Custom tooltip colors for consistent tooltip styling
     tooltip: {
       text: string;
       border: string;
       background: string;
     };
+    
+    // Extended gray scale for various UI elements
     gray: {
       300: string;
       400: string;
@@ -95,6 +130,7 @@ declare module '@mui/material/styles' {
       800: string;
     };
   }
+  
   interface PaletteOptions {
     advisories?: Palette['advisories'];
     tooltip?: Palette['tooltip'];
@@ -102,15 +138,26 @@ declare module '@mui/material/styles' {
   }
 }
 
-
+/**
+ * Component Style Overrides
+ * 
+ * Provides custom styling for Material-UI components to ensure consistency
+ * across the application and proper theming support.
+ * 
+ * @param mode - Current theme mode ('light' or 'dark')
+ * @returns Object containing component style overrides
+ */
 const createComponentOverrides = (mode: 'light' | 'dark') => ({
+  // Global CSS baseline overrides
   MuiCssBaseline: {
     styleOverrides: {
+      // Import Roboto font from Google Fonts
       '@import': [
         'url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap")'
       ],
       body: {
         fontFamily: 'var(--font-roboto), "Roboto", "Helvetica", "Arial", sans-serif',
+        // Ensure proper text color for navigation elements in dark mode
         '& .MuiDrawer-root .MuiListItemButton-root, & [data-segment="dashboard"], & .MuiListItemButton-root, & .MuiListItem-root .MuiListItemButton-root, & nav .MuiListItemButton-root': {
           color: mode === 'dark' ? `${colors.white} !important` : undefined,
           '& .MuiTypography-root, & .MuiListItemIcon-root, & .MuiSvgIcon-root, & svg': {
@@ -120,6 +167,8 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       },
     },
   },
+  
+  // Button component overrides - remove default shadows
   MuiButton: {
     styleOverrides: {
       root: {
@@ -130,6 +179,8 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       },
     },
   },
+  
+  // Card component overrides - flat design with borders in dark mode
   MuiCard: {
     styleOverrides: {
       root: {
@@ -142,6 +193,8 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       },
     },
   },
+  
+  // Paper component overrides - flat design with borders in dark mode
   MuiPaper: {
     styleOverrides: {
       root: {
@@ -157,6 +210,8 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       },
     },
   },
+  
+  // AppBar component overrides - remove shadow and set background
   MuiAppBar: {
     styleOverrides: {
       root: {
@@ -165,6 +220,8 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       },
     },
   },
+  
+  // ListItemButton component overrides - proper dark mode styling
   MuiListItemButton: {
     styleOverrides: {
       root: {
@@ -191,6 +248,8 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       },
     },
   },
+  
+  // ListItem component overrides - ensure proper text color inheritance
   MuiListItem: {
     styleOverrides: {
       root: {
@@ -203,10 +262,12 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       },
     },
   },
+  
+  // Drawer component overrides - set max width and proper borders
   MuiDrawer: {
     styleOverrides: {
       root: {
-        maxWidth: '250px',
+        maxWidth: '250px', // Limit drawer width for better UX
       },
       paper: {
         maxWidth: '250px',
@@ -220,6 +281,8 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       },
     },
   },
+  
+  // ListItemIcon component overrides - ensure proper icon colors
   MuiListItemIcon: {
     styleOverrides: {
       root: {
@@ -230,6 +293,8 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       },
     },
   },
+  
+  // ListItemText component overrides - ensure proper text colors
   MuiListItemText: {
     styleOverrides: {
       root: {
@@ -239,6 +304,8 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       },
     },
   },
+  
+  // Typography component overrides - ensure proper caption colors
   MuiTypography: {
     styleOverrides: {
       caption: {
@@ -246,6 +313,8 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       },
     },
   },
+  
+  // SvgIcon component overrides - ensure proper icon colors
   MuiSvgIcon: {
     styleOverrides: {
       root: {
@@ -253,6 +322,8 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       },
     },
   },
+  
+  // Divider component overrides - ensure proper divider styling
   MuiDivider: {
     styleOverrides: {
       root: {
@@ -264,9 +335,23 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
   },
 });
 
-
+/**
+ * Theme Context
+ * 
+ * React context for providing theme state and functions throughout the application.
+ * This context is undefined by default and must be provided by ThemeProvider.
+ */
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+/**
+ * useTheme Hook
+ * 
+ * Custom hook for accessing the theme context.
+ * Provides type-safe access to theme mode, toggle function, and Material-UI theme.
+ * 
+ * @throws Error if used outside of ThemeProvider
+ * @returns ThemeContextType with mode, toggleColorMode, and theme
+ */
 export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (context === undefined) {
@@ -275,14 +360,29 @@ export const useTheme = () => {
   return context;
 };
 
-
+/**
+ * ThemeProvider Component
+ * 
+ * Provides theme context and Material-UI theme to the application.
+ * Manages theme state (light/dark mode) and creates the Material-UI theme
+ * with custom colors and component overrides.
+ * 
+ * @param children - React children to be wrapped with theme context
+ */
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
+  // Theme mode state - defaults to light mode
   const [mode, setMode] = useState<'light' | 'dark'>('light');
 
+  /**
+   * Toggle between light and dark mode
+   * 
+   * Switches the theme mode and triggers a re-render of all themed components.
+   */
   const toggleColorMode = () => {
     setMode(prevMode => prevMode === 'light' ? 'dark' : 'light');
   };
 
+  // Create Material-UI theme with custom configuration
   const theme = createTheme({
     typography: {
       fontFamily: 'var(--font-roboto), "Roboto", "Helvetica", "Arial", sans-serif',
@@ -303,7 +403,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       tooltip: colors.tooltip,
       gray: colors.gray,
     },
+    // Remove all default shadows for flat design
     shadows: Array(25).fill('none') as Theme['shadows'],
+    // Apply custom component overrides
     components: createComponentOverrides(mode),
   });
 
