@@ -85,7 +85,7 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
               backgroundColor: isSelected ? chipColor : 'transparent',
               color: isSelected ? 'white' : chipColor,
               borderColor: chipColor,
-              border: '1px solid',
+              border: `1px solid ${chipColor}`,
               fontWeight: 'medium',
               minWidth: 'fit-content',
               fontSize: { xs: '0.75rem', sm: '0.8125rem' },
