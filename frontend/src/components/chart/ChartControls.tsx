@@ -25,8 +25,6 @@ const ChartControls: React.FC<ChartControlsProps> = ({
         backgroundColor: theme.palette.mode === 'dark' 
           ? `${theme.palette.background.paper}E6`
           : `${theme.palette.background.paper}F2`,
-        backdropFilter: 'blur(8px)',
-        borderRadius: 1,
         padding: 1.5,
         border: `1px solid ${theme.palette.divider}`,
       }}
