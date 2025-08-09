@@ -79,7 +79,6 @@ This project implements a modern, interactive dashboard that visualizes security
 
 ### Unit Tests ✅
 - **Comprehensive test coverage**: Tests for all components and utilities
-- **Integration tests**: Data flow and user interaction testing
 
 ## 🛠️ Tech Stack
 
