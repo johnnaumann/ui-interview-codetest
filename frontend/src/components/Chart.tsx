@@ -59,9 +59,8 @@ const Chart: React.FC = () => {
   }
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box>
       <ChartTitle />
-      
       <Box sx={{ 
         display: 'grid',
         gridTemplateColumns: {
@@ -71,9 +70,7 @@ const Chart: React.FC = () => {
         gap: { xs: 0, xl: 2 },
         p: 2,
       }}>
-        <Box sx={{ 
-          display: 'block'
-        }}>
+        <Box>
           <FilterWrapper
             timeRange={timeRange}
             selectedCriticalities={selectedCriticalities}
@@ -81,10 +78,7 @@ const Chart: React.FC = () => {
             onCriticalityChange={handleCriticalityChange}
             disabled={loading}
           />
-          
-          <Box sx={{ 
-            position: 'relative'
-          }}>
+          <Box>
             {data && (
               <D3LineChart
                 dataPoints={data.timeSeriesData.dataPoints}
@@ -95,10 +89,7 @@ const Chart: React.FC = () => {
         </Box>
 
         {data && (
-          <Box sx={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-          }}>
+          <Box>
             <SummaryCards
               data={data.timeSeriesData.summary}
               loading={loading}
