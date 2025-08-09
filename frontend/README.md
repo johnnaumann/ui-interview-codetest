@@ -44,7 +44,6 @@ This project implements a modern, interactive dashboard that visualizes security
 - **Code organization and structure**: Modular component architecture with clear separation of concerns
 - **Proper use of React patterns and hooks**: Custom hooks, context providers, and functional components
 - **Efficient data fetching and state management**: Apollo Client with GraphQL queries and local state
-- **Performance optimization**: React.memo, useMemo, and efficient re-renders
 
 ### Visualization Quality ✅
 - **Clarity of data presentation**: Clean line charts with clear axes and labels
@@ -62,13 +61,11 @@ This project implements a modern, interactive dashboard that visualizes security
 - **Clean, maintainable code**: TypeScript with comprehensive interfaces and documentation
 - **Proper TypeScript usage**: Full type safety with custom interfaces and generics
 - **Appropriate error handling**: Try-catch blocks, error boundaries, and user-friendly messages
-- **Documentation and comments**: Comprehensive JSDoc comments and inline documentation
 
 ## 🏆 Bonus Features Implemented
 
 ### Additional Chart Types ✅
 - **Summary Cards**: Visual summary statistics with delta indicators
-- **Multiple data series**: Dual-line chart showing both CVEs and Advisories
 
 ### Advanced Filtering Options ✅
 - **Time range filtering**: 3, 7, 14, 30 day options with real-time updates
@@ -83,12 +80,6 @@ This project implements a modern, interactive dashboard that visualizes security
 ### Unit Tests ✅
 - **Comprehensive test coverage**: Tests for all components and utilities
 - **Integration tests**: Data flow and user interaction testing
-- **Accessibility testing**: ARIA compliance and keyboard navigation tests
-
-### Performance Optimizations ✅
-- **React.memo for components**: Prevents unnecessary re-renders
-- **useMemo for expensive calculations**: Optimized chart data processing
-- **Efficient Apollo Client usage**: Proper query caching and error handling
 
 ## 🛠️ Tech Stack
 
@@ -99,13 +90,11 @@ This project implements a modern, interactive dashboard that visualizes security
 
 ### UI & Styling
 - **Material-UI 7.3.1** - Component library with custom theme
-- **@emotion/react & @emotion/styled** - CSS-in-JS styling
 - **@mui/icons-material** - Material Design icons
 - **@toolpad/core** - Theme provider integration
 
 ### Data Visualization
 - **D3.js 7.9.0** - Data-driven document manipulation
-- **@types/d3** - TypeScript definitions for D3
 
 ### Data Fetching
 - **Apollo Client 3.13.9** - GraphQL client
@@ -259,7 +248,7 @@ Comprehensive type definitions for:
 
 The application uses a custom Material-UI theme with:
 - **Light/Dark mode toggle**
-- **Custom color palette** for advisories
+- **Custom color palette**
 - **Responsive breakpoints**
 - **Typography system** with Roboto font
 
@@ -284,13 +273,6 @@ The dashboard is fully responsive with:
 - **Grid-based layouts**
 - **Adaptive chart sizing**
 - **Touch-friendly controls**
-
-### Filter Layout
-- **Desktop**: Time range filter on left, criticality filter on right
-- **Mobile**: Filters stack vertically with optimized sizing
-- **Responsive chips**: Smaller, more compact criticality chips on mobile
-- **Full-width selects**: Time range filter takes full width on mobile
-- **Centered alignment**: Criticality chips center on mobile for better visual balance
 
 ## 🔧 Configuration
 
@@ -340,15 +322,3 @@ yarn install
 - Ensure the GraphQL server is running on port 3000
 - Check that the frontend can connect to http://localhost:3000
 - Verify Apollo Client configuration in `src/api/apollo-client.ts`
-
-## 🤝 Contributing
-
-1. Follow the existing code style and TypeScript patterns
-2. Write tests for new components
-3. Update interfaces when adding new data structures
-4. Ensure responsive design for all new components
-5. Use yarn for all package management operations
-
-## 📄 License
-
-This project is part of a UI interview code test.
