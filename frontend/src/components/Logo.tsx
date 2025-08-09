@@ -7,7 +7,6 @@ import { LogoProps } from '../types';
 const Logo: React.FC<LogoProps> = ({ 
   width = 135, 
   height = 24, 
-  className = 'logo-header' 
 }) => {
   const { mode } = useTheme();
   
@@ -20,12 +19,6 @@ const Logo: React.FC<LogoProps> = ({
       viewBox="0 0 135 24" 
       fill="none" 
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      style={{
-        maxWidth: '100%',
-        height: 'auto',
-        display: 'block'
-      }}
     >
       <g clipPath="url(#clip0_1026_22472)">
         <path 
@@ -58,7 +51,7 @@ const Logo: React.FC<LogoProps> = ({
         />
       </g>
       <defs>
-        <clipPath id="clip0_1026_22472">
+        <clipPath>
           <rect width="134.632" height="24" fill="white"/>
         </clipPath>
       </defs>
