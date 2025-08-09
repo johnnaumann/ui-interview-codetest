@@ -29,7 +29,7 @@ This project implements a modern, interactive dashboard that visualizes security
 ### Enhanced User Experience ✅
 - **Interactive tooltips**: Detailed information on hover with formatted timestamps and values
 - **Smooth transitions and animations**: D3.js transitions and Material-UI component animations
-- **Clear data visualization**: Color-coded lines (red for CVEs, blue for Advisories)
+- **Clear data visualization**: Color-coded lines
 - **Responsive layout**: Mobile-first design with adaptive layouts
 
 ### Modern Design Elements ✅
