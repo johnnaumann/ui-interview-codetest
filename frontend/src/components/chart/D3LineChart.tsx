@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState, memo } from 'react';
+import React, { useEffect, useRef, useState, memo, useMemo } from 'react';
 import * as d3 from 'd3';
 import { Box, useTheme, Typography } from '@mui/material';
 import { D3LineChartProps, DataPoint } from '../../types';
@@ -40,27 +40,24 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
     // Check if time range has changed
     const timeRangeChanged = previousTimeRangeRef.current !== timeRange;
     
-    // Only clear and rebuild static elements (grid, axes) when time range changes
+    // Clear existing elements
+    svg.selectAll('.grid-group, .chart-group, .data-points, .cve-line, .advisory-line').remove();
+    
     if (timeRangeChanged) {
-      svg.selectAll('.grid-group, .chart-group').remove();
       previousTimeRangeRef.current = timeRange;
     }
-    
-    // Always clear and redraw data elements for updates
-    svg.selectAll('.data-points, .cve-line, .advisory-line').remove();
 
-    // Only rebuild grid and static elements when time range changes
-    if (timeRangeChanged) {
-      const gridGroup = svg
-        .append('g')
-        .attr('class', 'grid-group')
-        .attr('transform', `translate(${margin.left},${margin.top})`);
+    // Always create grid (ensures it's always visible)
+    const gridGroup = svg
+      .append('g')
+      .attr('class', 'grid-group')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
 
-      const xGridSpacing = chartWidth / 4;
-      const yGridSpacing = chartHeight / 4;
+    const xGridSpacing = chartWidth / 4;
+    const yGridSpacing = chartHeight / 4;
 
-      for (let i = 0; i <= 4; i++) {
-        const x = i * xGridSpacing;
+    for (let i = 0; i <= 4; i++) {
+      const x = i * xGridSpacing;
       gridGroup.append('line')
         .attr('class', 'grid-line-vertical')
         .attr('x1', x)
@@ -85,22 +82,13 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
         .style('stroke-width', 1)
         .style('stroke-dasharray', '3,3')
         .style('opacity', 1);
-      }
+    }
     
-      svg
-        .append('g')
-        .attr('class', 'chart-group')
-        .attr('transform', `translate(${margin.left},${margin.top})`);
-    }
-
-    // Get or create chart group for data elements
-    let g = svg.select('.chart-group') as d3.Selection<SVGGElement, unknown, null, undefined>;
-    if (g.empty()) {
-      g = svg
-        .append('g')
-        .attr('class', 'chart-group')
-        .attr('transform', `translate(${margin.left},${margin.top})`) as d3.Selection<SVGGElement, unknown, null, undefined>;
-    }
+    // Always create chart group for data elements
+    const g = svg
+      .append('g')
+      .attr('class', 'chart-group')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
 
     if (!dataPoints.length) return;
 
@@ -391,15 +379,28 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
     };
   }, []);
 
-  const formatDateRange = () => {
-    if (dataPoints.length === 0) return '';
+  const dateRangeLabel = useMemo(() => {
+    if (!timeRange) return '';
 
-    const sortedData = dataPoints
-      .map(d => ({ ...d, date: new Date(d.timestamp) }))
-      .sort((a, b) => a.date.getTime() - b.date.getTime());
+    const endDate = new Date();
+    let startDate: Date;
 
-    const startDate = sortedData[0].date;
-    const endDate = sortedData[sortedData.length - 1].date;
+    switch (timeRange) {
+      case 'THREE_DAYS':
+        startDate = new Date(endDate.getTime() - (3 * 24 * 60 * 60 * 1000));
+        break;
+      case 'SEVEN_DAYS':
+        startDate = new Date(endDate.getTime() - (7 * 24 * 60 * 60 * 1000));
+        break;
+      case 'FOURTEEN_DAYS':
+        startDate = new Date(endDate.getTime() - (14 * 24 * 60 * 60 * 1000));
+        break;
+      case 'THIRTY_DAYS':
+        startDate = new Date(endDate.getTime() - (30 * 24 * 60 * 60 * 1000));
+        break;
+      default:
+        startDate = new Date(endDate.getTime() - (30 * 24 * 60 * 60 * 1000));
+    }
 
     const startFormatted = startDate.toLocaleDateString('en-US', {
       weekday: 'short',
@@ -414,7 +415,7 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
     });
 
     return `${startFormatted} – ${endFormatted}`;
-  };
+  }, [timeRange]);
 
   return (
     <Box
@@ -451,7 +452,7 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
           flexShrink: 0
         }}
       >
-        {formatDateRange()}
+        {dateRangeLabel}
       </Typography>
 
       {tooltip.visible && (
