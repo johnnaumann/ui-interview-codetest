@@ -377,9 +377,9 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       root: {
         '& .MuiChip-label': {
           fontWeight: 'medium',
-          fontSize: { xs: '0.75rem', sm: '0.8125rem' },
+          fontSize: '0.8125rem',
           lineHeight: '1.2',
-          padding: { xs: '0 8px', sm: '0 12px' },
+          padding: '0 12px',
           transition: 'color 0.2s ease-in-out',
         },
       },
