@@ -43,7 +43,7 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
       backgroundColor: theme.palette.mode === 'dark' ? colors.advisories.dark : colors.advisories.light,
       border: `1px solid ${theme.palette.mode === 'dark' ? colors.advisories.dark : colors.advisories.light}`,
       position: 'relative',
-      height: 150, // Based on actual measured height
+      height: 150,
     }}>
       <CardContent sx={{ 
         display: 'flex',
@@ -62,8 +62,8 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
                 p: 0.5,
                 '&:hover': {
                   backgroundColor: theme.palette.mode === 'dark' 
-                    ? 'rgba(255, 255, 255, 0.1)' 
-                    : 'rgba(0, 0, 0, 0.04)',
+                    ? colors.dark.hover.card 
+                    : colors.light.hover.card,
                   color: `${theme.palette.mode === 'dark' ? colors.white : colors.primary.main} !important`,
                 },
                 '& .MuiSvgIcon-root': {
@@ -90,8 +90,8 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
               opacity: data ? 1 : 0,
               transition: 'opacity 0.3s ease-in-out',
               mb: 1,
-              minHeight: 40, // Fixed height for h4 typography
-              height: 40, // Fixed height to prevent jumping
+              minHeight: 40,
+              height: 40,
               display: 'flex',
               alignItems: 'flex-start',
               position: 'relative',
@@ -118,8 +118,8 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
             alignItems: 'center', 
             gap: 1, 
             mt: 1,
-            minHeight: 32, // Fixed height for body2 + chip row
-            height: 32, // Fixed height to prevent jumping
+            minHeight: 32,
+            height: 32,
             position: 'relative',
           }}>
             <Typography variant="body2" color={theme.palette.mode === 'dark' ? colors.white : colors.primary.main}>
@@ -138,9 +138,9 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
                   size="small"
                   sx={{
                     backgroundColor: chipBackgroundColor,
-                    color: 'white',
+                    color: colors.white,
                     fontWeight: 'medium',
-                    height: 24, // Fixed chip height
+                    height: 24,
                     '& .MuiChip-label': {
                       px: 1,
                       fontSize: 'inherit',

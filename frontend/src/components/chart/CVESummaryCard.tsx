@@ -61,7 +61,7 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = memo(({
                 color: `${colors.white} !important`,
                 p: 0.5,
                 '&:hover': {
-                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  backgroundColor: colors.dark.hover.card,
                   color: `${colors.white} !important`,
                 },
                 '& .MuiSvgIcon-root': {
@@ -88,8 +88,8 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = memo(({
               opacity: data ? 1 : 0,
               transition: 'opacity 0.3s ease-in-out',
               mb: 1,
-              minHeight: 40, // Fixed height for h4 typography
-              height: 40, // Fixed height to prevent jumping
+              minHeight: 40,
+              height: 40,
               display: 'flex',
               alignItems: 'flex-start',
               position: 'relative',
@@ -116,8 +116,8 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = memo(({
             alignItems: 'center', 
             gap: 1, 
             mt: 1,
-            minHeight: 32, // Fixed height for body2 + chip row
-            height: 32, // Fixed height to prevent jumping
+            minHeight: 32,
+            height: 32,
             position: 'relative',
           }}>
             <Typography variant="body2" color={colors.white}>
@@ -138,7 +138,7 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = memo(({
                     backgroundColor: chipBackgroundColor,
                     color: colors.white,
                     fontWeight: 'medium',
-                    height: 24, // Fixed chip height
+                    height: 24,
                     '& .MuiChip-label': {
                       px: 1,
                       fontSize: 'inherit',

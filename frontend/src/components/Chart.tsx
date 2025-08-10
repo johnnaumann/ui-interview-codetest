@@ -35,9 +35,6 @@ const Chart: React.FC = () => {
     setSelectedCriticalities(newCriticalities);
   };
 
-
-
-  // Only show full screen loading on initial load, not during filter changes
   if (loading && !hasInitialData.current) {
     return <LoadingOverlay fullScreen />;
   }

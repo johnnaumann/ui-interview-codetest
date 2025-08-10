@@ -9,6 +9,7 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { TimeRangeFilterProps, TimeRange } from '../../types';
+import { colors } from '../../contexts/ThemeContext';
 
 const TimeRangeFilter: React.FC<TimeRangeFilterProps> = ({
   value,
@@ -24,7 +25,6 @@ const TimeRangeFilter: React.FC<TimeRangeFilterProps> = ({
       sx={{ 
         minWidth: { xs: '100%', sm: 200 },
         width: { xs: '100%', sm: 'auto' },
-        // Override disabled styles to maintain visual appearance
         '&.Mui-disabled': {
           opacity: 1,
           '& .MuiInputLabel-root': {
@@ -32,10 +32,10 @@ const TimeRangeFilter: React.FC<TimeRangeFilterProps> = ({
           },
           '& .MuiOutlinedInput-root': {
             '& fieldset': {
-              borderColor: 'rgba(0, 0, 0, 0.23)',
+              borderColor: colors.light.border.default,
             },
             '&:hover fieldset': {
-              borderColor: 'rgba(0, 0, 0, 0.23)',
+              borderColor: colors.light.border.default,
             },
             '& .MuiSelect-select': {
               color: 'text.primary',
@@ -51,7 +51,6 @@ const TimeRangeFilter: React.FC<TimeRangeFilterProps> = ({
       <InputLabel 
         id="time-range-label"
         sx={{
-          // Override disabled label styles
           '&.Mui-disabled': {
             color: 'text.primary',
           },
@@ -67,13 +66,12 @@ const TimeRangeFilter: React.FC<TimeRangeFilterProps> = ({
         onChange={disabled ? undefined : handleChange}
         size="small"
         sx={{
-          // Override disabled select styles
           '&.Mui-disabled': {
             '& .MuiSelect-select': {
               color: 'text.primary',
             },
             '& .MuiOutlinedInput-notchedOutline': {
-              borderColor: 'rgba(0, 0, 0, 0.23)',
+              borderColor: colors.light.border.default,
             },
             '& .MuiSvgIcon-root': {
               color: 'action.active',

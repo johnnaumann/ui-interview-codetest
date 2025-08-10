@@ -12,7 +12,6 @@ const FilterWrapper: React.FC<FilterWrapperProps> = ({
   onTimeRangeChange,
   onCriticalityChange,
   disabled = false,
-  loading = false,
 }) => {
   const theme = useTheme();
   

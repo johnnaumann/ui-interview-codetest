@@ -83,7 +83,7 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
               cursor: disabled ? 'default' : 'pointer',
               opacity: disabled ? 0.6 : 1,
               backgroundColor: isSelected ? chipColor : 'transparent',
-              color: isSelected ? 'white' : chipColor,
+              color: isSelected ? colors.white : chipColor,
               borderColor: chipColor,
               border: `1px solid ${chipColor}`,
               fontWeight: 'medium',
@@ -100,13 +100,13 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
               },
               '&:hover': disabled ? {} : {
                 backgroundColor: `${chipColor} !important`,
-                color: 'white !important',
+                color: `${colors.white} !important`,
                 opacity: '1 !important',
               },
               // Override MUI's built-in hover styles
               '&.MuiChip-root:hover': disabled ? {} : {
                 backgroundColor: `${chipColor} !important`,
-                color: 'white !important',
+                color: `${colors.white} !important`,
               },
             }}
           />

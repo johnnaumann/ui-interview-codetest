@@ -36,8 +36,12 @@ export const colors = {
       disabled: '#94A3B8',
     },
     divider: '#E2E8F0',
+    border: {
+      default: 'rgba(0, 0, 0, 0.23)',
+    },
     hover: {
       primary: 'rgba(0, 0, 0, 0.05)',
+      card: 'rgba(0, 0, 0, 0.04)',
     },
   },
   
@@ -53,10 +57,14 @@ export const colors = {
       disabled: '#64748B',
     },
     divider: 'rgba(255, 255, 255, 0.15)',
+    border: {
+      default: 'rgba(0, 0, 0, 0.23)',
+    },
     hover: {
       primary: 'rgba(255, 255, 255, 0.05)',
       secondary: 'rgba(255, 255, 255, 0.1)',
       selected: 'rgba(255, 255, 255, 0.15)',
+      card: 'rgba(255, 255, 255, 0.1)',
     },
   },
   

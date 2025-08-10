@@ -424,7 +424,7 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
       sx={{
         width: '100%',
         height: '500px',
-        backgroundColor: theme.palette.mode === 'dark' ? 'transparent' : 'white',
+        backgroundColor: theme.palette.mode === 'dark' ? 'transparent' : theme.palette.background.paper,
         border: `1px solid ${theme.palette.divider}`,
         borderRadius: 1,
         pb: 1,
