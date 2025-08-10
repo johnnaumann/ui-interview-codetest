@@ -36,6 +36,9 @@ export const colors = {
       disabled: '#94A3B8',
     },
     divider: '#E2E8F0',
+    hover: {
+      primary: 'rgba(0, 0, 0, 0.05)',
+    },
   },
   
   dark: {
@@ -50,6 +53,11 @@ export const colors = {
       disabled: '#64748B',
     },
     divider: 'rgba(255, 255, 255, 0.15)',
+    hover: {
+      primary: 'rgba(255, 255, 255, 0.05)',
+      secondary: 'rgba(255, 255, 255, 0.1)',
+      selected: 'rgba(255, 255, 255, 0.15)',
+    },
   },
   
   white: '#FFFFFF',
@@ -195,17 +203,17 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
           color: mode === 'dark' ? `${colors.white} !important` : `${colors.light.text.secondary} !important`,
         },
         '&.Mui-selected': {
-          backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : undefined,
+          backgroundColor: mode === 'dark' ? colors.dark.hover.secondary : undefined,
           color: mode === 'dark' ? `${colors.white} !important` : undefined,
           '& .MuiTypography-root, & .MuiListItemIcon-root, & .MuiSvgIcon-root': {
             color: mode === 'dark' ? `${colors.white} !important` : undefined,
           },
           '&:hover': {
-            backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.15)' : undefined,
+            backgroundColor: mode === 'dark' ? colors.dark.hover.selected : undefined,
           },
         },
         '&:hover': {
-          backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : undefined,
+          backgroundColor: mode === 'dark' ? colors.dark.hover.primary : undefined,
           '& .MuiTypography-root, & .MuiListItemIcon-root, & .MuiSvgIcon-root': {
             color: mode === 'dark' ? `${colors.white} !important` : undefined,
           },
@@ -290,7 +298,7 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
           color: mode === 'dark' ? `${colors.white} !important` : `${colors.light.text.secondary} !important`,
         },
         '&:hover': {
-          backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)',
+          backgroundColor: mode === 'dark' ? colors.dark.hover.primary : colors.light.hover.primary,
           '& .MuiSvgIcon-root, & svg': {
             color: mode === 'dark' ? `${colors.white} !important` : `${colors.light.text.secondary} !important`,
           },
