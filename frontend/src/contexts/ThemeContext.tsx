@@ -16,14 +16,14 @@ export const colors = {
     light: '#3B82F6',
     dark: '#1E3A8A',
   },
-  
+
   success: { main: '#059669', light: '#10B981', dark: '#047857' },
   warning: { main: '#D97706', light: '#F59E0B', dark: '#B45309' },
   error: { main: '#DC2626', light: '#EF4444', dark: '#B91C1C' },
   info: { main: '#1E40AF', light: '#3B82F6', dark: '#1E3A8A' },
-  
+
   advisories: { main: '#C084FC', light: '#E9D5FF', dark: '#A855F7' },
-  
+
   light: {
     background: {
       default: '#FAFBFC',
@@ -44,7 +44,7 @@ export const colors = {
       card: 'rgba(0, 0, 0, 0.04)',
     },
   },
-  
+
   dark: {
     background: {
       default: '#2D1B69',
@@ -67,16 +67,16 @@ export const colors = {
       card: 'rgba(255, 255, 255, 0.1)',
     },
   },
-  
+
   white: '#FFFFFF',
   black: '#000000',
-  
+
   tooltip: {
     text: '#1F2937',
     border: '#E2E8F0',
     background: '#FFFFFF',
   },
-  
+
   gray: {
     300: '#D1D5DB',
     400: '#9CA3AF',
@@ -90,13 +90,13 @@ export const colors = {
 declare module '@mui/material/styles' {
   interface Palette {
     advisories: import('../types').AdvisoriesColor;
-    
+
     tooltip: {
       text: string;
       border: string;
       background: string;
     };
-    
+
     gray: {
       300: string;
       400: string;
@@ -106,7 +106,7 @@ declare module '@mui/material/styles' {
       800: string;
     };
   }
-  
+
   interface PaletteOptions {
     advisories?: Palette['advisories'];
     tooltip?: Palette['tooltip'];
@@ -116,44 +116,13 @@ declare module '@mui/material/styles' {
 
 const createComponentOverrides = (mode: 'light' | 'dark') => ({
   MuiCssBaseline: {
-    styleOverrides: `
-      body {
-        font-family: var(--font-roboto), "Roboto", "Helvetica", "Arial", sans-serif;
-      }
-      
-      body .MuiDrawer-root .MuiListItemButton-root, 
-      body [data-segment="dashboard"], 
-      body .MuiListItemButton-root, 
-      body .MuiListItem-root .MuiListItemButton-root, 
-      body nav .MuiListItemButton-root {
-        color: ${mode === 'dark' ? `${colors.white} !important` : 'inherit'};
-      }
-      
-      body .MuiDrawer-root .MuiListItemButton-root .MuiTypography-root, 
-      body .MuiDrawer-root .MuiListItemButton-root .MuiListItemIcon-root, 
-      body .MuiDrawer-root .MuiListItemButton-root .MuiSvgIcon-root, 
-      body .MuiDrawer-root .MuiListItemButton-root svg,
-      body [data-segment="dashboard"] .MuiTypography-root, 
-      body [data-segment="dashboard"] .MuiListItemIcon-root, 
-      body [data-segment="dashboard"] .MuiSvgIcon-root, 
-      body [data-segment="dashboard"] svg,
-      body .MuiListItemButton-root .MuiTypography-root, 
-      body .MuiListItemButton-root .MuiListItemIcon-root, 
-      body .MuiListItemButton-root .MuiSvgIcon-root, 
-      body .MuiListItemButton-root svg,
-      body .MuiListItem-root .MuiListItemButton-root .MuiTypography-root, 
-      body .MuiListItem-root .MuiListItemButton-root .MuiListItemIcon-root, 
-      body .MuiListItem-root .MuiListItemButton-root .MuiSvgIcon-root, 
-      body .MuiListItem-root .MuiListItemButton-root svg,
-      body nav .MuiListItemButton-root .MuiTypography-root, 
-      body nav .MuiListItemButton-root .MuiListItemIcon-root, 
-      body nav .MuiListItemButton-root .MuiSvgIcon-root, 
-      body nav .MuiListItemButton-root svg {
-        color: ${mode === 'dark' ? `${colors.white} !important` : 'inherit'};
-      }
-    `,
+    styleOverrides: {
+      body: {
+        fontFamily: 'var(--font-roboto), "Roboto", "Helvetica", "Arial", sans-serif',
+      },
+    },
   },
-  
+
   MuiButton: {
     styleOverrides: {
       root: {
@@ -164,7 +133,7 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       },
     },
   },
-  
+
   MuiCard: {
     styleOverrides: {
       root: {
@@ -177,7 +146,7 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       },
     },
   },
-  
+
   MuiPaper: {
     styleOverrides: {
       root: {
@@ -193,7 +162,7 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       },
     },
   },
-  
+
   MuiAppBar: {
     styleOverrides: {
       root: {
@@ -202,47 +171,42 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       },
     },
   },
-  
+
   MuiListItemButton: {
     styleOverrides: {
       root: {
-        color: mode === 'dark' ? `${colors.white} !important` : `${colors.light.text.secondary} !important`,
-        '& .MuiTypography-root, & .MuiListItemIcon-root, & .MuiSvgIcon-root': {
-          color: mode === 'dark' ? `${colors.white} !important` : `${colors.light.text.secondary} !important`,
+        color: mode === 'dark' ? colors.white : colors.light.text.secondary,
+        '& .MuiTypography-root': {
+          color: 'inherit',
+        },
+        '& .MuiListItemIcon-root': {
+          color: 'inherit',
+        },
+        '& .MuiSvgIcon-root': {
+          color: 'inherit',
         },
         '&.Mui-selected': {
-          backgroundColor: mode === 'dark' ? colors.dark.hover.secondary : undefined,
-          color: mode === 'dark' ? `${colors.white} !important` : undefined,
-          '& .MuiTypography-root, & .MuiListItemIcon-root, & .MuiSvgIcon-root': {
-            color: mode === 'dark' ? `${colors.white} !important` : undefined,
-          },
+          backgroundColor: mode === 'dark' ? colors.dark.hover.secondary : colors.light.hover.primary,
+          color: mode === 'dark' ? colors.white : colors.primary.main,
           '&:hover': {
-            backgroundColor: mode === 'dark' ? colors.dark.hover.selected : undefined,
+            backgroundColor: mode === 'dark' ? colors.dark.hover.selected : colors.light.hover.card,
           },
         },
         '&:hover': {
-          backgroundColor: mode === 'dark' ? colors.dark.hover.primary : undefined,
-          '& .MuiTypography-root, & .MuiListItemIcon-root, & .MuiSvgIcon-root': {
-            color: mode === 'dark' ? `${colors.white} !important` : undefined,
-          },
+          backgroundColor: mode === 'dark' ? colors.dark.hover.primary : colors.light.hover.primary,
         },
       },
     },
   },
-  
+
   MuiListItem: {
     styleOverrides: {
       root: {
-        '& .MuiListItemButton-root': {
-          color: mode === 'dark' ? `${colors.white} !important` : undefined,
-          '& .MuiTypography-root, & .MuiListItemIcon-root, & .MuiSvgIcon-root': {
-            color: mode === 'dark' ? `${colors.white} !important` : undefined,
-          },
-        },
+        // Remove redundant overrides - let MuiListItemButton handle its own styling
       },
     },
   },
-  
+
   MuiDrawer: {
     styleOverrides: {
       root: {
@@ -251,70 +215,57 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       paper: {
         maxWidth: '250px',
         borderRight: `1px solid ${mode === 'dark' ? colors.dark.divider : colors.light.divider}`,
-        '& .MuiListItemButton-root': {
-          color: mode === 'dark' ? `${colors.white} !important` : undefined,
-          '& .MuiTypography-root, & .MuiListItemIcon-root, & .MuiSvgIcon-root': {
-            color: mode === 'dark' ? `${colors.white} !important` : undefined,
-          },
-        },
+        // Remove redundant overrides - let MuiListItemButton handle its own styling
       },
     },
   },
-  
+
   MuiListItemIcon: {
     styleOverrides: {
       root: {
-        color: mode === 'dark' ? `${colors.white} !important` : `${colors.light.text.secondary} !important`,
-        '& .Mui-selected &, &.Mui-selected, & .MuiSvgIcon-root, & svg': {
-          color: mode === 'dark' ? `${colors.white} !important` : `${colors.light.text.secondary} !important`,
-        },
+        color: mode === 'dark' ? colors.white : colors.light.text.secondary,
+        minWidth: '40px', // Ensure consistent spacing
       },
     },
   },
-  
+
   MuiListItemText: {
     styleOverrides: {
       root: {
         '& .MuiTypography-root': {
-          color: mode === 'dark' ? `${colors.white} !important` : undefined,
+          color: 'inherit', // Inherit from parent ListItemButton
         },
       },
     },
   },
-  
+
   MuiTypography: {
     styleOverrides: {
       caption: {
-        color: mode === 'dark' ? `${colors.white} !important` : undefined,
+        color: mode === 'dark' ? colors.white : colors.light.text.secondary,
       },
     },
   },
-  
+
   MuiSvgIcon: {
     styleOverrides: {
       root: {
-        color: mode === 'dark' ? `${colors.white} !important` : `${colors.light.text.secondary} !important`,
+        color: 'inherit', // Let parent components control the color
       },
     },
   },
-  
+
   MuiIconButton: {
     styleOverrides: {
       root: {
-        color: mode === 'dark' ? `${colors.white} !important` : `${colors.light.text.secondary} !important`,
-        '& .MuiSvgIcon-root, & svg': {
-          color: mode === 'dark' ? `${colors.white} !important` : `${colors.light.text.secondary} !important`,
-        },
+        color: mode === 'dark' ? colors.white : colors.light.text.secondary,
         '&:hover': {
           backgroundColor: mode === 'dark' ? colors.dark.hover.primary : colors.light.hover.primary,
-          '& .MuiSvgIcon-root, & svg': {
-            color: mode === 'dark' ? `${colors.white} !important` : `${colors.light.text.secondary} !important`,
-          },
         },
       },
     },
   },
-  
+
   MuiDivider: {
     styleOverrides: {
       root: {

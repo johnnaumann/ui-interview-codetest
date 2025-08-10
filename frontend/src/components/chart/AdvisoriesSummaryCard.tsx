@@ -58,26 +58,13 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
             <IconButton
               size="small"
               sx={{
-                color: `${theme.palette.mode === 'dark' ? colors.white : colors.primary.main} !important`,
+                color: theme.palette.mode === 'dark' ? colors.white : colors.primary.main,
                 p: 0.5,
                 '&:hover': {
                   backgroundColor: theme.palette.mode === 'dark' 
                     ? colors.dark.hover.card 
                     : colors.light.hover.card,
-                  color: `${theme.palette.mode === 'dark' ? colors.white : colors.primary.main} !important`,
                 },
-                '& .MuiSvgIcon-root': {
-                  color: `${theme.palette.mode === 'dark' ? colors.white : colors.primary.main} !important`,
-                },
-                '&:hover .MuiSvgIcon-root': {
-                  color: `${theme.palette.mode === 'dark' ? colors.white : colors.primary.main} !important`,
-                },
-                '& svg': {
-                  color: `${theme.palette.mode === 'dark' ? colors.white : colors.primary.main} !important`,
-                },
-                '&:hover svg': {
-                  color: `${theme.palette.mode === 'dark' ? colors.white : colors.primary.main} !important`,
-                }
               }}
             >
               <Info fontSize="small" />

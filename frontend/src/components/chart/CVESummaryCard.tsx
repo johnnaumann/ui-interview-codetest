@@ -58,24 +58,11 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = memo(({
             <IconButton 
               size="small" 
               sx={{ 
-                color: `${colors.white} !important`,
+                color: colors.white,
                 p: 0.5,
                 '&:hover': {
                   backgroundColor: colors.dark.hover.card,
-                  color: `${colors.white} !important`,
                 },
-                '& .MuiSvgIcon-root': {
-                  color: `${colors.white} !important`,
-                },
-                '&:hover .MuiSvgIcon-root': {
-                  color: `${colors.white} !important`,
-                },
-                '& svg': {
-                  color: `${colors.white} !important`,
-                },
-                '&:hover svg': {
-                  color: `${colors.white} !important`,
-                }
               }}
             >
               <Info fontSize="small" />

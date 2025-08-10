@@ -85,12 +85,13 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
               backgroundColor: isSelected ? chipColor : 'transparent',
               color: isSelected ? colors.white : chipColor,
               borderColor: chipColor,
-              border: `1px solid ${chipColor}`,
+              border: `2px solid ${chipColor}`,
               fontWeight: 'medium',
               minWidth: 'fit-content',
               fontSize: { xs: '0.75rem', sm: '0.8125rem' },
               height: { xs: '28px', sm: '32px' },
-              transition: 'background-color 0.2s ease-in-out, color 0.2s ease-in-out',
+              transition: 'all 0.2s ease-in-out',
+              transform: 'scale(1)',
               '& .MuiChip-label': {
                 fontWeight: 'medium',
                 fontSize: { xs: '0.75rem', sm: '0.8125rem' },
@@ -99,14 +100,15 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
                 transition: 'color 0.2s ease-in-out',
               },
               '&:hover': disabled ? {} : {
-                backgroundColor: `${chipColor} !important`,
-                color: `${colors.white} !important`,
-                opacity: '1 !important',
+                backgroundColor: chipColor,
+                color: colors.white,
+                transform: 'scale(1.05)',
+                boxShadow: `0 2px 8px ${chipColor}40`,
+                zIndex: 1,
               },
-              // Override MUI's built-in hover styles
-              '&.MuiChip-root:hover': disabled ? {} : {
-                backgroundColor: `${chipColor} !important`,
-                color: `${colors.white} !important`,
+              '&:active': disabled ? {} : {
+                transform: 'scale(0.98)',
+                transition: 'all 0.1s ease-in-out',
               },
             }}
           />
