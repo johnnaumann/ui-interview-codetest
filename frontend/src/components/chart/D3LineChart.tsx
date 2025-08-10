@@ -219,7 +219,6 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
 
           // Use D3's standard tooltip positioning with aggressive edge detection
           const tooltipDiv = d3.select(tooltipRef.current);
-          const tooltipNode = tooltipDiv.node() as HTMLElement;
           
           // Estimate tooltip dimensions for proactive positioning
           const estimatedTooltipWidth = 150; // Reduced by another 50px for more compact tooltips
@@ -331,7 +330,6 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
 
           // Use D3's standard tooltip positioning with aggressive edge detection
           const tooltipDiv = d3.select(tooltipRef.current);
-          const tooltipNode = tooltipDiv.node() as HTMLElement;
           
           // Estimate tooltip dimensions for proactive positioning
           const estimatedTooltipWidth = 150; // Reduced by another 50px for more compact tooltips
@@ -515,7 +513,6 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
         {dateRangeLabel}
       </Typography>
 
-      {/* D3 Tooltip */}
       <Box
         ref={tooltipRef}
         sx={{
