@@ -22,11 +22,10 @@ function AppContent({ children }: WrapperProps) {
       <CssBaseline />
       <Box
         sx={{
-          // Target Dashboard menu item specifically
           '& .MuiDrawer-paper [href="/dashboard"]': {
             backgroundColor: mode === 'dark'
-              ? `rgba(107, 70, 193, 0.2) !important` // 20% opacity purple in dark mode
-              : `rgba(107, 70, 193, 0.1) !important`, // 10% opacity purple in light mode
+              ? `rgba(107, 70, 193, 0.2) !important`
+              : `rgba(107, 70, 193, 0.1) !important`,
             color: mode === 'dark'
               ? `${colors.white} !important`
               : `${colors.primary.main} !important`,
@@ -34,8 +33,8 @@ function AppContent({ children }: WrapperProps) {
             margin: '4px 8px !important',
             '&:hover': {
               backgroundColor: mode === 'dark'
-                ? `rgba(107, 70, 193, 0.3) !important` // 30% opacity on hover in dark mode
-                : `rgba(107, 70, 193, 0.3) !important`, // 30% opacity on hover in light mode
+                ? `rgba(107, 70, 193, 0.3) !important`
+                : `rgba(107, 70, 193, 0.3) !important`,
             },
             '& .MuiListItemIcon-root': {
               color: mode === 'dark'

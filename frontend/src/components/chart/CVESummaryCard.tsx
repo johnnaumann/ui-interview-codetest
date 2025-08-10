@@ -43,7 +43,7 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = memo(({
       backgroundColor: theme.palette.mode === 'dark' ? colors.primary.dark : colors.primary.main,
       border: `1px solid ${theme.palette.mode === 'dark' ? colors.primary.dark : colors.primary.main}`,
       position: 'relative',
-      height: 150, // Based on actual measured height
+      height: 150,
     }}>
       <CardContent sx={{
         display: 'flex',
