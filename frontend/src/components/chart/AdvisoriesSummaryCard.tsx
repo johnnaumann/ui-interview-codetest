@@ -58,10 +58,22 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
               sx={{
                 color: `${theme.palette.mode === 'dark' ? colors.white : colors.primary.main} !important`,
                 p: 0.5,
+                '&:hover': {
+                  backgroundColor: theme.palette.mode === 'dark' 
+                    ? 'rgba(255, 255, 255, 0.1)' 
+                    : 'rgba(0, 0, 0, 0.04)',
+                  color: `${theme.palette.mode === 'dark' ? colors.white : colors.primary.main} !important`,
+                },
                 '& .MuiSvgIcon-root': {
                   color: `${theme.palette.mode === 'dark' ? colors.white : colors.primary.main} !important`,
                 },
+                '&:hover .MuiSvgIcon-root': {
+                  color: `${theme.palette.mode === 'dark' ? colors.white : colors.primary.main} !important`,
+                },
                 '& svg': {
+                  color: `${theme.palette.mode === 'dark' ? colors.white : colors.primary.main} !important`,
+                },
+                '&:hover svg': {
                   color: `${theme.palette.mode === 'dark' ? colors.white : colors.primary.main} !important`,
                 }
               }}
@@ -71,15 +83,39 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
           </Tooltip>
         </Box>
         <Box sx={{ flex: 1 }}>
-          {data && (
-            <>
-              <Typography variant="h4" component="div" sx={{ mb: 1, color: theme.palette.mode === 'dark' ? colors.white : colors.primary.main }}>
+          <Box 
+            sx={{ 
+              opacity: data ? 1 : 0,
+              transition: 'opacity 0.3s ease-in-out',
+              mb: 1,
+              minHeight: 40, // Fixed height for h4 typography
+              display: 'flex',
+              alignItems: 'flex-start',
+            }}
+          >
+            {data && (
+              <Typography variant="h4" component="div" sx={{ color: theme.palette.mode === 'dark' ? colors.white : colors.primary.main, lineHeight: 1.2 }}>
                 {getAverageValueDisplay(data.averageValue, data.delta)}
               </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
-                <Typography variant="body2" color={theme.palette.mode === 'dark' ? colors.white : colors.primary.main}>
-                  Average change
-                </Typography>
+            )}
+          </Box>
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: 1, 
+            mt: 1,
+            minHeight: 32, // Fixed height for body2 + chip row
+          }}>
+            <Typography variant="body2" color={theme.palette.mode === 'dark' ? colors.white : colors.primary.main}>
+              Average change
+            </Typography>
+            <Box 
+              sx={{ 
+                opacity: data ? 1 : 0,
+                transition: 'opacity 0.3s ease-in-out',
+              }}
+            >
+              {data && (
                 <Chip
                   label={`${getDeltaPrefix(data.delta)}${data.delta.toFixed(1)}%`}
                   size="small"
@@ -87,16 +123,16 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
                     backgroundColor: getDeltaColor(data.delta),
                     color: 'white',
                     fontWeight: 'medium',
-                    height: 'auto',
+                    height: 24, // Fixed chip height
                     '& .MuiChip-label': {
                       px: 1,
                       fontSize: 'inherit',
                     },
                   }}
                 />
-              </Box>
-            </>
-          )}
+              )}
+            </Box>
+          </Box>
         </Box>
       </CardContent>
     </Card>

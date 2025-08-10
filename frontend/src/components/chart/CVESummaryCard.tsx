@@ -58,10 +58,20 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = memo(({
               sx={{ 
                 color: `${colors.white} !important`,
                 p: 0.5,
+                '&:hover': {
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  color: `${colors.white} !important`,
+                },
                 '& .MuiSvgIcon-root': {
                   color: `${colors.white} !important`,
                 },
+                '&:hover .MuiSvgIcon-root': {
+                  color: `${colors.white} !important`,
+                },
                 '& svg': {
+                  color: `${colors.white} !important`,
+                },
+                '&:hover svg': {
                   color: `${colors.white} !important`,
                 }
               }}
@@ -71,15 +81,39 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = memo(({
           </Tooltip>
         </Box>
         <Box sx={{ flex: 1 }}>
-          {data && (
-            <>
-              <Typography variant="h4" component="div" sx={{ mb: 1, color: colors.white }}>
+          <Box 
+            sx={{ 
+              opacity: data ? 1 : 0,
+              transition: 'opacity 0.3s ease-in-out',
+              mb: 1,
+              minHeight: 40, // Fixed height for h4 typography
+              display: 'flex',
+              alignItems: 'flex-start',
+            }}
+          >
+            {data && (
+              <Typography variant="h4" component="div" sx={{ color: colors.white, lineHeight: 1.2 }}>
                 {getAverageValueDisplay(data.averageValue, data.delta)}
               </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
-                <Typography variant="body2" color={colors.white}>
-                  Average change
-                </Typography>
+            )}
+          </Box>
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: 1, 
+            mt: 1,
+            minHeight: 32, // Fixed height for body2 + chip row
+          }}>
+            <Typography variant="body2" color={colors.white}>
+              Average change
+            </Typography>
+            <Box 
+              sx={{ 
+                opacity: data ? 1 : 0,
+                transition: 'opacity 0.3s ease-in-out',
+              }}
+            >
+              {data && (
                 <Chip
                   label={`${getDeltaPrefix(data.delta)}${data.delta.toFixed(1)}%`}
                   size="small"
@@ -87,16 +121,16 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = memo(({
                     backgroundColor: getDeltaColor(data.delta),
                     color: colors.white,
                     fontWeight: 'medium',
-                    height: 'auto',
+                    height: 24, // Fixed chip height
                     '& .MuiChip-label': {
                       px: 1,
                       fontSize: 'inherit',
                     },
                   }}
                 />
-              </Box>
-            </>
-          )}
+              )}
+            </Box>
+          </Box>
         </Box>
       </CardContent>
     </Card>
