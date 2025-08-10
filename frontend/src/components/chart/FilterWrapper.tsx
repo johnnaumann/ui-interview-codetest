@@ -46,7 +46,6 @@ const FilterWrapper: React.FC<FilterWrapperProps> = ({
       </Box>
 
       <Box sx={{ 
-        flex: '0 0 auto',
         minWidth: { xs: '100%', md: 'auto' },
       }}>
         <CriticalityFilter
