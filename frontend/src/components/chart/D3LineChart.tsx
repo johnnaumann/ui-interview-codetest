@@ -1,18 +1,20 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, memo } from 'react';
 import * as d3 from 'd3';
 import { Box, useTheme, Typography } from '@mui/material';
 import { D3LineChartProps, DataPoint } from '../../types';
 
-const D3LineChart: React.FC<D3LineChartProps> = ({
+const D3LineChart: React.FC<D3LineChartProps> = memo(({
   dataPoints,
+  timeRange,
   loading = false,
 }) => {
   const theme = useTheme();
   
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const previousTimeRangeRef = useRef<string | undefined>(timeRange);
   
   const [tooltip, setTooltip] = useState<{
     visible: boolean;
@@ -35,19 +37,30 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     const chartWidth = width - margin.left - margin.right;
     const chartHeight = height - margin.top - margin.bottom;
 
-    // Clear existing elements
-    svg.selectAll('.grid-group, .chart-group, .data-points, .cve-line, .advisory-line').remove();
+    // Check if time range has changed
+    const timeRangeChanged = previousTimeRangeRef.current !== timeRange;
+    
+    // Only clear and rebuild static elements (grid, axes) when time range changes
+    if (timeRangeChanged) {
+      svg.selectAll('.grid-group, .chart-group').remove();
+      previousTimeRangeRef.current = timeRange;
+    }
+    
+    // Always clear and redraw data elements for updates
+    svg.selectAll('.data-points, .cve-line, .advisory-line').remove();
 
-    const gridGroup = svg
-      .append('g')
-      .attr('class', 'grid-group')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
+    // Only rebuild grid and static elements when time range changes
+    if (timeRangeChanged) {
+      const gridGroup = svg
+        .append('g')
+        .attr('class', 'grid-group')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    const xGridSpacing = chartWidth / 4;
-    const yGridSpacing = chartHeight / 4;
+      const xGridSpacing = chartWidth / 4;
+      const yGridSpacing = chartHeight / 4;
 
-    for (let i = 0; i <= 4; i++) {
-      const x = i * xGridSpacing;
+      for (let i = 0; i <= 4; i++) {
+        const x = i * xGridSpacing;
       gridGroup.append('line')
         .attr('class', 'grid-line-vertical')
         .attr('x1', x)
@@ -72,11 +85,22 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         .style('stroke-width', 1)
         .style('stroke-dasharray', '3,3')
         .style('opacity', 1);
+      }
+    
+      svg
+        .append('g')
+        .attr('class', 'chart-group')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
     }
-    const g = svg
-      .append('g')
-      .attr('class', 'chart-group')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    // Get or create chart group for data elements
+    let g = svg.select('.chart-group') as d3.Selection<SVGGElement, unknown, null, undefined>;
+    if (g.empty()) {
+      g = svg
+        .append('g')
+        .attr('class', 'chart-group')
+        .attr('transform', `translate(${margin.left},${margin.top})`) as d3.Selection<SVGGElement, unknown, null, undefined>;
+    }
 
     if (!dataPoints.length) return;
 
@@ -328,7 +352,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         .attr('r', 3);
     });
 
-  }, [dataPoints, loading, theme.palette.divider, theme.palette.primary.main, theme.palette.advisories.main, theme.palette.gray, resizeKey]);
+  }, [dataPoints, loading, timeRange, theme.palette.divider, theme.palette.primary.main, theme.palette.advisories.main, theme.palette.gray, resizeKey]);
 
   /**
    * Resize Observer Effect
@@ -450,6 +474,8 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       )}
     </Box>
   );
-};
+});
+
+D3LineChart.displayName = 'D3LineChart';
 
 export default D3LineChart;

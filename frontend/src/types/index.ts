@@ -98,6 +98,7 @@ export interface SummaryCardsProps extends LoadingProps {
 
 export interface D3LineChartProps extends LoadingProps {
   dataPoints: DataPoint[];
+  timeRange?: TimeRange;
 }
 
 export interface FilterProps<T> extends DisabledProps {

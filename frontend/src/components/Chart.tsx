@@ -68,11 +68,11 @@ const Chart: React.FC = () => {
             selectedCriticalities={selectedCriticalities}
             onTimeRangeChange={handleTimeRangeChange}
             onCriticalityChange={handleCriticalityChange}
-            disabled={loading}
           />
           <Box sx={{ minHeight: 400 }}>
             <D3LineChart
               dataPoints={data?.timeSeriesData?.dataPoints || []}
+              timeRange={timeRange}
               loading={false}
             />
           </Box>

@@ -111,11 +111,12 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
             </Typography>
             <Box 
               sx={{ 
-                opacity: data ? 1 : 0,
+                opacity: (data && data.delta !== 0) ? 1 : 0,
                 transition: 'opacity 0.3s ease-in-out',
+                visibility: (data && data.delta !== 0) ? 'visible' : 'hidden',
               }}
             >
-              {data && (
+              {data && data.delta !== 0 && (
                 <Chip
                   label={`${getDeltaPrefix(data.delta)}${data.delta.toFixed(1)}%`}
                   size="small"
