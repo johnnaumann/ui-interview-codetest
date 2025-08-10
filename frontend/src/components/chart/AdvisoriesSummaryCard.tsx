@@ -14,6 +14,7 @@ import {
 import { Info } from '@mui/icons-material';
 import { AdvisoriesSummaryCardProps } from '../../types';
 import { colors } from '../../contexts/ThemeContext';
+import LoadingOverlay from '../LoadingOverlay';
 
 const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
   data,
@@ -67,10 +68,8 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
           </Tooltip>
         </Box>
         {loading ? (
-          <Box sx={{ display: 'flex', alignItems: 'center', minHeight: 60 }}>
-            <Typography variant="body2" color={theme.palette.mode === 'dark' ? colors.white : colors.primary.main}>
-              Loading...
-            </Typography>
+          <Box sx={{ position: 'relative', minHeight: 60 }}>
+            <LoadingOverlay size="small" />
           </Box>
         ) : data ? (
           <>

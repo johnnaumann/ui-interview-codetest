@@ -101,7 +101,7 @@ describe('Chart', () => {
     expect(screen.getByText(currentDate)).toBeInTheDocument()
   })
 
-  it('shows loading spinner when data is loading', () => {
+  it('shows loading overlay when data is loading', () => {
     mockUseQuery.mockReturnValue({
       data: null,
       loading: true,
@@ -110,7 +110,7 @@ describe('Chart', () => {
 
     render(<Chart />)
     
-
+    // Check that LoadingOverlay is rendered (it contains CircularProgress)
     expect(document.querySelector('.MuiCircularProgress-root')).toBeInTheDocument()
   })
 

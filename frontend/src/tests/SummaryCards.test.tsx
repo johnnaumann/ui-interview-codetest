@@ -38,8 +38,9 @@ describe('SummaryCards', () => {
   it('shows loading state when loading prop is true', () => {
     render(<SummaryCards data={mockData} loading={true} />)
     
-    const loadingTexts = screen.getAllByText('Loading...')
-    expect(loadingTexts).toHaveLength(2)
+    // Check that LoadingOverlay components are rendered (they contain CircularProgress)
+    const loadingSpinners = document.querySelectorAll('.MuiCircularProgress-root')
+    expect(loadingSpinners).toHaveLength(2)
   })
 
   it('renders cards even when no data provided', () => {

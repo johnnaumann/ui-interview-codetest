@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Box, CircularProgress, Alert } from '@mui/material';
+import { Box, Alert } from '@mui/material';
 import { useQuery } from '@apollo/client';
 import { GET_TIME_SERIES_DATA } from '../api/graphql-queries';
 import type { TimeRange, CriticalityLevel } from '../types';
@@ -9,6 +9,7 @@ import ChartTitle from './chart/ChartTitle';
 import FilterWrapper from './chart/FilterWrapper';
 import D3LineChart from './chart/D3LineChart';
 import SummaryCards from './chart/SummaryCards';
+import LoadingOverlay from './LoadingOverlay';
 
 const Chart: React.FC = () => {
   const [timeRange, setTimeRange] = useState<TimeRange>('THIRTY_DAYS');
@@ -31,23 +32,7 @@ const Chart: React.FC = () => {
   };
 
   if (loading) {
-    return (
-      <Box 
-        display="flex" 
-        justifyContent="center" 
-        alignItems="center" 
-        sx={{ 
-          height: '100vh',
-          width: '100%',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          zIndex: 1000,
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
+    return <LoadingOverlay fullScreen />;
   }
 
   if (error) {

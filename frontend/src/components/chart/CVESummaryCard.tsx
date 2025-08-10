@@ -14,6 +14,7 @@ import {
 import { Info } from '@mui/icons-material';
 import { CVESummaryCardProps } from '../../types';
 import { colors } from '../../contexts/ThemeContext';
+import LoadingOverlay from '../LoadingOverlay';
 
 const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
   data,
@@ -67,10 +68,8 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = ({
           </Tooltip>
         </Box>
         {loading ? (
-          <Box sx={{ display: 'flex', alignItems: 'center', minHeight: 60 }}>
-            <Typography variant="body2" color={colors.white}>
-              Loading...
-            </Typography>
+          <Box sx={{ position: 'relative', minHeight: 60 }}>
+            <LoadingOverlay size="small" />
           </Box>
         ) : data ? (
           <>

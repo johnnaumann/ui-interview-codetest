@@ -35,7 +35,8 @@ describe('CVESummaryCard', () => {
   it('shows loading state when loading prop is true', () => {
     render(<CVESummaryCard loading={true} />)
     
-    expect(screen.getByText('Loading...')).toBeInTheDocument()
+    // Check that LoadingOverlay is rendered (it contains CircularProgress)
+    expect(document.querySelector('.MuiCircularProgress-root')).toBeInTheDocument()
   })
 
   it('shows no data message when no data provided', () => {

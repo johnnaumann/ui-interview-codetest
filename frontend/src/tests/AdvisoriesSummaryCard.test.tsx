@@ -35,7 +35,8 @@ describe('AdvisoriesSummaryCard', () => {
   it('shows loading state when loading prop is true', () => {
     render(<AdvisoriesSummaryCard loading={true} />)
     
-    expect(screen.getByText('Loading...')).toBeInTheDocument()
+    // Check that LoadingOverlay is rendered (it contains CircularProgress)
+    expect(document.querySelector('.MuiCircularProgress-root')).toBeInTheDocument()
   })
 
   it('shows no data message when no data provided', () => {
