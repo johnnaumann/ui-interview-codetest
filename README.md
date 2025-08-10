@@ -12,7 +12,7 @@ This project uses `concurrently` to run both the GraphQL server and Next.js fron
 ### Quick Start
 
 ```bash
-# Install all dependencies (single package.json)
+# Install all dependencies
 yarn install
 
 # Start both servers concurrently
