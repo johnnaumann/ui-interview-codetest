@@ -24,7 +24,7 @@ This project implements a modern, interactive dashboard that visualizes security
 ### Filtering System ✅
 - **Filter data by criticality levels**: Interactive chips for Critical, High, Medium, Low, None
 - **Real-time updates when filters change**: Immediate chart updates via Apollo Client
-- **Clear visual indication of active filters**: Selected chips with custom styling and counts
+- **Clear visual indication of active filters**: Selected chips with custom styling and 25% opacity hover states
 
 ### Enhanced User Experience ✅
 - **Interactive tooltips**: Detailed information on hover with formatted timestamps and values
@@ -80,6 +80,21 @@ This project implements a modern, interactive dashboard that visualizes security
 ### Unit Tests ✅
 - **Comprehensive test coverage**: Tests for all components and utilities
 
+## 🔄 Recent Updates
+
+The codebase has been optimized with the following architectural improvements:
+
+### Component Architecture
+- **Removed unused ChartControls component**: Replaced with FilterWrapper for better responsive design
+- **Optimized Logo component**: Simplified props interface (removed unused className prop)
+- **Enhanced CriticalityFilter**: Added 25% opacity hover states for better UX
+- **Improved test coverage**: Updated all test suites to reflect current component implementations
+
+### Code Quality
+- **Removed dead code**: Eliminated unused components and props
+- **Updated type definitions**: Cleaned up unused TypeScript interfaces
+- **Test alignment**: All tests now accurately reflect actual component functionality
+
 ## 🛠️ Tech Stack
 
 ### Core Framework
@@ -121,15 +136,16 @@ frontend/
 │   ├── components/            # React components
 │   │   ├── chart/            # Chart-specific components
 │   │   │   ├── AdvisoriesSummaryCard.tsx
-│   │   │   ├── ChartControls.tsx
 │   │   │   ├── ChartTitle.tsx
 │   │   │   ├── CriticalityFilter.tsx
 │   │   │   ├── CVESummaryCard.tsx
 │   │   │   ├── D3LineChart.tsx
 │   │   │   ├── FilterWrapper.tsx
 │   │   │   ├── SummaryCards.tsx
-│   │   │   └── TimeRangeFilter.tsx
+│   │   │   ├── TimeRangeFilter.tsx
+│   │   │   └── index.ts
 │   │   ├── Chart.tsx          # Main chart container
+│   │   ├── LoadingOverlay.tsx # Loading state component
 │   │   ├── Logo.tsx           # Application logo
 │   │   ├── ThemeToggle.tsx    # Theme switcher
 │   │   └── Wrapper.tsx        # Layout wrapper
@@ -166,7 +182,7 @@ frontend/
 **Option 1: Install from project root (Recommended)**
 ```bash
 # Clone the repository
-git clone https://github.com/johnnaumann/ui-interview-codetest.git
+git clone https://github.com/your-username/ui-interview-codetest.git
 cd ui-interview-codetest
 
 # Install all dependencies (single package.json)
@@ -179,7 +195,7 @@ yarn dev
 **Option 2: Install frontend only**
 ```bash
 # Clone the repository
-git clone https://github.com/johnnaumann/ui-interview-codetest.git
+git clone https://github.com/your-username/ui-interview-codetest.git
 cd ui-interview-codetest
 
 # Install all dependencies (single package.json)
@@ -199,7 +215,6 @@ yarn dev:frontend
 - `yarn dev` - Start both GraphQL server and frontend concurrently
 - `yarn dev:server` - Start GraphQL server only
 - `yarn dev:frontend` - Start frontend only
-- `yarn install` - Install all dependencies (single package.json)
 - `yarn build` - Build the frontend application
 - `yarn start` - Start the production frontend
 - `yarn test` - Run frontend tests
