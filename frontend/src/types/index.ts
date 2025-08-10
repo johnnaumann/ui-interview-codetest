@@ -109,12 +109,7 @@ export interface FilterProps<T> extends DisabledProps {
 export type TimeRangeFilterProps = FilterProps<TimeRange>;
 export type CriticalityFilterProps = FilterProps<CriticalityLevel[]>;
 
-export interface ChartControlsProps extends LoadingProps, DisabledProps {
-  timeRange: TimeRange;
-  onTimeRangeChange: (timeRange: TimeRange) => void;
-  selectedCriticalities: CriticalityLevel[];
-  onCriticalityChange: (criticalities: CriticalityLevel[]) => void;
-}
+
 
 export interface FilterWrapperProps extends LoadingProps, DisabledProps {
   timeRange: TimeRange;
