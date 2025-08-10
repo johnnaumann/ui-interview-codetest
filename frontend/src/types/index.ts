@@ -127,3 +127,7 @@ export interface ChartDimensions {
   width: number;
   height: number;
 }
+
+export interface ChartTooltipProps {
+  cardType?: 'cve' | 'advisories' | null;
+}

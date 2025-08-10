@@ -1,15 +1,11 @@
 import React, { forwardRef } from 'react';
 import { Box, Typography, useTheme } from '@mui/material';
 import { colors } from '../../contexts/ThemeContext';
-
-interface ChartTooltipProps {
-  cardType?: 'cve' | 'advisories' | null;
-}
+import { ChartTooltipProps } from '../../types';
 
 const ChartTooltip = forwardRef<HTMLDivElement, ChartTooltipProps>(({ cardType, ...props }, ref) => {
   const theme = useTheme();
   
-  // Determine the background color based on card type and theme mode
   const getBackgroundColor = () => {
     if (theme.palette.mode === 'dark' && cardType) {
       if (cardType === 'cve') {
@@ -21,7 +17,6 @@ const ChartTooltip = forwardRef<HTMLDivElement, ChartTooltipProps>(({ cardType, 
     return theme.palette.tooltip.background;
   };
 
-  // Determine the border color based on card type and theme mode
   const getBorderColor = () => {
     if (theme.palette.mode === 'dark' && cardType) {
       if (cardType === 'cve') {
@@ -33,7 +28,6 @@ const ChartTooltip = forwardRef<HTMLDivElement, ChartTooltipProps>(({ cardType, 
     return theme.palette.tooltip.border;
   };
 
-  // Determine the text color based on theme mode
   const getTextColor = () => {
     if (theme.palette.mode === 'dark') {
       return colors.white;
