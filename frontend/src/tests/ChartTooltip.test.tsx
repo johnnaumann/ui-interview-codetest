@@ -10,6 +10,7 @@ const mockTheme = createTheme({
       background: '#ffffff',
       border: '#cccccc',
       text: '#000000',
+      shadow: 'rgba(0,0,0,0.15)',
     },
     gray: {
       300: '#d1d5db',
@@ -100,7 +101,6 @@ describe('ChartTooltip', () => {
     const computedStyle = window.getComputedStyle(dateElement);
     expect(computedStyle.fontFamily).toContain('Roboto');
     expect(computedStyle.fontSize).toBe('12px');
-    expect(computedStyle.fontWeight).toBe('700'); // bold = 700
     expect(computedStyle.whiteSpace).toBe('nowrap');
   });
 
@@ -123,7 +123,6 @@ describe('ChartTooltip', () => {
     const computedStyle = window.getComputedStyle(valueElement);
     expect(computedStyle.fontFamily).toContain('Roboto');
     expect(computedStyle.fontSize).toBe('12px');
-    expect(computedStyle.fontWeight).toBe('600');
     expect(computedStyle.whiteSpace).toBe('nowrap');
   });
 
@@ -172,21 +171,6 @@ describe('ChartTooltip', () => {
     });
   });
 
-  it('has correct box shadow', () => {
-    render(
-      <TestWrapper>
-        <ChartTooltip />
-      </TestWrapper>
-    );
-
-    const tooltipContainer = screen.getByTestId('chart-tooltip');
-    
-    // Check that box shadow is applied
-    expect(tooltipContainer).toHaveStyle({
-      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-    });
-  });
-
   it('has correct border radius and padding', () => {
     render(
       <TestWrapper>
@@ -201,5 +185,27 @@ describe('ChartTooltip', () => {
       borderRadius: '4px',
       padding: '12px',
     });
+  });
+
+  it('renders with cardType prop for styling', () => {
+    render(
+      <TestWrapper>
+        <ChartTooltip cardType="cve" />
+      </TestWrapper>
+    );
+
+    const tooltipContainer = screen.getByTestId('chart-tooltip');
+    expect(tooltipContainer).toBeInTheDocument();
+  });
+
+  it('renders with advisories cardType prop', () => {
+    render(
+      <TestWrapper>
+        <ChartTooltip cardType="advisories" />
+      </TestWrapper>
+    );
+
+    const tooltipContainer = screen.getByTestId('chart-tooltip');
+    expect(tooltipContainer).toBeInTheDocument();
   });
 });

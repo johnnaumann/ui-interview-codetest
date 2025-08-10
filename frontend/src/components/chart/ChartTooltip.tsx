@@ -3,7 +3,7 @@ import { Box, Typography, useTheme } from '@mui/material';
 import { colors } from '../../contexts/ThemeContext';
 import { ChartTooltipProps } from '../../types';
 
-const ChartTooltip = forwardRef<HTMLDivElement, ChartTooltipProps>(({ cardType, ...props }, ref) => {
+const ChartTooltip = forwardRef<HTMLDivElement, ChartTooltipProps>(({ cardType }, ref) => {
   const theme = useTheme();
   
   const getBackgroundColor = () => {

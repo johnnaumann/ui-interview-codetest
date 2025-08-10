@@ -139,7 +139,7 @@ frontend/
 │   │   ├── chart/            # Chart-specific components
 │   │   │   ├── AdvisoriesSummaryCard.tsx
 │   │   │   ├── ChartTitle.tsx
-│   │   │   ├── ChartTooltip.tsx    # Extracted tooltip component
+│   │   │   ├── ChartTooltip.tsx
 │   │   │   ├── CriticalityFilter.tsx
 │   │   │   ├── CVESummaryCard.tsx
 │   │   │   ├── D3LineChart.tsx
@@ -165,7 +165,6 @@ frontend/
 │   │   └── router.ts          # Routing utilities
 │   └── tests/                 # Test files
 │       ├── test-utils.tsx     # Testing utilities
-│       ├── ChartTooltip.test.tsx # ChartTooltip component tests
 │       └── [component].test.tsx # Component tests
 ├── public/                    # Static assets
 ├── next.config.ts            # Next.js configuration

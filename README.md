@@ -59,7 +59,7 @@ yarn lint                  # Run frontend linting
 ui-interview-codetest/
 ├── api/                   # GraphQL server
 ├── frontend/              # Next.js application
-├── package.json           # All dependencies and scripts (single file)
+├── package.json           # All dependencies and scripts
 ├── yarn.lock             # Dependency lock file
 ├── .yarnrc.yml           # Yarn configuration
 └── concurrently.config.js # Concurrent execution configuration

@@ -412,7 +412,7 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
         .attr('r', 3);
     });
 
-  }, [dataPoints, loading, timeRange, theme.palette.divider, theme.palette.primary.main, theme.palette.advisories.main, theme.palette.gray, resizeKey]);
+  }, [dataPoints, loading, timeRange, theme.palette.divider, theme.palette.primary.main, theme.palette.advisories.main, theme.palette.gray, theme.palette.mode, resizeKey]);
 
   /**
    * Resize Observer Effect
