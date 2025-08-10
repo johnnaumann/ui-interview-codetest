@@ -73,7 +73,7 @@ const ChartTooltip = forwardRef<HTMLDivElement, ChartTooltipProps>(({ cardType }
           sx={{
             fontFamily: 'Roboto, sans-serif',
             fontSize: '12px',
-            fontWeight: 'regular',
+            fontWeight: theme.palette.mode === 'dark' ? 'regular' : 'medium',
             color: getTextColor(),
             whiteSpace: 'nowrap',
           }}

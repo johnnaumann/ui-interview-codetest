@@ -10,6 +10,7 @@ import FilterWrapper from './chart/FilterWrapper';
 import D3LineChart from './chart/D3LineChart';
 import SummaryCards from './chart/SummaryCards';
 import LoadingOverlay from './LoadingOverlay';
+import { colors } from '../contexts/ThemeContext';
 
 const Chart: React.FC = () => {
   const [timeRange, setTimeRange] = useState<TimeRange>('THIRTY_DAYS');
@@ -44,15 +45,15 @@ const Chart: React.FC = () => {
       <Alert 
         severity="error"
         sx={{
-          backgroundColor: '#FEF2F2', // Light red background
-          color: '#DC2626', // Red text
+          backgroundColor: colors.error.light + '20', // Light red background with transparency
+          color: colors.error.main, // Red text
           '& .MuiAlert-icon': {
-            color: '#DC2626', // Red icon
+            color: colors.error.main, // Red icon
           },
           '& .MuiAlert-message': {
-            color: '#DC2626', // Red text for message
+            color: colors.error.main, // Red text for message
           },
-          border: '1px solid #FECACA', // Light red border
+          border: `1px solid ${colors.error.light}40`, // Light red border with transparency
         }}
       >
         Error loading security metrics: {error.message}

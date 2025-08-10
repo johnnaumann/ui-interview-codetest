@@ -24,8 +24,8 @@ function AppContent({ children }: WrapperProps) {
         sx={{
           '& .MuiDrawer-paper [href="/dashboard"]': {
             backgroundColor: mode === 'dark'
-              ? `rgba(107, 70, 193, 0.2) !important`
-              : `rgba(107, 70, 193, 0.1) !important`,
+              ? `${colors.primary.main}20 !important`
+              : `${colors.primary.main}10 !important`,
             color: mode === 'dark'
               ? `${colors.white} !important`
               : `${colors.primary.main} !important`,
@@ -33,8 +33,8 @@ function AppContent({ children }: WrapperProps) {
             margin: '4px 8px !important',
             '&:hover': {
               backgroundColor: mode === 'dark'
-                ? `rgba(107, 70, 193, 0.3) !important`
-                : `rgba(107, 70, 193, 0.3) !important`,
+                ? `${colors.primary.main}30 !important`
+                : `${colors.primary.main}30 !important`,
             },
             '& .MuiListItemIcon-root': {
               color: mode === 'dark'
