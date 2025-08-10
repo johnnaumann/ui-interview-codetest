@@ -12,25 +12,8 @@ import {
   useTheme,
 } from '@mui/material';
 import { Info } from '@mui/icons-material';
-import { SummaryCardProps } from '../../types';
+import { BaseSummaryCardProps } from '../../types';
 import { colors } from '../../contexts/ThemeContext';
-
-export interface BaseSummaryCardProps extends SummaryCardProps {
-  title: string;
-  tooltipContent: string;
-  backgroundColor: {
-    light: string;
-    dark: string;
-  };
-  textColor: {
-    light: string;
-    dark: string;
-  };
-  hoverColor: {
-    light: string;
-    dark: string;
-  };
-}
 
 const BaseSummaryCard: React.FC<BaseSummaryCardProps> = memo(({
   data,

@@ -84,6 +84,23 @@ export interface SummaryCardProps extends LoadingProps {
   data?: MetricSummary;
 }
 
+export interface BaseSummaryCardProps extends SummaryCardProps {
+  title: string;
+  tooltipContent: string;
+  backgroundColor: {
+    light: string;
+    dark: string;
+  };
+  textColor: {
+    light: string;
+    dark: string;
+  };
+  hoverColor: {
+    light: string;
+    dark: string;
+  };
+}
+
 export type CVESummaryCardProps = SummaryCardProps;
 export type AdvisoriesSummaryCardProps = SummaryCardProps;
 
