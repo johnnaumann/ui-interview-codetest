@@ -20,40 +20,7 @@ function AppContent({ children }: WrapperProps) {
   return (
     <>
       <CssBaseline />
-      <Box
-        sx={{
-          '& .MuiDrawer-paper [href="/dashboard"]': {
-            backgroundColor: mode === 'dark'
-              ? `${colors.primary.main}20 !important`
-              : `${colors.primary.main}10 !important`,
-            color: mode === 'dark'
-              ? `${colors.white} !important`
-              : `${colors.primary.main} !important`,
-            borderRadius: '6px !important',
-            margin: '4px 8px !important',
-            '&:hover': {
-              backgroundColor: mode === 'dark'
-                ? `${colors.primary.main}30 !important`
-                : `${colors.primary.main}30 !important`,
-            },
-            '& .MuiListItemIcon-root': {
-              color: mode === 'dark'
-                ? `${colors.white} !important`
-                : `${colors.primary.main} !important`,
-            },
-            '& .MuiSvgIcon-root': {
-              color: mode === 'dark'
-                ? `${colors.white} !important`
-                : `${colors.primary.main} !important`,
-            },
-            '& .MuiTypography-root': {
-              color: mode === 'dark'
-                ? `${colors.white} !important`
-                : `${colors.primary.main} !important`,
-            },
-          },
-        }}
-      >
+      <Box>
         <AppProvider
           navigation={navigation}
           router={router}

@@ -204,6 +204,41 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
         '&:hover': {
           backgroundColor: mode === 'dark' ? colors.dark.hover.primary : colors.light.hover.primary,
         },
+        '&[href="/dashboard"]': {
+          backgroundColor: mode === 'dark'
+            ? `${colors.primary.main}20 !important`
+            : `${colors.primary.main}10 !important`,
+          color: mode === 'dark'
+            ? `${colors.white} !important`
+            : `${colors.primary.main} !important`,
+          borderRadius: '6px !important',
+          margin: '4px 8px !important',
+          '&:hover': {
+            backgroundColor: `${colors.primary.main}30 !important`,
+          },
+          '& .MuiListItemIcon-root': {
+            color: mode === 'dark'
+              ? `${colors.white} !important`
+              : `${colors.primary.main} !important`,
+          },
+          '& .MuiSvgIcon-root': {
+            color: mode === 'dark'
+              ? `${colors.white} !important`
+              : `${colors.primary.main} !important`,
+          },
+          '& .MuiTypography-root': {
+            color: mode === 'dark'
+              ? `${colors.white} !important`
+              : `${colors.primary.main} !important`,
+          },
+          '& .MuiListItemText-root': {
+            '& .MuiTypography-root': {
+              color: mode === 'dark'
+                ? `${colors.white} !important`
+                : `${colors.primary.main} !important`,
+            },
+          },
+        },
       },
     },
   },
@@ -331,3 +366,4 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     </ThemeContext.Provider>
   );
 };
+
