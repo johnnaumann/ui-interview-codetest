@@ -182,7 +182,7 @@ frontend/
 **Option 1: Install from project root (Recommended)**
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/ui-interview-codetest.git
+git clone https://github.com/johnnaumann/ui-interview-codetest.git
 cd ui-interview-codetest
 
 # Install all dependencies (single package.json)
@@ -195,7 +195,7 @@ yarn dev
 **Option 2: Install frontend only**
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/ui-interview-codetest.git
+git clone https://github.com/johnnaumann/ui-interview-codetest.git
 cd ui-interview-codetest
 
 # Install all dependencies (single package.json)
