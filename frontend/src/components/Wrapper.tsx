@@ -10,12 +10,12 @@ import client from '../api/apollo-client';
 import { navigation } from '../lib/navigation';
 import { router } from '../lib/router';
 import { branding } from '../lib/branding';
-import { ThemeProvider, useTheme, colors } from '../contexts/ThemeContext';
+import { ThemeProvider, useTheme } from '../contexts/ThemeContext';
 import ThemeToggle from './ThemeToggle';
 import { WrapperProps } from '../types';
 
 function AppContent({ children }: WrapperProps) {
-  const { theme, mode } = useTheme();
+  const { theme } = useTheme();
 
   return (
     <>
