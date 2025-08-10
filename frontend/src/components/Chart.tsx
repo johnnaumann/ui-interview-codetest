@@ -41,7 +41,20 @@ const Chart: React.FC = () => {
 
   if (error) {
     return (
-      <Alert severity="error">
+      <Alert 
+        severity="error"
+        sx={{
+          backgroundColor: '#FEF2F2', // Light red background
+          color: '#DC2626', // Red text
+          '& .MuiAlert-icon': {
+            color: '#DC2626', // Red icon
+          },
+          '& .MuiAlert-message': {
+            color: '#DC2626', // Red text for message
+          },
+          border: '1px solid #FECACA', // Light red border
+        }}
+      >
         Error loading security metrics: {error.message}
       </Alert>
     );
