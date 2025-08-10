@@ -99,10 +99,10 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
                 transition: 'color 0.2s ease-in-out',
               },
               '&:hover': disabled ? {} : {
-                backgroundColor: `${chipColor} !important`,
-                color: `${colors.white} !important`,
+                backgroundColor: `${chipColor}40 !important`, // 25% opacity (40 in hex)
+                color: `${chipColor} !important`,
                 '& .MuiChip-label': {
-                  color: `${colors.white} !important`,
+                  color: `${chipColor} !important`,
                 },
               },
             }}
