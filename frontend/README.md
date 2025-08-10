@@ -120,6 +120,7 @@ frontend/
 │   │   └── page.tsx           # Main dashboard page
 │   ├── components/            # React components
 │   │   ├── chart/            # Chart-specific components
+│   │   │   ├── BaseSummaryCard.tsx
 │   │   │   ├── AdvisoriesSummaryCard.tsx
 │   │   │   ├── ChartTitle.tsx
 │   │   │   ├── ChartTooltip.tsx
