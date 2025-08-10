@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { memo } from 'react';
 import {
   Card,
   CardContent,
@@ -14,11 +14,9 @@ import {
 import { Info } from '@mui/icons-material';
 import { AdvisoriesSummaryCardProps } from '../../types';
 import { colors } from '../../contexts/ThemeContext';
-import LoadingOverlay from '../LoadingOverlay';
 
-const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
+const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
   data,
-  loading = false,
 }) => {
   const theme = useTheme();
   const getDeltaColor = (delta: number) => {
@@ -43,8 +41,13 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
       backgroundColor: theme.palette.mode === 'dark' ? colors.advisories.dark : colors.advisories.light,
       border: `1px solid ${theme.palette.mode === 'dark' ? colors.advisories.dark : colors.advisories.light}`,
       position: 'relative',
+      height: 150, // Based on actual measured height
     }}>
-      <CardContent>
+      <CardContent sx={{ 
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
           <Typography variant="h6" color={theme.palette.mode === 'dark' ? colors.white : colors.primary.main}>
             Advisories
@@ -67,43 +70,39 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = ({
             </IconButton>
           </Tooltip>
         </Box>
-        {loading ? (
-          <Box sx={{ position: 'relative', minHeight: 60 }}>
-            <LoadingOverlay size="small" />
-          </Box>
-        ) : data ? (
-          <>
-            <Typography variant="h4" component="div" sx={{ mb: 1, color: theme.palette.mode === 'dark' ? colors.white : colors.primary.main }}>
-              {getAverageValueDisplay(data.averageValue, data.delta)}
-            </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
-              <Typography variant="body2" color={theme.palette.mode === 'dark' ? colors.white : colors.primary.main}>
-                Average change
+        <Box sx={{ flex: 1 }}>
+          {data && (
+            <>
+              <Typography variant="h4" component="div" sx={{ mb: 1, color: theme.palette.mode === 'dark' ? colors.white : colors.primary.main }}>
+                {getAverageValueDisplay(data.averageValue, data.delta)}
               </Typography>
-              <Chip
-                label={`${getDeltaPrefix(data.delta)}${data.delta.toFixed(1)}%`}
-                size="small"
-                sx={{
-                  backgroundColor: getDeltaColor(data.delta),
-                  color: 'white',
-                  fontWeight: 'medium',
-                  height: 'auto',
-                  '& .MuiChip-label': {
-                    px: 1,
-                    fontSize: 'inherit',
-                  },
-                }}
-              />
-            </Box>
-          </>
-        ) : (
-          <Typography variant="body2" color={theme.palette.mode === 'dark' ? colors.white : colors.primary.main}>
-            No data available
-          </Typography>
-        )}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
+                <Typography variant="body2" color={theme.palette.mode === 'dark' ? colors.white : colors.primary.main}>
+                  Average change
+                </Typography>
+                <Chip
+                  label={`${getDeltaPrefix(data.delta)}${data.delta.toFixed(1)}%`}
+                  size="small"
+                  sx={{
+                    backgroundColor: getDeltaColor(data.delta),
+                    color: 'white',
+                    fontWeight: 'medium',
+                    height: 'auto',
+                    '& .MuiChip-label': {
+                      px: 1,
+                      fontSize: 'inherit',
+                    },
+                  }}
+                />
+              </Box>
+            </>
+          )}
+        </Box>
       </CardContent>
     </Card>
   );
-};
+});
+
+AdvisoriesSummaryCard.displayName = 'AdvisoriesSummaryCard';
 
 export default AdvisoriesSummaryCard;

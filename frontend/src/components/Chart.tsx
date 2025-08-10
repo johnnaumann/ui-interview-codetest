@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Box, Alert } from '@mui/material';
 import { useQuery } from '@apollo/client';
 import { GET_TIME_SERIES_DATA } from '../api/graphql-queries';
@@ -14,6 +14,7 @@ import LoadingOverlay from './LoadingOverlay';
 const Chart: React.FC = () => {
   const [timeRange, setTimeRange] = useState<TimeRange>('THIRTY_DAYS');
   const [selectedCriticalities, setSelectedCriticalities] = useState<CriticalityLevel[]>([]);
+  const hasInitialData = useRef(false);
 
   const { data, loading, error } = useQuery(GET_TIME_SERIES_DATA, {
     variables: {
@@ -21,6 +22,9 @@ const Chart: React.FC = () => {
       criticalities: selectedCriticalities.length > 0 ? selectedCriticalities : null,
     },
     fetchPolicy: 'cache-and-network',
+    onCompleted: () => {
+      hasInitialData.current = true;
+    },
   });
 
   const handleTimeRangeChange = (newTimeRange: TimeRange) => {
@@ -31,7 +35,10 @@ const Chart: React.FC = () => {
     setSelectedCriticalities(newCriticalities);
   };
 
-  if (loading) {
+
+
+  // Only show full screen loading on initial load, not during filter changes
+  if (loading && !hasInitialData.current) {
     return <LoadingOverlay fullScreen />;
   }
 
@@ -63,24 +70,19 @@ const Chart: React.FC = () => {
             onCriticalityChange={handleCriticalityChange}
             disabled={loading}
           />
-          <Box>
-            {data && (
-              <D3LineChart
-                dataPoints={data.timeSeriesData.dataPoints}
-                loading={loading}
-              />
-            )}
+          <Box sx={{ minHeight: 400 }}>
+            <D3LineChart
+              dataPoints={data?.timeSeriesData?.dataPoints || []}
+              loading={false}
+            />
           </Box>
         </Box>
 
-        {data && (
-          <Box>
-            <SummaryCards
-              data={data.timeSeriesData.summary}
-              loading={loading}
-            />
-          </Box>
-        )}
+        <Box>
+          <SummaryCards
+            data={data?.timeSeriesData?.summary}
+          />
+        </Box>
       </Box>
     </Box>
   );

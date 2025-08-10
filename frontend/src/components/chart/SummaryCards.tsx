@@ -1,14 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { memo } from 'react';
 import { Box } from '@mui/material';
 import CVESummaryCard from './CVESummaryCard';
 import AdvisoriesSummaryCard from './AdvisoriesSummaryCard';
 import { SummaryCardsProps } from '../../types';
 
-const SummaryCards: React.FC<SummaryCardsProps> = ({
+const SummaryCards: React.FC<SummaryCardsProps> = memo(({
   data,
-  loading = false,
 }) => {
     return (
     <Box sx={{
@@ -19,17 +18,17 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({
       <Box sx={{ flex: { xs: 'none', sm: 1, xl: 'none' } }}>
         <CVESummaryCard
           data={data?.cves}
-          loading={loading}
         />
       </Box>
       <Box sx={{ flex: { xs: 'none', sm: 1, xl: 'none' } }}>
         <AdvisoriesSummaryCard
           data={data?.advisories}
-          loading={loading}
         />
       </Box>
     </Box>
   );
-};
+});
+
+SummaryCards.displayName = 'SummaryCards';
 
 export default SummaryCards;

@@ -24,17 +24,62 @@ const TimeRangeFilter: React.FC<TimeRangeFilterProps> = ({
       sx={{ 
         minWidth: { xs: '100%', sm: 200 },
         width: { xs: '100%', sm: 'auto' },
+        // Override disabled styles to maintain visual appearance
+        '&.Mui-disabled': {
+          opacity: 1,
+          '& .MuiInputLabel-root': {
+            color: 'text.primary',
+          },
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: 'rgba(0, 0, 0, 0.23)',
+            },
+            '&:hover fieldset': {
+              borderColor: 'rgba(0, 0, 0, 0.23)',
+            },
+            '& .MuiSelect-select': {
+              color: 'text.primary',
+            },
+            '& .MuiSvgIcon-root': {
+              color: 'action.active',
+            },
+          },
+        },
       }} 
       disabled={disabled}
     >
-      <InputLabel id="time-range-label">Time Range</InputLabel>
+      <InputLabel 
+        id="time-range-label"
+        sx={{
+          // Override disabled label styles
+          '&.Mui-disabled': {
+            color: 'text.primary',
+          },
+        }}
+      >
+        Time Range
+      </InputLabel>
       <Select
         labelId="time-range-label"
         id="time-range-select"
         value={value}
         label="Time Range"
-        onChange={handleChange}
+        onChange={disabled ? undefined : handleChange}
         size="small"
+        sx={{
+          // Override disabled select styles
+          '&.Mui-disabled': {
+            '& .MuiSelect-select': {
+              color: 'text.primary',
+            },
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderColor: 'rgba(0, 0, 0, 0.23)',
+            },
+            '& .MuiSvgIcon-root': {
+              color: 'action.active',
+            },
+          },
+        }}
       >
         <MenuItem value="THREE_DAYS">Last 3 Days</MenuItem>
         <MenuItem value="SEVEN_DAYS">Last 7 Days</MenuItem>

@@ -24,7 +24,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
   const [resizeKey, setResizeKey] = useState(0);
 
   useEffect(() => {
-    if (!svgRef.current || loading) return;
+    if (!svgRef.current || loading || !dataPoints.length) return;
 
     const svg = d3.select(svgRef.current);
     
@@ -35,6 +35,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
     const chartWidth = width - margin.left - margin.right;
     const chartHeight = height - margin.top - margin.bottom;
 
+    // Clear existing elements
     svg.selectAll('.grid-group, .chart-group, .data-points, .cve-line, .advisory-line').remove();
 
     const gridGroup = svg
@@ -403,6 +404,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
         borderRadius: 1,
         pb: 1,
         mb: 2,
+        display: 'block'
       }}
     >
       <svg

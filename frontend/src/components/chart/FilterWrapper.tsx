@@ -12,6 +12,7 @@ const FilterWrapper: React.FC<FilterWrapperProps> = ({
   onTimeRangeChange,
   onCriticalityChange,
   disabled = false,
+  loading = false,
 }) => {
   const theme = useTheme();
   
@@ -32,6 +33,7 @@ const FilterWrapper: React.FC<FilterWrapperProps> = ({
         paddingTop: 2.5,
         border: `1px solid ${theme.palette.divider}`,
         marginBottom: 2,
+        position: 'relative',
       }}
     >
       <Box sx={{ 
