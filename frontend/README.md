@@ -80,23 +80,6 @@ This project implements a modern, interactive dashboard that visualizes security
 ### Unit Tests ✅
 - **Comprehensive test coverage**: Tests for all components and utilities
 
-## 🔄 Recent Updates
-
-The codebase has been optimized with the following architectural improvements:
-
-### Component Architecture
-- **Extracted ChartTooltip component**: Moved tooltip logic from D3LineChart to a separate, reusable component
-- **Removed unused ChartControls component**: Replaced with FilterWrapper for better responsive design
-- **Optimized Logo component**: Simplified props interface (removed unused className prop)
-- **Enhanced CriticalityFilter**: Added 25% opacity hover states for better UX
-- **Improved test coverage**: Updated all test suites to reflect current component implementations
-
-### Code Quality
-- **Removed dead code**: Eliminated unused components and props
-- **Updated type definitions**: Cleaned up unused TypeScript interfaces
-- **Test alignment**: All tests now accurately reflect actual component functionality
-- **Component extraction**: Better separation of concerns with dedicated tooltip component
-
 ## 🛠️ Tech Stack
 
 ### Core Framework
