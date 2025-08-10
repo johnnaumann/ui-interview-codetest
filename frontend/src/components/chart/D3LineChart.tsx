@@ -202,13 +202,13 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
           }
 
           const tooltipContent = `
-            <div style="font-family: Arial, sans-serif; font-size: 12px;">
+            <div style="font-family: Arial, sans-serif; font-size: 12px; white-space: nowrap;">
               <div style="font-weight: bold; margin-bottom: 4px; color: ${theme.palette.gray[800]};">
                 ${d.date.toLocaleDateString('en-US', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
           })}
               </div>
               <div style="color: ${cveColor}; font-weight: 600;">
@@ -222,7 +222,7 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
           const tooltipNode = tooltipDiv.node() as HTMLElement;
           
           // Estimate tooltip dimensions for proactive positioning
-          const estimatedTooltipWidth = 200;
+          const estimatedTooltipWidth = 150; // Reduced by another 50px for more compact tooltips
           const estimatedTooltipHeight = 80;
           const viewportWidth = window.innerWidth;
           const viewportHeight = window.innerHeight;
@@ -231,13 +231,13 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
           let tooltipX = event.pageX + 10;
           let tooltipY = event.pageY - 10;
           
-          // Aggressive horizontal edge detection - flip to left if near right edge
-          if (event.pageX + estimatedTooltipWidth + 20 > viewportWidth) {
+          // More aggressive horizontal edge detection - flip to left if within 50px of right edge
+          if (event.pageX + estimatedTooltipWidth + 50 > viewportWidth) {
             tooltipX = event.pageX - estimatedTooltipWidth - 10;
           }
           
-          // Aggressive vertical edge detection - flip above if near bottom edge
-          if (event.pageY + estimatedTooltipHeight + 20 > viewportHeight) {
+          // More aggressive vertical edge detection - flip above if within 30px of bottom edge
+          if (event.pageY + estimatedTooltipHeight + 30 > viewportHeight) {
             tooltipY = event.pageY - estimatedTooltipHeight - 10;
           }
           
@@ -314,13 +314,13 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
             d3.select(`.advisory-halo[data-index="${index}"]`).style('opacity', 0.5);
           }
           const tooltipContent = `
-            <div style="font-family: Arial, sans-serif; font-size: 12px;">
+            <div style="font-family: Arial, sans-serif; font-size: 12px; white-space: nowrap;">
               <div style="font-weight: bold; margin-bottom: 4px; color: ${theme.palette.gray[800]};">
                 ${d.date.toLocaleDateString('en-US', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
           })}
               </div>
               <div style="color: ${advisoryColor}; font-weight: 600;">
@@ -334,7 +334,7 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
           const tooltipNode = tooltipDiv.node() as HTMLElement;
           
           // Estimate tooltip dimensions for proactive positioning
-          const estimatedTooltipWidth = 200;
+          const estimatedTooltipWidth = 150; // Reduced by another 50px for more compact tooltips
           const estimatedTooltipHeight = 80;
           const viewportWidth = window.innerWidth;
           const viewportHeight = window.innerHeight;
@@ -343,13 +343,13 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
           let tooltipX = event.pageX + 10;
           let tooltipY = event.pageY - 10;
           
-          // Aggressive horizontal edge detection - flip to left if near right edge
-          if (event.pageX + estimatedTooltipWidth + 20 > viewportWidth) {
+          // More aggressive horizontal edge detection - flip to left if within 50px of right edge
+          if (event.pageX + estimatedTooltipWidth + 50 > viewportWidth) {
             tooltipX = event.pageX - estimatedTooltipWidth - 10;
           }
           
-          // Aggressive vertical edge detection - flip above if near bottom edge
-          if (event.pageY + estimatedTooltipHeight + 20 > viewportHeight) {
+          // More aggressive vertical edge detection - flip above if within 30px of bottom edge
+          if (event.pageY + estimatedTooltipHeight + 30 > viewportHeight) {
             tooltipY = event.pageY - estimatedTooltipHeight - 10;
           }
           
@@ -532,6 +532,9 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
           transition: 'opacity 0.2s ease-in-out',
           left: 0,
           top: 0,
+          minWidth: '150px',
+          whiteSpace: 'nowrap',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
         }}
       />
     </Box>
