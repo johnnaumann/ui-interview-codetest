@@ -45,15 +45,15 @@ const Chart: React.FC = () => {
       <Alert 
         severity="error"
         sx={{
-          backgroundColor: colors.error.light + '20', // Light red background with transparency
-          color: colors.error.main, // Red text
+          backgroundColor: colors.error.light + '20',
+          color: colors.error.main,
           '& .MuiAlert-icon': {
-            color: colors.error.main, // Red icon
+            color: colors.error.main,
           },
           '& .MuiAlert-message': {
-            color: colors.error.main, // Red text for message
+            color: colors.error.main,
           },
-          border: `1px solid ${colors.error.light}40`, // Light red border with transparency
+          border: `1px solid ${colors.error.light}40`,
         }}
       >
         Error loading security metrics: {error.message}
