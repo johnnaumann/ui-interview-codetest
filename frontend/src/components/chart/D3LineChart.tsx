@@ -16,12 +16,8 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
   const containerRef = useRef<HTMLDivElement>(null);
   const previousTimeRangeRef = useRef<string | undefined>(timeRange);
 
-  const [tooltip, setTooltip] = useState<{
-    visible: boolean;
-    x: number;
-    y: number;
-    content: string;
-  }>({ visible: false, x: 0, y: 0, content: '' });
+  // Create tooltip div once and reuse it
+  const tooltipRef = useRef<HTMLDivElement>(null);
 
   const [resizeKey, setResizeKey] = useState(0);
 
@@ -220,12 +216,43 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
               </div>
             </div>
           `;
-          setTooltip({
-            visible: true,
-            x: event.pageX + 10,
-            y: event.pageY - 10,
-            content: tooltipContent
-          });
+
+          // Use D3's standard tooltip positioning with aggressive edge detection
+          const tooltipDiv = d3.select(tooltipRef.current);
+          const tooltipNode = tooltipDiv.node() as HTMLElement;
+          
+          // Estimate tooltip dimensions for proactive positioning
+          const estimatedTooltipWidth = 200;
+          const estimatedTooltipHeight = 80;
+          const viewportWidth = window.innerWidth;
+          const viewportHeight = window.innerHeight;
+          
+          // Calculate optimal position with edge detection
+          let tooltipX = event.pageX + 10;
+          let tooltipY = event.pageY - 10;
+          
+          // Aggressive horizontal edge detection - flip to left if near right edge
+          if (event.pageX + estimatedTooltipWidth + 20 > viewportWidth) {
+            tooltipX = event.pageX - estimatedTooltipWidth - 10;
+          }
+          
+          // Aggressive vertical edge detection - flip above if near bottom edge
+          if (event.pageY + estimatedTooltipHeight + 20 > viewportHeight) {
+            tooltipY = event.pageY - estimatedTooltipHeight - 10;
+          }
+          
+          // Ensure tooltip stays within viewport bounds
+          if (tooltipX < 10) tooltipX = 10;
+          if (tooltipY < 10) tooltipY = 10;
+          if (tooltipX + estimatedTooltipWidth > viewportWidth) tooltipX = viewportWidth - estimatedTooltipWidth - 10;
+          if (tooltipY + estimatedTooltipHeight > viewportHeight) tooltipY = viewportHeight - estimatedTooltipHeight - 10;
+          
+          // Position tooltip with calculated optimal position
+          tooltipDiv
+            .style('opacity', 1)
+            .html(tooltipContent)
+            .style('left', tooltipX + 'px')
+            .style('top', tooltipY + 'px');
         })
         .on('mouseout', (event) => {
           const target = event.target as Element;
@@ -234,7 +261,8 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
           if (index !== null && type === 'cve-hit') {
             d3.select(`.cve-halo[data-index="${index}"]`).style('opacity', 0);
           }
-          setTooltip({ visible: false, x: 0, y: 0, content: '' });
+          // Hide tooltip using D3
+          d3.select(tooltipRef.current).style('opacity', 0);
         });
 
       /**
@@ -300,12 +328,43 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
               </div>
             </div>
           `;
-          setTooltip({
-            visible: true,
-            x: event.pageX + 10,
-            y: event.pageY - 10,
-            content: tooltipContent
-          });
+
+          // Use D3's standard tooltip positioning with aggressive edge detection
+          const tooltipDiv = d3.select(tooltipRef.current);
+          const tooltipNode = tooltipDiv.node() as HTMLElement;
+          
+          // Estimate tooltip dimensions for proactive positioning
+          const estimatedTooltipWidth = 200;
+          const estimatedTooltipHeight = 80;
+          const viewportWidth = window.innerWidth;
+          const viewportHeight = window.innerHeight;
+          
+          // Calculate optimal position with edge detection
+          let tooltipX = event.pageX + 10;
+          let tooltipY = event.pageY - 10;
+          
+          // Aggressive horizontal edge detection - flip to left if near right edge
+          if (event.pageX + estimatedTooltipWidth + 20 > viewportWidth) {
+            tooltipX = event.pageX - estimatedTooltipWidth - 10;
+          }
+          
+          // Aggressive vertical edge detection - flip above if near bottom edge
+          if (event.pageY + estimatedTooltipHeight + 20 > viewportHeight) {
+            tooltipY = event.pageY - estimatedTooltipHeight - 10;
+          }
+          
+          // Ensure tooltip stays within viewport bounds
+          if (tooltipX < 10) tooltipX = 10;
+          if (tooltipY < 10) tooltipY = 10;
+          if (tooltipX + estimatedTooltipWidth > viewportWidth) tooltipX = viewportWidth - estimatedTooltipWidth - 10;
+          if (tooltipY + estimatedTooltipHeight > viewportHeight) tooltipY = viewportHeight - estimatedTooltipHeight - 10;
+          
+          // Position tooltip with calculated optimal position
+          tooltipDiv
+            .style('opacity', 1)
+            .html(tooltipContent)
+            .style('left', tooltipX + 'px')
+            .style('top', tooltipY + 'px');
         })
         .on('mouseout', (event) => {
           const target = event.target as Element;
@@ -314,7 +373,8 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
           if (index !== null && type === 'advisory-hit') {
             d3.select(`.advisory-halo[data-index="${index}"]`).style('opacity', 0);
           }
-          setTooltip({ visible: false, x: 0, y: 0, content: '' });
+          // Hide tooltip using D3
+          d3.select(tooltipRef.current).style('opacity', 0);
         });
 
       dataPointsGroup.append('circle')
@@ -455,24 +515,25 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
         {dateRangeLabel}
       </Typography>
 
-      {tooltip.visible && (
-        <Box
-          sx={{
-            position: 'fixed',
-            left: tooltip.x,
-            top: tooltip.y,
-            backgroundColor: theme.palette.tooltip.background,
-            color: theme.palette.gray[700],
-            padding: 1.5,
-            borderRadius: 1,
-            fontSize: '12px',
-            zIndex: 1000,
-            pointerEvents: 'none',
-            border: `1px solid ${theme.palette.tooltip.border}`,
-          }}
-          dangerouslySetInnerHTML={{ __html: tooltip.content }}
-        />
-      )}
+      {/* D3 Tooltip */}
+      <Box
+        ref={tooltipRef}
+        sx={{
+          position: 'fixed',
+          backgroundColor: theme.palette.tooltip.background,
+          color: theme.palette.gray[700],
+          padding: 1.5,
+          borderRadius: 1,
+          fontSize: '12px',
+          zIndex: 1000,
+          pointerEvents: 'none',
+          border: `1px solid ${theme.palette.tooltip.border}`,
+          opacity: 0,
+          transition: 'opacity 0.2s ease-in-out',
+          left: 0,
+          top: 0,
+        }}
+      />
     </Box>
   );
 });
