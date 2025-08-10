@@ -27,36 +27,19 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
   };
 
   const getCriticalityColor = (criticality: CriticalityLevel) => {
-    if (theme.palette.mode === 'dark') {
-      switch (criticality) {
-        case 'CRITICAL':
-          return colors.error.light;
-        case 'HIGH':
-          return colors.warning.light;
-        case 'MEDIUM':
-          return colors.info.light;
-        case 'LOW':
-          return colors.success.light;
-        case 'NONE':
-          return colors.dark.text.disabled;
-        default:
-          return colors.dark.text.disabled;
-      }
-    } else {
-      switch (criticality) {
-        case 'CRITICAL':
-          return colors.error.main;
-        case 'HIGH':
-          return colors.warning.main;
-        case 'MEDIUM':
-          return colors.info.main;
-        case 'LOW':
-          return colors.success.main;
-        case 'NONE':
-          return colors.light.text.disabled;
-        default:
-          return colors.light.text.disabled;
-      }
+    switch (criticality) {
+      case 'CRITICAL':
+        return colors.error.light;
+      case 'HIGH':
+        return colors.warning.light;
+      case 'MEDIUM':
+        return colors.info.light;
+      case 'LOW':
+        return colors.success.light;
+      case 'NONE':
+        return theme.palette.mode === 'dark' ? colors.dark.text.disabled : colors.light.text.disabled;
+      default:
+        return theme.palette.mode === 'dark' ? colors.dark.text.disabled : colors.light.text.disabled;
     }
   };
 
