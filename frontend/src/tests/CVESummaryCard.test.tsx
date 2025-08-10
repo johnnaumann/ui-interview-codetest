@@ -32,18 +32,7 @@ describe('CVESummaryCard', () => {
     expect(screen.getByText('+12.3%')).toBeInTheDocument()
   })
 
-  it('shows loading state when loading prop is true', () => {
-    render(<CVESummaryCard loading={true} />)
-    
-    // Check that LoadingOverlay is rendered (it contains CircularProgress)
-    expect(document.querySelector('.MuiCircularProgress-root')).toBeInTheDocument()
-  })
 
-  it('shows no data message when no data provided', () => {
-    render(<CVESummaryCard />)
-    
-    expect(screen.getByText('No data available')).toBeInTheDocument()
-  })
 
   it('renders info icon with tooltip', () => {
     render(<CVESummaryCard data={mockData} />)

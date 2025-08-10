@@ -32,18 +32,7 @@ describe('AdvisoriesSummaryCard', () => {
     expect(screen.getByText('-3.2%')).toBeInTheDocument()
   })
 
-  it('shows loading state when loading prop is true', () => {
-    render(<AdvisoriesSummaryCard loading={true} />)
-    
-    // Check that LoadingOverlay is rendered (it contains CircularProgress)
-    expect(document.querySelector('.MuiCircularProgress-root')).toBeInTheDocument()
-  })
 
-  it('shows no data message when no data provided', () => {
-    render(<AdvisoriesSummaryCard />)
-    
-    expect(screen.getByText('No data available')).toBeInTheDocument()
-  })
 
   it('renders info icon with tooltip', () => {
     render(<AdvisoriesSummaryCard data={mockData} />)

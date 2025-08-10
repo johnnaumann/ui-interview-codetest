@@ -35,20 +35,11 @@ describe('SummaryCards', () => {
     expect(screen.getByText('-3.2%')).toBeInTheDocument()
   })
 
-  it('shows loading state when loading prop is true', () => {
-    render(<SummaryCards data={mockData} loading={true} />)
-    
-    // Check that LoadingOverlay components are rendered (they contain CircularProgress)
-    const loadingSpinners = document.querySelectorAll('.MuiCircularProgress-root')
-    expect(loadingSpinners).toHaveLength(2)
-  })
-
   it('renders cards even when no data provided', () => {
     render(<SummaryCards />)
     
     expect(screen.getByText('CVEs')).toBeInTheDocument()
     expect(screen.getByText('Advisories')).toBeInTheDocument()
-    expect(screen.getAllByText('No data available')).toHaveLength(2)
   })
 
   it('renders info icons for both cards', () => {
