@@ -45,7 +45,7 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = memo(({
       position: 'relative',
       height: 150, // Based on actual measured height
     }}>
-      <CardContent sx={{ 
+      <CardContent sx={{
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -55,9 +55,9 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = memo(({
             CVEs
           </Typography>
           <Tooltip title="Common Vulnerabilities and Exposures (CVEs) are security flaws in software or hardware that can be exploited by attackers. This shows the average number of CVEs detected over the selected time period.">
-            <IconButton 
-              size="small" 
-              sx={{ 
+            <IconButton
+              size="small"
+              sx={{
                 color: colors.white,
                 p: 0.5,
                 '&:hover': {
@@ -70,8 +70,8 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = memo(({
           </Tooltip>
         </Box>
         <Box sx={{ flex: 1 }}>
-          <Box 
-            sx={{ 
+          <Box
+            sx={{
               opacity: data ? 1 : 0,
               transition: 'opacity 0.3s ease-in-out',
               mb: 1,
@@ -83,11 +83,11 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = memo(({
             }}
           >
             {data && (
-              <Typography 
-                variant="h4" 
-                component="div" 
-                sx={{ 
-                  color: colors.white, 
+              <Typography
+                variant="h4"
+                component="div"
+                sx={{
+                  color: colors.white,
                   lineHeight: 1.2,
                   position: 'absolute',
                   top: 0,
@@ -98,10 +98,10 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = memo(({
               </Typography>
             )}
           </Box>
-          <Box sx={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: 1, 
+          <Box sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
             mt: 1,
             minHeight: 32,
             height: 32,
@@ -110,8 +110,8 @@ const CVESummaryCard: React.FC<CVESummaryCardProps> = memo(({
             <Typography variant="body2" color={colors.white}>
               Average change
             </Typography>
-            <Box 
-              sx={{ 
+            <Box
+              sx={{
                 opacity: (data && data.delta !== 0) ? 1 : 0,
                 transition: 'opacity 0.3s ease-in-out',
                 visibility: (data && data.delta !== 0) ? 'visible' : 'hidden',

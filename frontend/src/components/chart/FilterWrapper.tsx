@@ -14,16 +14,16 @@ const FilterWrapper: React.FC<FilterWrapperProps> = ({
   disabled = false,
 }) => {
   const theme = useTheme();
-  
+
   return (
-    <Box 
-      sx={{ 
-        display: 'flex', 
+    <Box
+      sx={{
+        display: 'flex',
         gap: 2,
         flexDirection: { xs: 'column', md: 'row' },
         alignItems: { xs: 'stretch', md: 'center' },
         justifyContent: { xs: 'stretch', md: 'space-between' },
-        backgroundColor: theme.palette.mode === 'dark' 
+        backgroundColor: theme.palette.mode === 'dark'
           ? `${theme.palette.background.paper}E6`
           : `${theme.palette.background.paper}F2`,
         backdropFilter: 'blur(8px)',
@@ -35,7 +35,7 @@ const FilterWrapper: React.FC<FilterWrapperProps> = ({
         position: 'relative',
       }}
     >
-      <Box sx={{ 
+      <Box sx={{
         minWidth: { xs: '100%', md: '200px' },
       }}>
         <TimeRangeFilter
@@ -45,7 +45,7 @@ const FilterWrapper: React.FC<FilterWrapperProps> = ({
         />
       </Box>
 
-      <Box sx={{ 
+      <Box sx={{
         minWidth: { xs: '100%', md: 'auto' },
       }}>
         <CriticalityFilter

@@ -11,38 +11,38 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
   loading = false,
 }) => {
   const theme = useTheme();
-  
+
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const previousTimeRangeRef = useRef<string | undefined>(timeRange);
-  
+
   const [tooltip, setTooltip] = useState<{
     visible: boolean;
     x: number;
     y: number;
     content: string;
   }>({ visible: false, x: 0, y: 0, content: '' });
-  
+
   const [resizeKey, setResizeKey] = useState(0);
 
   useEffect(() => {
     if (!svgRef.current || loading || !dataPoints.length) return;
 
     const svg = d3.select(svgRef.current);
-    
+
     const width = svgRef.current.clientWidth;
     const height = svgRef.current.clientHeight;
-    
+
     const margin = { top: 20, right: 20, bottom: 20, left: 20 };
     const chartWidth = width - margin.left - margin.right;
     const chartHeight = height - margin.top - margin.bottom;
 
     // Check if time range has changed
     const timeRangeChanged = previousTimeRangeRef.current !== timeRange;
-    
+
     // Clear existing elements
     svg.selectAll('.grid-group, .chart-group, .data-points, .cve-line, .advisory-line').remove();
-    
+
     if (timeRangeChanged) {
       previousTimeRangeRef.current = timeRange;
     }
@@ -83,7 +83,7 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
         .style('stroke-dasharray', '3,3')
         .style('opacity', 1);
     }
-    
+
     // Always create chart group for data elements
     const g = svg
       .append('g')
@@ -204,16 +204,16 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
           if (index !== null && type === 'cve-hit') {
             d3.select(`.cve-halo[data-index="${index}"]`).style('opacity', 0.5);
           }
-          
+
           const tooltipContent = `
             <div style="font-family: Arial, sans-serif; font-size: 12px;">
               <div style="font-weight: bold; margin-bottom: 4px; color: ${theme.palette.gray[800]};">
                 ${d.date.toLocaleDateString('en-US', {
-                  weekday: 'long',
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })}
               </div>
               <div style="color: ${cveColor}; font-weight: 600;">
                 CVEs: ${d.cves}
@@ -289,11 +289,11 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
             <div style="font-family: Arial, sans-serif; font-size: 12px;">
               <div style="font-weight: bold; margin-bottom: 4px; color: ${theme.palette.gray[800]};">
                 ${d.date.toLocaleDateString('en-US', {
-                  weekday: 'long',
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })}
               </div>
               <div style="color: ${advisoryColor}; font-weight: 600;">
                 Advisories: ${d.advisories}

@@ -7,10 +7,10 @@ interface LoadingOverlayProps {
   color?: 'primary' | 'secondary' | 'inherit';
 }
 
-const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ 
-  fullScreen = false, 
+const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
+  fullScreen = false,
   size = 'medium',
-  color = 'primary' 
+  color = 'primary'
 }) => {
   const getSize = () => {
     switch (size) {
@@ -35,10 +35,10 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   };
 
   return (
-    <Box 
-      display="flex" 
-      justifyContent="center" 
-      alignItems="center" 
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
       sx={containerStyles}
     >
       <CircularProgress size={getSize()} color={color} />

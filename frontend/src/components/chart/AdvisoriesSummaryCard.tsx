@@ -45,7 +45,7 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
       position: 'relative',
       height: 150,
     }}>
-      <CardContent sx={{ 
+      <CardContent sx={{
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -61,8 +61,8 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
                 color: theme.palette.mode === 'dark' ? colors.white : colors.primary.main,
                 p: 0.5,
                 '&:hover': {
-                  backgroundColor: theme.palette.mode === 'dark' 
-                    ? colors.dark.hover.card 
+                  backgroundColor: theme.palette.mode === 'dark'
+                    ? colors.dark.hover.card
                     : colors.light.hover.card,
                 },
               }}
@@ -72,8 +72,8 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
           </Tooltip>
         </Box>
         <Box sx={{ flex: 1 }}>
-          <Box 
-            sx={{ 
+          <Box
+            sx={{
               opacity: data ? 1 : 0,
               transition: 'opacity 0.3s ease-in-out',
               mb: 1,
@@ -85,11 +85,11 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
             }}
           >
             {data && (
-              <Typography 
-                variant="h4" 
-                component="div" 
-                sx={{ 
-                  color: theme.palette.mode === 'dark' ? colors.white : colors.primary.main, 
+              <Typography
+                variant="h4"
+                component="div"
+                sx={{
+                  color: theme.palette.mode === 'dark' ? colors.white : colors.primary.main,
                   lineHeight: 1.2,
                   position: 'absolute',
                   top: 0,
@@ -100,10 +100,10 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
               </Typography>
             )}
           </Box>
-          <Box sx={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: 1, 
+          <Box sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
             mt: 1,
             minHeight: 32,
             height: 32,
@@ -112,8 +112,8 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
             <Typography variant="body2" color={theme.palette.mode === 'dark' ? colors.white : colors.primary.main}>
               Average change
             </Typography>
-            <Box 
-              sx={{ 
+            <Box
+              sx={{
                 opacity: (data && data.delta !== 0) ? 1 : 0,
                 transition: 'opacity 0.3s ease-in-out',
                 visibility: (data && data.delta !== 0) ? 'visible' : 'hidden',

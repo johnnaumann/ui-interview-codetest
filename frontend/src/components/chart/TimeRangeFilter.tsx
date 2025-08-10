@@ -21,8 +21,8 @@ const TimeRangeFilter: React.FC<TimeRangeFilterProps> = ({
   };
 
   return (
-    <FormControl 
-      sx={{ 
+    <FormControl
+      sx={{
         minWidth: { xs: '100%', sm: 200 },
         width: { xs: '100%', sm: 'auto' },
         '&.Mui-disabled': {
@@ -45,10 +45,10 @@ const TimeRangeFilter: React.FC<TimeRangeFilterProps> = ({
             },
           },
         },
-      }} 
+      }}
       disabled={disabled}
     >
-      <InputLabel 
+      <InputLabel
         id="time-range-label"
         sx={{
           '&.Mui-disabled': {

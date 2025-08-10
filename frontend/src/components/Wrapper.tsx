@@ -16,7 +16,7 @@ import { WrapperProps } from '../types';
 
 function AppContent({ children }: WrapperProps) {
   const { theme, mode } = useTheme();
-  
+
   return (
     <>
       <CssBaseline />
@@ -24,11 +24,11 @@ function AppContent({ children }: WrapperProps) {
         sx={{
           // Target Dashboard menu item specifically
           '& .MuiDrawer-paper [href="/dashboard"]': {
-            backgroundColor: mode === 'dark' 
+            backgroundColor: mode === 'dark'
               ? `rgba(107, 70, 193, 0.2) !important` // 20% opacity purple in dark mode
               : `rgba(107, 70, 193, 0.1) !important`, // 10% opacity purple in light mode
-            color: mode === 'dark' 
-              ? `${colors.white} !important` 
+            color: mode === 'dark'
+              ? `${colors.white} !important`
               : `${colors.primary.main} !important`,
             borderRadius: '6px !important',
             margin: '4px 8px !important',
@@ -38,18 +38,18 @@ function AppContent({ children }: WrapperProps) {
                 : `rgba(107, 70, 193, 0.3) !important`, // 30% opacity on hover in light mode
             },
             '& .MuiListItemIcon-root': {
-              color: mode === 'dark' 
-                ? `${colors.white} !important` 
+              color: mode === 'dark'
+                ? `${colors.white} !important`
                 : `${colors.primary.main} !important`,
             },
             '& .MuiSvgIcon-root': {
-              color: mode === 'dark' 
-                ? `${colors.white} !important` 
+              color: mode === 'dark'
+                ? `${colors.white} !important`
                 : `${colors.primary.main} !important`,
             },
             '& .MuiTypography-root': {
-              color: mode === 'dark' 
-                ? `${colors.white} !important` 
+              color: mode === 'dark'
+                ? `${colors.white} !important`
                 : `${colors.primary.main} !important`,
             },
           },

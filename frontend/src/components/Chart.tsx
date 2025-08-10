@@ -50,7 +50,7 @@ const Chart: React.FC = () => {
   return (
     <Box>
       <ChartTitle />
-      <Box sx={{ 
+      <Box sx={{
         display: 'grid',
         gridTemplateColumns: {
           xs: '1fr',

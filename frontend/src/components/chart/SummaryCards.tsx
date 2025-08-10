@@ -9,7 +9,7 @@ import { SummaryCardsProps } from '../../types';
 const SummaryCards: React.FC<SummaryCardsProps> = memo(({
   data,
 }) => {
-    return (
+  return (
     <Box sx={{
       display: 'flex',
       flexDirection: { xs: 'column', sm: 'row', xl: 'column' },

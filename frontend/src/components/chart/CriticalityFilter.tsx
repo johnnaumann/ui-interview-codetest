@@ -17,7 +17,7 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
   const theme = useTheme();
   const handleChipClick = (criticality: CriticalityLevel) => {
     if (disabled) return;
-    
+
     const isSelected = value.includes(criticality);
     if (isSelected) {
       onChange(value.filter(c => c !== criticality));
@@ -63,8 +63,8 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
   const allCriticalities: CriticalityLevel[] = ['NONE', 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
 
   return (
-    <Box sx={{ 
-      display: 'flex', 
+    <Box sx={{
+      display: 'flex',
       gap: 1,
       flexWrap: 'wrap',
       justifyContent: { xs: 'center', sm: 'flex-start' },
@@ -85,12 +85,12 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
               backgroundColor: isSelected ? chipColor : 'transparent',
               color: isSelected ? colors.white : chipColor,
               borderColor: chipColor,
-                             border: `1px solid ${chipColor}`,
+              border: `1px solid ${chipColor}`,
               fontWeight: 'medium',
               minWidth: 'fit-content',
               fontSize: { xs: '0.75rem', sm: '0.8125rem' },
               height: { xs: '28px', sm: '32px' },
-                             transition: 'background-color 0.2s ease-in-out, color 0.2s ease-in-out',
+              transition: 'background-color 0.2s ease-in-out, color 0.2s ease-in-out',
               '& .MuiChip-label': {
                 fontWeight: 'medium',
                 fontSize: { xs: '0.75rem', sm: '0.8125rem' },
@@ -98,13 +98,13 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
                 padding: { xs: '0 8px', sm: '0 12px' },
                 transition: 'color 0.2s ease-in-out',
               },
-                             '&:hover': disabled ? {} : {
-                 backgroundColor: `${chipColor} !important`,
-                 color: `${colors.white} !important`,
-                 '& .MuiChip-label': {
-                   color: `${colors.white} !important`,
-                 },
-               },
+              '&:hover': disabled ? {} : {
+                backgroundColor: `${chipColor} !important`,
+                color: `${colors.white} !important`,
+                '& .MuiChip-label': {
+                  color: `${colors.white} !important`,
+                },
+              },
             }}
           />
         );
