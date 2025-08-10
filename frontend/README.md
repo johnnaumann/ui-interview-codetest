@@ -24,7 +24,7 @@ This project implements a modern, interactive dashboard that visualizes security
 ### Filtering System ✅
 - **Filter data by criticality levels**: Interactive chips for Critical, High, Medium, Low, None
 - **Real-time updates when filters change**: Immediate chart updates via Apollo Client
-- **Clear visual indication of active filters**: Selected chips with custom styling and 25% opacity hover states
+- **Clear visual indication of active filters**: Selected chips with custom styling
 
 ### Enhanced User Experience ✅
 - **Interactive tooltips**: Detailed information on hover with formatted timestamps and values
