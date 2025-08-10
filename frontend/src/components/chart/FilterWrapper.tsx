@@ -35,7 +35,6 @@ const FilterWrapper: React.FC<FilterWrapperProps> = ({
       }}
     >
       <Box sx={{ 
-        flex: { xs: '1 1 auto', md: '0 0 auto' },
         minWidth: { xs: '100%', md: '200px' },
       }}>
         <TimeRangeFilter
