@@ -51,7 +51,6 @@ function AppContent({ children }: WrapperProps) {
               color: mode === 'dark' 
                 ? `${colors.white} !important` 
                 : `${colors.primary.main} !important`,
-              fontWeight: 'bold !important',
             },
           },
         }}

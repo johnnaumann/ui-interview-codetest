@@ -201,9 +201,7 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
 
   MuiListItem: {
     styleOverrides: {
-      root: {
-        // Remove redundant overrides - let MuiListItemButton handle its own styling
-      },
+      root: {},
     },
   },
 
@@ -215,7 +213,6 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       paper: {
         maxWidth: '250px',
         borderRight: `1px solid ${mode === 'dark' ? colors.dark.divider : colors.light.divider}`,
-        // Remove redundant overrides - let MuiListItemButton handle its own styling
       },
     },
   },
@@ -224,7 +221,7 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
     styleOverrides: {
       root: {
         color: mode === 'dark' ? colors.white : colors.light.text.secondary,
-        minWidth: '40px', // Ensure consistent spacing
+        minWidth: '40px',
       },
     },
   },
@@ -233,7 +230,7 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
     styleOverrides: {
       root: {
         '& .MuiTypography-root': {
-          color: 'inherit', // Inherit from parent ListItemButton
+          color: 'inherit',
         },
       },
     },
@@ -250,7 +247,7 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
   MuiSvgIcon: {
     styleOverrides: {
       root: {
-        color: 'inherit', // Let parent components control the color
+        color: 'inherit',
       },
     },
   },
