@@ -85,13 +85,12 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
               backgroundColor: isSelected ? chipColor : 'transparent',
               color: isSelected ? colors.white : chipColor,
               borderColor: chipColor,
-              border: `2px solid ${chipColor}`,
+                             border: `1px solid ${chipColor}`,
               fontWeight: 'medium',
               minWidth: 'fit-content',
               fontSize: { xs: '0.75rem', sm: '0.8125rem' },
               height: { xs: '28px', sm: '32px' },
-              transition: 'all 0.2s ease-in-out',
-              transform: 'scale(1)',
+                             transition: 'background-color 0.2s ease-in-out, color 0.2s ease-in-out',
               '& .MuiChip-label': {
                 fontWeight: 'medium',
                 fontSize: { xs: '0.75rem', sm: '0.8125rem' },
@@ -99,17 +98,13 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
                 padding: { xs: '0 8px', sm: '0 12px' },
                 transition: 'color 0.2s ease-in-out',
               },
-              '&:hover': disabled ? {} : {
-                backgroundColor: chipColor,
-                color: colors.white,
-                transform: 'scale(1.05)',
-                boxShadow: `0 2px 8px ${chipColor}40`,
-                zIndex: 1,
-              },
-              '&:active': disabled ? {} : {
-                transform: 'scale(0.98)',
-                transition: 'all 0.1s ease-in-out',
-              },
+                             '&:hover': disabled ? {} : {
+                 backgroundColor: `${chipColor} !important`,
+                 color: `${colors.white} !important`,
+                 '& .MuiChip-label': {
+                   color: `${colors.white} !important`,
+                 },
+               },
             }}
           />
         );
