@@ -133,10 +133,6 @@ const BaseSummaryCard: React.FC<BaseSummaryCardProps> = memo(({
                     color: colors.white,
                     fontWeight: 'medium',
                     height: 24,
-                    '& .MuiChip-label': {
-                      px: 1,
-                      fontSize: 'inherit',
-                    },
                   }}
                 />
               )}

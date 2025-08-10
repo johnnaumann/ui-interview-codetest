@@ -47,12 +47,6 @@ const Chart: React.FC = () => {
         sx={{
           backgroundColor: colors.error.light + '20',
           color: colors.error.main,
-          '& .MuiAlert-icon': {
-            color: colors.error.main,
-          },
-          '& .MuiAlert-message': {
-            color: colors.error.main,
-          },
           border: `1px solid ${colors.error.light}40`,
         }}
       >

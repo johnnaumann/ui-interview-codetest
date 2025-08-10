@@ -74,13 +74,6 @@ const CriticalityFilter: React.FC<CriticalityFilterProps> = ({
               fontSize: { xs: '0.75rem', sm: '0.8125rem' },
               height: { xs: '28px', sm: '32px' },
               transition: 'background-color 0.2s ease-in-out, color 0.2s ease-in-out',
-              '& .MuiChip-label': {
-                fontWeight: 'medium',
-                fontSize: { xs: '0.75rem', sm: '0.8125rem' },
-                lineHeight: '1.2',
-                padding: { xs: '0 8px', sm: '0 12px' },
-                transition: 'color 0.2s ease-in-out',
-              },
               '&:hover': disabled ? {} : {
                 backgroundColor: `${chipColor}40 !important`,
                 color: `${chipColor} !important`,

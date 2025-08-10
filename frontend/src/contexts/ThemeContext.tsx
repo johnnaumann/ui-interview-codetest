@@ -371,6 +371,33 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       },
     },
   },
+
+  MuiChip: {
+    styleOverrides: {
+      root: {
+        '& .MuiChip-label': {
+          fontWeight: 'medium',
+          fontSize: { xs: '0.75rem', sm: '0.8125rem' },
+          lineHeight: '1.2',
+          padding: { xs: '0 8px', sm: '0 12px' },
+          transition: 'color 0.2s ease-in-out',
+        },
+      },
+    },
+  },
+
+  MuiAlert: {
+    styleOverrides: {
+      root: {
+        '& .MuiAlert-icon': {
+          color: 'error.main',
+        },
+        '& .MuiAlert-message': {
+          color: 'error.main',
+        },
+      },
+    },
+  },
 });
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
