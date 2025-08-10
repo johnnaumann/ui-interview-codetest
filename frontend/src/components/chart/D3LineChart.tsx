@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState, memo, useMemo } from 'react';
 import * as d3 from 'd3';
 import { Box, useTheme, Typography } from '@mui/material';
 import { D3LineChartProps, DataPoint } from '../../types';
+import ChartTooltip from './ChartTooltip';
 
 const D3LineChart: React.FC<D3LineChartProps> = memo(({
   dataPoints,
@@ -201,22 +202,6 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
             d3.select(`.cve-halo[data-index="${index}"]`).style('opacity', 0.5);
           }
 
-          const tooltipContent = `
-            <div style="font-family: Arial, sans-serif; font-size: 12px; white-space: nowrap;">
-              <div style="font-weight: bold; margin-bottom: 4px; color: ${theme.palette.gray[800]};">
-                ${d.date.toLocaleDateString('en-US', {
-            weekday: 'short',
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric'
-          })}
-              </div>
-              <div style="color: ${cveColor}; font-weight: 600;">
-                CVEs: ${d.cves}
-              </div>
-            </div>
-          `;
-
           // Use D3's standard tooltip positioning with aggressive edge detection
           const tooltipDiv = d3.select(tooltipRef.current);
           
@@ -249,9 +234,26 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
           // Position tooltip with calculated optimal position
           tooltipDiv
             .style('opacity', 1)
-            .html(tooltipContent)
             .style('left', tooltipX + 'px')
             .style('top', tooltipY + 'px');
+          
+          // Set content for MUI Typography components
+          const dateElement = tooltipDiv.select('p:first-child');
+          const valueElement = tooltipDiv.select('p:last-child');
+          
+          if (dateElement.size() > 0) {
+            dateElement.text(d.date.toLocaleDateString('en-US', {
+              weekday: 'short',
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric'
+            }));
+          }
+          
+          if (valueElement.size() > 0) {
+            valueElement.text(`CVEs: ${d.cves}`);
+            valueElement.style('color', theme.palette.primary.main);
+          }
         })
         .on('mouseout', (event) => {
           const target = event.target as Element;
@@ -312,21 +314,6 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
           if (index !== null && type === 'advisory-hit') {
             d3.select(`.advisory-halo[data-index="${index}"]`).style('opacity', 0.5);
           }
-          const tooltipContent = `
-            <div style="font-family: Arial, sans-serif; font-size: 12px; white-space: nowrap;">
-              <div style="font-weight: bold; margin-bottom: 4px; color: ${theme.palette.gray[800]};">
-                ${d.date.toLocaleDateString('en-US', {
-            weekday: 'short',
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric'
-          })}
-              </div>
-              <div style="color: ${advisoryColor}; font-weight: 600;">
-                Advisories: ${d.advisories}
-              </div>
-            </div>
-          `;
 
           // Use D3's standard tooltip positioning with aggressive edge detection
           const tooltipDiv = d3.select(tooltipRef.current);
@@ -360,9 +347,26 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
           // Position tooltip with calculated optimal position
           tooltipDiv
             .style('opacity', 1)
-            .html(tooltipContent)
             .style('left', tooltipX + 'px')
             .style('top', tooltipY + 'px');
+          
+          // Set content for MUI Typography components
+          const dateElement = tooltipDiv.select('p:first-child');
+          const valueElement = tooltipDiv.select('p:last-child');
+          
+          if (dateElement.size() > 0) {
+            dateElement.text(d.date.toLocaleDateString('en-US', {
+              weekday: 'short',
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric'
+            }));
+          }
+          
+          if (valueElement.size() > 0) {
+            valueElement.text(`Advisories: ${d.advisories}`);
+            valueElement.style('color', theme.palette.advisories.main);
+          }
         })
         .on('mouseout', (event) => {
           const target = event.target as Element;
@@ -513,27 +517,7 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
         {dateRangeLabel}
       </Typography>
 
-      <Box
-        ref={tooltipRef}
-        sx={{
-          position: 'fixed',
-          backgroundColor: theme.palette.tooltip.background,
-          color: theme.palette.gray[700],
-          padding: 1.5,
-          borderRadius: 1,
-          fontSize: '12px',
-          zIndex: 1000,
-          pointerEvents: 'none',
-          border: `1px solid ${theme.palette.tooltip.border}`,
-          opacity: 0,
-          transition: 'opacity 0.2s ease-in-out',
-          left: 0,
-          top: 0,
-          minWidth: '150px',
-          whiteSpace: 'nowrap',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-        }}
-      />
+      <ChartTooltip ref={tooltipRef} />
     </Box>
   );
 });

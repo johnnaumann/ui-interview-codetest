@@ -85,6 +85,7 @@ This project implements a modern, interactive dashboard that visualizes security
 The codebase has been optimized with the following architectural improvements:
 
 ### Component Architecture
+- **Extracted ChartTooltip component**: Moved tooltip logic from D3LineChart to a separate, reusable component
 - **Removed unused ChartControls component**: Replaced with FilterWrapper for better responsive design
 - **Optimized Logo component**: Simplified props interface (removed unused className prop)
 - **Enhanced CriticalityFilter**: Added 25% opacity hover states for better UX
@@ -94,6 +95,7 @@ The codebase has been optimized with the following architectural improvements:
 - **Removed dead code**: Eliminated unused components and props
 - **Updated type definitions**: Cleaned up unused TypeScript interfaces
 - **Test alignment**: All tests now accurately reflect actual component functionality
+- **Component extraction**: Better separation of concerns with dedicated tooltip component
 
 ## 🛠️ Tech Stack
 
@@ -137,6 +139,7 @@ frontend/
 │   │   ├── chart/            # Chart-specific components
 │   │   │   ├── AdvisoriesSummaryCard.tsx
 │   │   │   ├── ChartTitle.tsx
+│   │   │   ├── ChartTooltip.tsx    # Extracted tooltip component
 │   │   │   ├── CriticalityFilter.tsx
 │   │   │   ├── CVESummaryCard.tsx
 │   │   │   ├── D3LineChart.tsx
@@ -162,6 +165,7 @@ frontend/
 │   │   └── router.ts          # Routing utilities
 │   └── tests/                 # Test files
 │       ├── test-utils.tsx     # Testing utilities
+│       ├── ChartTooltip.test.tsx # ChartTooltip component tests
 │       └── [component].test.tsx # Component tests
 ├── public/                    # Static assets
 ├── next.config.ts            # Next.js configuration
