@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import {
   Card,
   CardContent,
@@ -19,11 +19,13 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
   data,
 }) => {
   const theme = useTheme();
-  const getDeltaColor = (delta: number) => {
+  const chipBackgroundColor = useMemo(() => {
+    if (!data) return 'text.secondary';
+    const delta = data.delta;
     if (delta > 0) return 'error.main';
     if (delta < 0) return 'success.main';
     return 'text.secondary';
-  };
+  }, [data]);
 
   const getDeltaPrefix = (delta: number) => {
     if (delta > 0) return '+';
@@ -89,12 +91,24 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
               transition: 'opacity 0.3s ease-in-out',
               mb: 1,
               minHeight: 40, // Fixed height for h4 typography
+              height: 40, // Fixed height to prevent jumping
               display: 'flex',
               alignItems: 'flex-start',
+              position: 'relative',
             }}
           >
             {data && (
-              <Typography variant="h4" component="div" sx={{ color: theme.palette.mode === 'dark' ? colors.white : colors.primary.main, lineHeight: 1.2 }}>
+              <Typography 
+                variant="h4" 
+                component="div" 
+                sx={{ 
+                  color: theme.palette.mode === 'dark' ? colors.white : colors.primary.main, 
+                  lineHeight: 1.2,
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                }}
+              >
                 {getAverageValueDisplay(data.averageValue, data.delta)}
               </Typography>
             )}
@@ -105,6 +119,8 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
             gap: 1, 
             mt: 1,
             minHeight: 32, // Fixed height for body2 + chip row
+            height: 32, // Fixed height to prevent jumping
+            position: 'relative',
           }}>
             <Typography variant="body2" color={theme.palette.mode === 'dark' ? colors.white : colors.primary.main}>
               Average change
@@ -121,7 +137,7 @@ const AdvisoriesSummaryCard: React.FC<AdvisoriesSummaryCardProps> = memo(({
                   label={`${getDeltaPrefix(data.delta)}${data.delta.toFixed(1)}%`}
                   size="small"
                   sx={{
-                    backgroundColor: getDeltaColor(data.delta),
+                    backgroundColor: chipBackgroundColor,
                     color: 'white',
                     fontWeight: 'medium',
                     height: 24, // Fixed chip height
