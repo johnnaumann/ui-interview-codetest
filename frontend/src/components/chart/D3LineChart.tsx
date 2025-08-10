@@ -5,6 +5,7 @@ import * as d3 from 'd3';
 import { Box, useTheme, Typography } from '@mui/material';
 import { D3LineChartProps, DataPoint } from '../../types';
 import ChartTooltip from './ChartTooltip';
+import { colors } from '../../contexts/ThemeContext';
 
 const D3LineChart: React.FC<D3LineChartProps> = memo(({
   dataPoints,
@@ -21,6 +22,7 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
   const tooltipRef = useRef<HTMLDivElement>(null);
 
   const [resizeKey, setResizeKey] = useState(0);
+  const [currentTooltipType, setCurrentTooltipType] = useState<'cve' | 'advisories' | null>(null);
 
   useEffect(() => {
     if (!svgRef.current || loading || !dataPoints.length) return;
@@ -202,45 +204,48 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
             d3.select(`.cve-halo[data-index="${index}"]`).style('opacity', 0.5);
           }
 
+          // Set tooltip type for styling
+          setCurrentTooltipType('cve');
+
           // Use D3's standard tooltip positioning with aggressive edge detection
           const tooltipDiv = d3.select(tooltipRef.current);
-          
+
           // Estimate tooltip dimensions for proactive positioning
           const estimatedTooltipWidth = 150; // Reduced by another 50px for more compact tooltips
           const estimatedTooltipHeight = 80;
           const viewportWidth = window.innerWidth;
           const viewportHeight = window.innerHeight;
-          
+
           // Calculate optimal position with edge detection
           let tooltipX = event.pageX + 10;
           let tooltipY = event.pageY - 10;
-          
+
           // More aggressive horizontal edge detection - flip to left if within 50px of right edge
           if (event.pageX + estimatedTooltipWidth + 50 > viewportWidth) {
             tooltipX = event.pageX - estimatedTooltipWidth - 10;
           }
-          
+
           // More aggressive vertical edge detection - flip above if within 30px of bottom edge
           if (event.pageY + estimatedTooltipHeight + 30 > viewportHeight) {
             tooltipY = event.pageY - estimatedTooltipHeight - 10;
           }
-          
+
           // Ensure tooltip stays within viewport bounds
           if (tooltipX < 10) tooltipX = 10;
           if (tooltipY < 10) tooltipY = 10;
           if (tooltipX + estimatedTooltipWidth > viewportWidth) tooltipX = viewportWidth - estimatedTooltipWidth - 10;
           if (tooltipY + estimatedTooltipHeight > viewportHeight) tooltipY = viewportHeight - estimatedTooltipHeight - 10;
-          
+
           // Position tooltip with calculated optimal position
           tooltipDiv
             .style('opacity', 1)
             .style('left', tooltipX + 'px')
             .style('top', tooltipY + 'px');
-          
+
           // Set content for MUI Typography components
           const dateElement = tooltipDiv.select('p:first-child');
           const valueElement = tooltipDiv.select('p:last-child');
-          
+
           if (dateElement.size() > 0) {
             dateElement.text(d.date.toLocaleDateString('en-US', {
               weekday: 'short',
@@ -249,10 +254,10 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
               year: 'numeric'
             }));
           }
-          
+
           if (valueElement.size() > 0) {
             valueElement.text(`CVEs: ${d.cves}`);
-            valueElement.style('color', theme.palette.primary.main);
+            valueElement.style('color', theme.palette.mode === 'dark' ? colors.white : theme.palette.primary.main);
           }
         })
         .on('mouseout', (event) => {
@@ -262,7 +267,8 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
           if (index !== null && type === 'cve-hit') {
             d3.select(`.cve-halo[data-index="${index}"]`).style('opacity', 0);
           }
-          // Hide tooltip using D3
+          // Reset tooltip type and hide tooltip
+          setCurrentTooltipType(null);
           d3.select(tooltipRef.current).style('opacity', 0);
         });
 
@@ -315,45 +321,48 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
             d3.select(`.advisory-halo[data-index="${index}"]`).style('opacity', 0.5);
           }
 
+          // Set tooltip type for styling
+          setCurrentTooltipType('advisories');
+
           // Use D3's standard tooltip positioning with aggressive edge detection
           const tooltipDiv = d3.select(tooltipRef.current);
-          
+
           // Estimate tooltip dimensions for proactive positioning
-          const estimatedTooltipWidth = 150; // Reduced by another 50px for more compact tooltips
+          const estimatedTooltipWidth = 150;
           const estimatedTooltipHeight = 80;
           const viewportWidth = window.innerWidth;
           const viewportHeight = window.innerHeight;
-          
+
           // Calculate optimal position with edge detection
           let tooltipX = event.pageX + 10;
           let tooltipY = event.pageY - 10;
-          
+
           // More aggressive horizontal edge detection - flip to left if within 50px of right edge
           if (event.pageX + estimatedTooltipWidth + 50 > viewportWidth) {
             tooltipX = event.pageX - estimatedTooltipWidth - 10;
           }
-          
+
           // More aggressive vertical edge detection - flip above if within 30px of bottom edge
           if (event.pageY + estimatedTooltipHeight + 30 > viewportHeight) {
             tooltipY = event.pageY - estimatedTooltipHeight - 10;
           }
-          
+
           // Ensure tooltip stays within viewport bounds
           if (tooltipX < 10) tooltipX = 10;
           if (tooltipY < 10) tooltipY = 10;
           if (tooltipX + estimatedTooltipWidth > viewportWidth) tooltipX = viewportWidth - estimatedTooltipWidth - 10;
           if (tooltipY + estimatedTooltipHeight > viewportHeight) tooltipY = viewportHeight - estimatedTooltipHeight - 10;
-          
+
           // Position tooltip with calculated optimal position
           tooltipDiv
             .style('opacity', 1)
             .style('left', tooltipX + 'px')
             .style('top', tooltipY + 'px');
-          
+
           // Set content for MUI Typography components
           const dateElement = tooltipDiv.select('p:first-child');
           const valueElement = tooltipDiv.select('p:last-child');
-          
+
           if (dateElement.size() > 0) {
             dateElement.text(d.date.toLocaleDateString('en-US', {
               weekday: 'short',
@@ -362,10 +371,10 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
               year: 'numeric'
             }));
           }
-          
+
           if (valueElement.size() > 0) {
             valueElement.text(`Advisories: ${d.advisories}`);
-            valueElement.style('color', theme.palette.advisories.main);
+            valueElement.style('color', theme.palette.mode === 'dark' ? colors.white : theme.palette.advisories.main);
           }
         })
         .on('mouseout', (event) => {
@@ -375,7 +384,8 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
           if (index !== null && type === 'advisory-hit') {
             d3.select(`.advisory-halo[data-index="${index}"]`).style('opacity', 0);
           }
-          // Hide tooltip using D3
+          // Reset tooltip type and hide tooltip
+          setCurrentTooltipType(null);
           d3.select(tooltipRef.current).style('opacity', 0);
         });
 
@@ -406,7 +416,7 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
 
   /**
    * Resize Observer Effect
-   * 
+   *
    * Monitors container size changes and triggers chart redraw
    * Uses ResizeObserver API for efficient size change detection
    */
@@ -426,7 +436,7 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
 
   /**
    * Window Resize Effect
-   * 
+   *
    * Handles browser window resize events
    * Complements ResizeObserver for comprehensive resize handling
    */
@@ -517,7 +527,7 @@ const D3LineChart: React.FC<D3LineChartProps> = memo(({
         {dateRangeLabel}
       </Typography>
 
-      <ChartTooltip ref={tooltipRef} />
+      <ChartTooltip ref={tooltipRef} cardType={currentTooltipType} />
     </Box>
   );
 });

@@ -75,6 +75,14 @@ export const colors = {
     text: '#1F2937',
     border: '#E2E8F0',
     background: '#FFFFFF',
+    shadow: 'rgba(0, 0, 0, 0.15)',
+  },
+
+  tooltipDark: {
+    text: '#F8FAFC',
+    border: 'rgba(255, 255, 255, 0.15)',
+    background: '#2D1B69',
+    shadow: 'rgba(0, 0, 0, 0.3)',
   },
 
   gray: {
@@ -95,6 +103,7 @@ declare module '@mui/material/styles' {
       text: string;
       border: string;
       background: string;
+      shadow: string;
     };
 
     gray: {
@@ -307,7 +316,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       error: colors.error,
       info: colors.info,
       advisories: colors.advisories,
-      tooltip: colors.tooltip,
+      tooltip: mode === 'light' ? colors.tooltip : colors.tooltipDark,
       gray: colors.gray,
     },
     shadows: Array(25).fill('none') as Theme['shadows'],
