@@ -32,7 +32,7 @@ yarn dev:server            # Start GraphQL server only
 yarn dev:frontend          # Start Next.js frontend only
 
 # Dependencies
-yarn install               # Install all dependencies (single package.json)
+yarn install               # Install all dependencies
 
 # Frontend (runs from frontend directory)
 yarn build                 # Build the Next.js application
