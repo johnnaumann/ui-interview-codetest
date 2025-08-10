@@ -14,7 +14,6 @@ describe('LoadingOverlay', () => {
     const progressElement = screen.getByRole('progressbar');
     expect(progressElement).toBeInTheDocument();
     
-    // Check that the container has fullscreen styles
     const container = progressElement.closest('div');
     expect(container).toHaveStyle({
       height: '100vh',

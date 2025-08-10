@@ -97,7 +97,7 @@ describe('Chart', () => {
       month: 'long',
       day: 'numeric'
     })
-    
+
     expect(screen.getByText(currentDate)).toBeInTheDocument()
   })
 
@@ -110,7 +110,6 @@ describe('Chart', () => {
 
     render(<Chart />)
     
-    // Check that LoadingOverlay is rendered (it contains CircularProgress)
     expect(document.querySelector('.MuiCircularProgress-root')).toBeInTheDocument()
   })
 
@@ -135,7 +134,7 @@ describe('Chart', () => {
     } as any)
 
     render(<Chart />)
-    
+
 
     const svg = document.querySelector('svg')
     expect(svg).toBeInTheDocument()

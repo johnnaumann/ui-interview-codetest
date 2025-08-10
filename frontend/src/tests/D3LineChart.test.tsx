@@ -4,7 +4,6 @@ import D3LineChart from '../components/chart/D3LineChart'
 import { DataPoint } from '../types'
 import { screen } from '@testing-library/react'
 
-// Mock the D3LineChart component to avoid complex D3 mocking
 jest.mock('../components/chart/D3LineChart', () => {
   return function MockD3LineChart({ dataPoints, loading }: { dataPoints?: DataPoint[], loading?: boolean }) {
     return (
