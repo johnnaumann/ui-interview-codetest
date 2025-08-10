@@ -316,6 +316,61 @@ const createComponentOverrides = (mode: 'light' | 'dark') => ({
       },
     },
   },
+
+  MuiFormControl: {
+    styleOverrides: {
+      root: {
+        '&.Mui-disabled': {
+          opacity: 1,
+          '& .MuiInputLabel-root': {
+            color: 'text.primary',
+          },
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: colors.light.border.default,
+            },
+            '&:hover fieldset': {
+              borderColor: colors.light.border.default,
+            },
+            '& .MuiSelect-select': {
+              color: 'text.primary',
+            },
+            '& .MuiSvgIcon-root': {
+              color: 'action.active',
+            },
+          },
+        },
+      },
+    },
+  },
+
+  MuiSelect: {
+    styleOverrides: {
+      root: {
+        '&.Mui-disabled': {
+          '& .MuiSelect-select': {
+            color: 'text.primary',
+          },
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: colors.light.border.default,
+          },
+          '& .MuiSvgIcon-root': {
+            color: 'action.active',
+          },
+        },
+      },
+    },
+  },
+
+  MuiInputLabel: {
+    styleOverrides: {
+      root: {
+        '&.Mui-disabled': {
+          color: 'text.primary',
+        },
+      },
+    },
+  },
 });
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
