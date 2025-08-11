@@ -1,11 +1,6 @@
 import React from 'react';
 import { Box, CircularProgress } from '@mui/material';
-
-interface LoadingOverlayProps {
-  fullScreen?: boolean;
-  size?: 'small' | 'medium' | 'large';
-  color?: 'primary' | 'secondary' | 'inherit';
-}
+import { LoadingOverlayProps } from '../types';
 
 const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   fullScreen = false,

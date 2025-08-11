@@ -71,15 +71,14 @@ describe('ChartTooltip', () => {
 
     const tooltipContainer = screen.getByTestId('chart-tooltip');
     
-    // Check that the tooltip has the expected styles
-    expect(tooltipContainer).toHaveStyle({
-      position: 'fixed',
-      zIndex: 1000,
-      pointerEvents: 'none',
-      opacity: 0,
-      minWidth: '150px',
-      whiteSpace: 'nowrap',
-    });
+    // Check that the tooltip has the expected styles using computed styles
+    const computedStyle = window.getComputedStyle(tooltipContainer);
+    expect(computedStyle.position).toBe('fixed');
+    expect(computedStyle.zIndex).toBe('1000');
+    expect(computedStyle.pointerEvents).toBe('none');
+    expect(computedStyle.opacity).toBe('0');
+    expect(computedStyle.minWidth).toBe('9.375rem');
+    expect(computedStyle.whiteSpace).toBe('nowrap');
   });
 
   it('applies correct styling to date Typography', () => {
@@ -100,7 +99,7 @@ describe('ChartTooltip', () => {
     // Check computed styles that are actually applied
     const computedStyle = window.getComputedStyle(dateElement);
     expect(computedStyle.fontFamily).toContain('Roboto');
-    expect(computedStyle.fontSize).toBe('12px');
+    expect(computedStyle.fontSize).toBe('0.75rem');
     expect(computedStyle.whiteSpace).toBe('nowrap');
   });
 
@@ -122,7 +121,7 @@ describe('ChartTooltip', () => {
     // Check computed styles that are actually applied
     const computedStyle = window.getComputedStyle(valueElement);
     expect(computedStyle.fontFamily).toContain('Roboto');
-    expect(computedStyle.fontSize).toBe('12px');
+    expect(computedStyle.fontSize).toBe('0.75rem');
     expect(computedStyle.whiteSpace).toBe('nowrap');
   });
 
@@ -149,11 +148,10 @@ describe('ChartTooltip', () => {
 
     const tooltipContainer = screen.getByTestId('chart-tooltip');
     
-    // Check that theme colors are applied
-    expect(tooltipContainer).toHaveStyle({
-      backgroundColor: '#ffffff',
-      border: '1px solid #cccccc',
-    });
+    // Check that theme colors are applied using computed styles
+    const computedStyle = window.getComputedStyle(tooltipContainer);
+    expect(computedStyle.backgroundColor).toBe('rgb(255, 255, 255)');
+    expect(computedStyle.border).toBe('1px solid rgb(204, 204, 204)');
   });
 
   it('has correct transition properties', () => {
@@ -165,10 +163,9 @@ describe('ChartTooltip', () => {
 
     const tooltipContainer = screen.getByTestId('chart-tooltip');
     
-    // Check that transition properties are applied
-    expect(tooltipContainer).toHaveStyle({
-      transition: 'opacity 0.2s ease-in-out',
-    });
+    // Check that transition properties are applied using computed styles
+    const computedStyle = window.getComputedStyle(tooltipContainer);
+    expect(computedStyle.transition).toBe('opacity 0.2s ease-in-out');
   });
 
   it('has correct border radius and padding', () => {
@@ -180,11 +177,10 @@ describe('ChartTooltip', () => {
 
     const tooltipContainer = screen.getByTestId('chart-tooltip');
     
-    // Check that border radius and padding are applied
-    expect(tooltipContainer).toHaveStyle({
-      borderRadius: '4px',
-      padding: '12px',
-    });
+    // Check that border radius and padding are applied using computed styles
+    const computedStyle = window.getComputedStyle(tooltipContainer);
+    expect(computedStyle.borderRadius).toBe('4px');
+    expect(computedStyle.padding).toBe('12px');
   });
 
   it('renders with cardType prop for styling', () => {

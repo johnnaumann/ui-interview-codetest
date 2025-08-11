@@ -148,3 +148,9 @@ export interface ChartDimensions {
 export interface ChartTooltipProps {
   cardType?: 'cve' | 'advisories' | null;
 }
+
+export interface LoadingOverlayProps {
+  fullScreen?: boolean;
+  size?: 'small' | 'medium' | 'large';
+  color?: 'primary' | 'secondary' | 'inherit';
+}

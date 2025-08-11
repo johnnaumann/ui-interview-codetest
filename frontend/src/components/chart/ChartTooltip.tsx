@@ -52,7 +52,7 @@ const ChartTooltip = forwardRef<HTMLDivElement, ChartTooltipProps>(({ cardType }
         transition: 'opacity 0.2s ease-in-out',
         left: 0,
         top: 0,
-        minWidth: '150px',
+        minWidth: '9.375rem',
         whiteSpace: 'nowrap',
         boxShadow: `0 2px 8px ${theme.palette.tooltip.shadow}`,
       }}
@@ -60,8 +60,7 @@ const ChartTooltip = forwardRef<HTMLDivElement, ChartTooltipProps>(({ cardType }
         <Typography
           variant="body2"
           sx={{
-            fontFamily: 'Roboto, sans-serif',
-            fontSize: '12px',
+            fontSize: '0.75rem',
             fontWeight: 'medium',
             color: getTextColor(),
             marginBottom: 0.5,
@@ -71,8 +70,7 @@ const ChartTooltip = forwardRef<HTMLDivElement, ChartTooltipProps>(({ cardType }
         <Typography
           variant="body2"
           sx={{
-            fontFamily: 'Roboto, sans-serif',
-            fontSize: '12px',
+            fontSize: '0.75rem',
             fontWeight: theme.palette.mode === 'dark' ? 'regular' : 'medium',
             color: getTextColor(),
             whiteSpace: 'nowrap',
