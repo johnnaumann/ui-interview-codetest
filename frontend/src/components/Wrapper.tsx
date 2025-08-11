@@ -5,7 +5,6 @@ import { ApolloProvider } from '@apollo/client';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import CssBaseline from '@mui/material/CssBaseline';
-import { Box } from '@mui/material';
 import client from '../api/apollo-client';
 import { navigation } from '../lib/navigation';
 import { router } from '../lib/router';
@@ -20,22 +19,20 @@ function AppContent({ children }: WrapperProps) {
   return (
     <>
       <CssBaseline />
-      <Box>
-        <AppProvider
-          navigation={navigation}
-          router={router}
-          branding={branding}
-          theme={theme}
+      <AppProvider
+        navigation={navigation}
+        router={router}
+        branding={branding}
+        theme={theme}
+      >
+        <DashboardLayout
+          slots={{
+            toolbarActions: () => <ThemeToggle />,
+          }}
         >
-          <DashboardLayout
-            slots={{
-              toolbarActions: () => <ThemeToggle />,
-            }}
-          >
-            {children}
-          </DashboardLayout>
-        </AppProvider>
-      </Box>
+          {children}
+        </DashboardLayout>
+      </AppProvider>
     </>
   );
 }
